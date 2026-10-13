@@ -13,6 +13,7 @@ function setStatus(label, good=false) { $('linkStatus').textContent='● '+label
 function showMode(mode) {
   for (const id of ['choose','laptop','phone']) $(id).classList.toggle('hidden',id!==mode);
   setStatus('Not paired');
+  if (mode==='phone' && cameraSource==='local') selectCameraSource('phone');
   if (mode==='laptop') { renderStats(); void newScramble(); }
   history.replaceState(null,'',new URL(location.href).pathname+'?mode='+mode+(mode==='phone'&&params.get('code')?'&code='+encodeURIComponent(params.get('code')):''));
 }
@@ -21,12 +22,14 @@ for(const id of ['changeLaptop','changePhone']) $(id).addEventListener('click',(
 
 // Laptop: PeerJS data connection. The pairing code is an unlisted peer ID, not a password.
 let sessionCode = '', hostPeer = null, hostConn = null, hostReady = false, lastSignalAt = 0;
+let cameraSource = 'phone';
 function generateCode() {
   const b = new Uint8Array(8); crypto.getRandomValues(b);
   return Array.from(b,v => codeChars[v % codeChars.length]).join('');
 }
 function connectionClosed() {
   hostConn=null; lastSignalAt=0;
+  if(cameraSource!=='phone') return;
   engine.feed(false,false);
   setStatus('Phone disconnected');
   $('peerState').textContent=hostReady?'Waiting for phone':'Not connected';
@@ -43,7 +46,7 @@ function attachHostConnection(conn) {
     conn.send({type:'hello',version:1});
   });
   conn.on('data',msg=>{
-    if (hostConn!==conn || !msg || msg.type!=='pads')return;
+    if (hostConn!==conn || cameraSource!=='phone' || !msg || msg.type!=='pads')return;
     lastSignalAt=performance.now();
     engine.feed(Boolean(msg.left),Boolean(msg.right));
   });
@@ -157,7 +160,7 @@ document.addEventListener('keydown',e=>{
   e.preventDefault();engine.manualToggle(performance.now());
 });
 function laptopLoop(now) {
-  if(lastSignalAt && now-lastSignalAt>1700){lastSignalAt=0;engine.feed(false,false);$('peerState').textContent='Phone signal paused';}
+  if(cameraSource==='phone' && lastSignalAt && now-lastSignalAt>1700){lastSignalAt=0;engine.feed(false,false);$('peerState').textContent='Phone signal paused';}
   engine.update(now);
   $('leftStatus').classList.toggle('on',engine.left);
   $('rightStatus').classList.toggle('on',engine.right);
@@ -220,7 +223,11 @@ function sendPads(force=false) {
   $('phoneRight').textContent='RIGHT · '+(pads.right?'HAND IN ZONE':'NO HAND');
   if(!force && now-lastSentAt<85)return;
   lastSentAt=now;
-  if(phoneConn?.open) phoneConn.send({type:'pads',left:pads.left,right:pads.right});
+  if(cameraSource==='local') {
+    if(cameraOn || manualTouches>0) engine.feed(pads.left,pads.right);
+  } else if(phoneConn?.open) {
+    phoneConn.send({type:'pads',left:pads.left,right:pads.right});
+  }
 }
 setInterval(()=>sendPads(),115);
 const inZone=(p,z)=>p.x>=z.x0&&p.x<=z.x1&&p.y>=z.y0&&p.y<=z.y1;
@@ -278,9 +285,15 @@ async function startCamera() {
   const job=++cameraJob;$('cameraButton').disabled=true;
   $('cameraMessage').textContent='Requesting camera permission…';
   try {
-    const s=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:front?'user':'environment'},width:{ideal:640},height:{ideal:480},frameRate:{ideal:25}}});
+    const camConstraints={facingMode:{ideal:front?'user':'environment'},width:{ideal:640},height:{ideal:480},frameRate:{ideal:25}};
+    const selectedCamera=$('cameraDevice').value;
+    if(selectedCamera){delete camConstraints.facingMode;camConstraints.deviceId={exact:selectedCamera};}
+    const s=await navigator.mediaDevices.getUserMedia({audio:false,video:camConstraints});
     if(job!==cameraJob){s.getTracks().forEach(t=>t.stop());return;}
-    stream=s;video.srcObject=s;video.classList.toggle('front',front);await video.play();
+    stream=s;video.srcObject=s;video.classList.toggle('front',front && !$('cameraDevice').value);await video.play();
+    await listCameraDevices();
+    const actualId=s.getVideoTracks()[0]?.getSettings()?.deviceId;
+    if(actualId && Array.from($('cameraDevice').options).some(o=>o.value===actualId))$('cameraDevice').value=actualId;
     $('cameraMessage').textContent='Loading on-device hand tracking…';
     await getDetector();
     if(job!==cameraJob)return;
@@ -303,8 +316,17 @@ function trackCamera(now){
   requestAnimationFrame(trackCamera);
 }
 $('cameraButton').addEventListener('click',()=>{void startCamera();});
-$('cameraStop').addEventListener('click',()=>{releaseCamera();$('cameraMessage').textContent='Camera stopped. You can still test the connection using both test pads.';});
-$('switchCamera').addEventListener('click',()=>{front=!front;$('cameraMessage').textContent='Using '+(front?'front':'rear')+' camera.';if(cameraOn)void startCamera();});
+$('cameraStop').addEventListener('click',()=>{
+  releaseCamera();
+  if(cameraSource==='local')engine.reset();
+  $('cameraMessage').textContent='Camera stopped. You can still test using the manual timer.';
+});
+$('switchCamera').addEventListener('click',()=>{
+  front=!front;
+  $('cameraDevice').value='';
+  $('cameraMessage').textContent='Trying '+(front?'front':'rear')+' camera.';
+  if(cameraOn)void startCamera();
+});
 for(const [slider,label] of [['zoneWidth','zoneWidthDisplay'],['zoneTop','zoneTopDisplay']]) $(slider).addEventListener('input',()=>{$(label).textContent=$(slider).value+'%';});
 function bindTestPad(id,side){
   const b=$(id);let active=false;
@@ -318,7 +340,66 @@ function bindTestPad(id,side){
 }
 bindTestPad('testLeft','left');bindTestPad('testRight','right');
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden){camLeft=camRight=false;sendPads(true);}
+  if(document.hidden){camLeft=camRight=false;sendPads(true);if(cameraSource==='local'&&engine.phase!=='running')engine.reset();}
 });
 if(params.get('code'))$('inputCode').value=normalCode(params.get('code'));
 if(['phone','laptop'].includes(params.get('mode')))showMode(params.get('mode'));
+
+
+// Dual camera mode: reuse the phone camera preview/MediaPipe tracker in the laptop dashboard.
+// No frames are sent to a server; laptop camera pad states feed the local timer directly.
+const cameraPanel=$('cameraButton').closest('.panel');
+const originalCameraParent=cameraPanel.parentElement;
+const originalCameraNext=cameraPanel.nextElementSibling;
+const originalPlaceholder=$('cameraPlaceholder').innerHTML;
+async function listCameraDevices(){
+  if(!navigator.mediaDevices?.enumerateDevices)return;
+  try{
+    const cams=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='videoinput');
+    const picker=$('cameraDevice'),prior=picker.value;
+    picker.replaceChildren(new Option('Default camera',''));
+    cams.forEach((d,i)=>picker.add(new Option(d.label||'Camera '+(i+1),d.deviceId)));
+    if(cams.some(d=>d.deviceId===prior))picker.value=prior;
+  } catch(e) {
+    $('cameraMessage').textContent='Cannot list cameras: '+(e?.message||e);
+  }
+}
+function selectCameraSource(mode){
+  if(!['phone','local'].includes(mode)||mode===cameraSource)return;
+  if(engine.phase==='running'&&!confirm('Switch cameras and discard the current unfinished solve?'))return;
+  // Stop current detector before moving its DOM elements.
+  releaseCamera();
+  engine.reset();
+  cameraSource=mode;
+  $('localCameraHolder').classList.toggle('hidden',mode!=='local');
+  $('phonePairPanel').classList.toggle('hidden',mode!=='phone');
+  for(const [button,active] of [['sourceLaptop',mode==='local'],['sourcePhone',mode==='phone']]){
+    $(button).classList.toggle('active',active);
+    $(button).setAttribute('aria-pressed',String(active));
+  }
+  if(mode==='local'){
+    $('localCameraHolder').appendChild(cameraPanel);
+    $('cameraHeading').textContent='02 · Laptop webcam / USB camera';
+    $('cameraPlaceholder').innerHTML='📷<br>Point your laptop or USB webcam toward both resting hands.';
+    $('cameraMessage').textContent='Choose your camera and click Start camera. Allow permission if requested.';
+    // Existing paired phone must no longer control the timer.
+    const conn=hostConn,peer=hostPeer;
+    hostConn=null;hostPeer=null;hostReady=false;lastSignalAt=0;
+    if(conn)conn.close();if(peer)peer.destroy();
+    $('peerState').textContent='Not connected';
+    setStatus('Laptop camera selected');
+    void listCameraDevices();
+  } else {
+    originalCameraParent.insertBefore(cameraPanel,originalCameraNext);
+    $('cameraHeading').textContent='02 · Show the tabletop';
+    $('cameraPlaceholder').innerHTML=originalPlaceholder;
+    $('cameraMessage').textContent='Pair your phone, then start its camera to detect both hands.';
+    setStatus('Phone camera selected');
+  }
+}
+$('sourceLaptop').addEventListener('click',()=>selectCameraSource('local'));
+$('sourcePhone').addEventListener('click',()=>selectCameraSource('phone'));
+$('cameraDevice').addEventListener('change',()=>{if(cameraOn)void startCamera();});
+if(navigator.mediaDevices?.addEventListener){
+  navigator.mediaDevices.addEventListener('devicechange',()=>{void listCameraDevices();});
+}
