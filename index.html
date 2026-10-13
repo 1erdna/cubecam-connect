@@ -7,7 +7,8 @@
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
   <link rel="stylesheet" href="style.css?v=recorder-20261013-v1">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
-  <script type="module" src="app.js?v=zones28-20261013"></script>
+  <script type="module" src="app.js?v=handsrest-20261013-v1"></script>
+  <link rel="modulepreload" href="hand-rest-detector.mjs?v=handsrest-20261013-v1">
   <script type="module" src="recorder.js?v=recorder-20261013-v1"></script>
 </head>
 <body>
@@ -60,10 +61,10 @@
         <div class="timerPanel">
           <div id="clock" class="clock">0.00</div>
           <div id="phase" class="phase">WAITING FOR HANDS</div>
-          <div id="help" class="hint">Hold both hands in their camera zones.</div>
+          <div id="help" class="hint">Place both hands flat in the blue zones, then lift to start.</div>
           <div class="row center padIndicators"><div class="padStatus" id="leftStatus">✋ LEFT · OFF</div><div class="padStatus" id="rightStatus">✋ RIGHT · OFF</div></div>
           <div class="row center wrap"><button id="manualStopStart" class="ghost">Manual start / stop (Space)</button><button id="resetTimer" class="ghost">Reset timer</button></div>
-          <p class="tiny centered">Spacebar and manual timing work without any camera. For practice, not official competition timing.</p>
+          <p class="tiny centered">Put both hands down to arm · Lift both hands to start · Rest both hands down to stop. Camera timing is for practice, not competition.</p>
         </div>
 
         <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
@@ -139,6 +140,13 @@
           <p class="tiny">Off by default. Only your paired laptop receives the live video. You can turn it off at any time; hand-detection signals still work.</p>
         </div>
         <div class="row split sensors"><div class="sensor" id="phoneLeft">LEFT · NO HAND</div><div class="sensor" id="phoneRight">RIGHT · NO HAND</div></div>
+        <div class="rangeRow"><label for="detectionMode">Hand detection</label>
+          <select id="detectionMode" aria-label="Hand detection mode">
+            <option value="rest" selected>Resting hands (recommended)</option>
+            <option value="zone">Zone only (original)</option>
+          </select>
+        </div>
+        <p class="tiny restDetectorHint">Rest both hands open and keep still for a moment. Brief hand movements won't trigger the timer. Use Zone only if your camera angle makes open hands hard to recognize.</p>
         <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="28"><span id="zoneWidthDisplay">28%</span></div>
         <div class="rangeRow"><label for="zoneTop">Zone starts at</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
         <div class="message" id="cameraMessage" role="status">The phone needs HTTPS, internet and permission to use the camera.</div>
