@@ -84,6 +84,20 @@ The boxes light up when the detector recognizes a resting hand. If your webcam a
 
 **Heads up:** The camera estimates hand posture and steadiness — it cannot physically verify contact with the table. The extra check helps avoid accidental starts/stops but can add a small delay to the recorded time. For official timing, use physical sensors.
 
+## Making the hand timer more reliable 🔵
+
+There are three **Stop accuracy** settings under the camera preview:
+
+- **Balanced (default):** requires at least three straight fingers and waits to confirm both hands are resting before saving a solve
+- **Extra safe:** requires all four fingers and holds longer to avoid false stops while you're still solving
+- **Responsive:** shorter checks, but more likely to accidentally register a stop
+
+The site now rejects stale/frozen webcam detections. When it confirms a valid stop, it uses the estimated time your **second hand first settled** instead of adding the entire confirmation delay to your solve. A little display correction during confirmation is normal.
+
+**Tip:** Aim the camera at two small, separate hand-resting zones near the left and right edges of your table. The cube should stay in the *center*, outside the zones while solving. Face both palms toward the lens when finishing. Lighting and camera angle are important.
+
+A webcam cannot verify that your hands physically touched the surface. This is a practice timer, not a competition-certified timing system.
+
 ## A few things to know
 
 This is a **personal practice timer**, not an official competition timer. The camera sees where your hands are, not whether they're actually touching the table. Good lighting and a steady camera help a lot.
