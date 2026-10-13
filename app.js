@@ -247,7 +247,7 @@ function drawOverlay(result) {
   for(const hand of result?.landmarks||[]){
     const ids=[0,5,9,13,17];const p={x:0,y:0};
     for(const id of ids){p.x+=hand[id].x;p.y+=hand[id].y;}
-    p.x/=ids.length;p.y/=ids.length;if(front)p.x=1-p.x;
+    p.x/=ids.length;p.y/=ids.length;if(front && !$("cameraDevice").value)p.x=1-p.x;
     ctx.beginPath();ctx.arc(p.x*W,p.y*H,Math.max(5,W*.008),0,Math.PI*2);
     ctx.fillStyle='#ffdc90';ctx.fill();
   }
@@ -258,7 +258,7 @@ function handleHands(result){
     const ids=[0,5,9,13,17];const center={x:0,y:0};
     for(const i of ids){center.x+=hand[i].x;center.y+=hand[i].y;}
     center.x/=ids.length;center.y/=ids.length;
-    if(front)center.x=1-center.x;
+    if(front && !$("cameraDevice").value)center.x=1-center.x;
     if(inZone(center,zz[0]))left=true;if(inZone(center,zz[1]))right=true;
   }
   camLeft=left;camRight=right;drawOverlay(result);sendPads(true);
