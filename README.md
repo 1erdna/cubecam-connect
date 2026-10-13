@@ -17,7 +17,7 @@ It has a **minimal black + neon-blue look**, a camera that can detect my hands, 
 - 🔀 **Fresh scrambles** — 3×3 and 2×2, with a new scramble after each solve
 - 📊 **Stats** — PB, Ao5, Ao12, mean, and recent solves
 - 👀 **Camera monitor** — stays on the right while scrolling on desktop, so I can see where my hands should go
-- 🎥 **Manual screen recording** — record a practice session, watch the clip, and download it straight to your laptop
+- 🎥 **Website-only recording** — capture Cube Lab (not your browser or desktop), preview your clip, and download it
 - 💙 **Midnight-blue UI** — minimal, dark, and a little neon
 
 No Stackmat required. Just a camera, a cube, and the urge to get faster.
@@ -55,16 +55,21 @@ If the camera is being annoying, use the **Spacebar** or the manual start/stop b
 
 ## Wanna record a session? 🎬
 
-Open **Timer dashboard** on a desktop browser (Chrome or Edge works best) and scroll to **Screen Recorder** below the timer.
+Open **Timer dashboard → 04 · Cube Lab Recorder**.
 
-1. Click **Start recording**.
-2. Your browser asks what to share. Pick the **Cube Lab tab** if you want the timer, scramble, and camera monitor in your video. You can also pick a window or your whole screen.
-3. Solve as usual. Hit **Stop recording** whenever you're done (or use the browser's **Stop sharing** button).
-4. Watch the replay right on the page, then click **Download recording** to save it.
+**Website-only recording is now the default.** It does *not* open the Opera screen-sharing chooser. Instead, Cube Lab makes a clean 1280×720 video of its own **timer, scramble, hand indicators, session stats, and live camera feed** (when your camera is on). It intentionally leaves out Opera's tabs, menus, other windows, notifications, and the desktop.
 
-That's it — no OBS needed. The video stays in your browser until you download it; **nothing is uploaded to the project**. Recording is always your choice, and the browser asks for sharing permission each time. Videos are silent for now, and the download is usually **WebM** (depending on the browser).
+1. Set **What to record → Cube Lab only · No screen-sharing popup** (it's already selected).
+2. Look at **Live recording view** to see what will be included in your video.
+3. Hit **Record Cube Lab only** and do your solves.
+4. Hit **Stop recording**.
+5. Watch your clip below the buttons, then click **Download recording**.
 
-One tip: **download your clip before leaving or refreshing** the page. The app doesn't store video files permanently. Longer sessions can use quite a bit of memory, so short recordings are easiest.
+You can still choose **Browser tab/window** in the dropdown if you specifically want the old screen-sharing method, but you don't need it for regular solve videos.
+
+**Camera tip:** With a laptop webcam, start it normally so its live feed appears in the recording. With a paired phone, enable **Share live video with laptop** on the phone for the camera image to appear in the recording. Without that permission, the timer and stats still record, but the camera section shows a placeholder.
+
+This feature is **opt-in, silent, private, and local**. Nothing is uploaded; browser recording support (Canvas capture + MediaRecorder) is required. Keep the Cube Lab tab visible while recording, and **download before reloading or closing**, because clips aren't saved permanently on the website. The default export is WebM, subject to browser support. The clean recording layout represents your Cube Lab session rather than being a pixel-for-pixel copy of its scrolling page.
 
 ## Rest your hands, then solve ✋
 
