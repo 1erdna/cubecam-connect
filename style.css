@@ -271,3 +271,9 @@ footer{border-top-color:#243855;color:#718aab}
 #studioRecordingCanvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#070e1a;border-radius:9px;box-shadow:0 6px 20px #0005}
 .recorderIntro strong{color:#bee9ff}
 @media(max-width:580px){.recorderModeRow{align-items:stretch;flex-direction:column;gap:6px}#recordingTarget{flex:none;width:100%}.recorderLivePreview{padding:8px}}
+
+/* Accuracy profiles share styling with the hand detection selector. */
+#precisionMode{flex:2;min-width:0;max-width:100%;padding:8px 10px;border:1px solid #325b7e;border-radius:10px;background:#091e34;color:#c5ecff;font-size:12px;font-weight:650;cursor:pointer}
+#precisionMode:focus-visible{outline:2px solid #3fc3ff;outline-offset:2px}
+#localCameraHolder #precisionMode{font-size:11px;flex:1;max-width:100%;width:100%}
+@media(max-width:440px){#precisionMode{flex:1 1 100%;width:100%}}
