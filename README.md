@@ -12,7 +12,7 @@ It has a **minimal black + neon-blue look**, a camera that can detect my hands, 
 
 ## What's inside?
 
-- ⏱️ **Hands-free timer** — put both hands in the camera zones, lift to start, put them back to stop
+- ⏱️ **Hands-free timer** — rest both hands open and still in the camera zones, lift to start, then put both hands down again to stop
 - 📷 **Two camera options** — use a laptop/USB webcam or pair your phone
 - 🔀 **Fresh scrambles** — 3×3 and 2×2, with a new scramble after each solve
 - 📊 **Stats** — PB, Ao5, Ao12, mean, and recent solves
@@ -65,6 +65,19 @@ Open **Timer dashboard** on a desktop browser (Chrome or Edge works best) and sc
 That's it — no OBS needed. The video stays in your browser until you download it; **nothing is uploaded to the project**. Recording is always your choice, and the browser asks for sharing permission each time. Videos are silent for now, and the download is usually **WebM** (depending on the browser).
 
 One tip: **download your clip before leaving or refreshing** the page. The app doesn't store video files permanently. Longer sessions can use quite a bit of memory, so short recordings are easiest.
+
+## Rest your hands, then solve ✋
+
+The camera timer now has **Resting hands** mode by default. It looks for both hands inside the blue zones, with reasonably open fingers and a short moment of steadiness, before counting them as placed down.
+
+1. Place **both hands open and still** in the left and right boxes.
+2. Wait for the timer to show **READY** (about 0.6 seconds after both hands are recognized as resting).
+3. Lift both hands to **start**.
+4. Solve, then put **both hands back down** in their boxes to **stop**.
+
+The boxes light up when the detector recognizes a resting hand. If your webcam angle or lighting makes this too picky, change **Hand detection** to **Zone only (original)**. The original option responds to hand position rather than open-hand posture.
+
+**Heads up:** The camera estimates hand posture and steadiness — it cannot physically verify contact with the table. The extra check helps avoid accidental starts/stops but can add a small delay to the recorded time. For official timing, use physical sensors.
 
 ## A few things to know
 
