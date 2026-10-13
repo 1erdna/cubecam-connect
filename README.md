@@ -17,6 +17,7 @@ It has a **minimal black + neon-blue look**, a camera that can detect my hands, 
 - 🔀 **Fresh scrambles** — 3×3 and 2×2, with a new scramble after each solve
 - 📊 **Stats** — PB, Ao5, Ao12, mean, and recent solves
 - 👀 **Camera monitor** — stays on the right while scrolling on desktop, so I can see where my hands should go
+- 🎥 **Manual screen recording** — record a practice session, watch the clip, and download it straight to your laptop
 - 💙 **Midnight-blue UI** — minimal, dark, and a little neon
 
 No Stackmat required. Just a camera, a cube, and the urge to get faster.
@@ -51,6 +52,19 @@ The phone can send hand-detection signals even when live video sharing is off.
 Your time gets saved and the next scramble shows up. Repeat until you say *last solve* for the fifth time.
 
 If the camera is being annoying, use the **Spacebar** or the manual start/stop button instead.
+
+## Wanna record a session? 🎬
+
+Open **Timer dashboard** on a desktop browser (Chrome or Edge works best) and scroll to **Screen Recorder** below the timer.
+
+1. Click **Start recording**.
+2. Your browser asks what to share. Pick the **Cube Lab tab** if you want the timer, scramble, and camera monitor in your video. You can also pick a window or your whole screen.
+3. Solve as usual. Hit **Stop recording** whenever you're done (or use the browser's **Stop sharing** button).
+4. Watch the replay right on the page, then click **Download recording** to save it.
+
+That's it — no OBS needed. The video stays in your browser until you download it; **nothing is uploaded to the project**. Recording is always your choice, and the browser asks for sharing permission each time. Videos are silent for now, and the download is usually **WebM** (depending on the browser).
+
+One tip: **download your clip before leaving or refreshing** the page. The app doesn't store video files permanently. Longer sessions can use quite a bit of memory, so short recordings are easiest.
 
 ## A few things to know
 
