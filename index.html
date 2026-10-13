@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070b14">
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
-  <link rel="stylesheet" href="style.css?v=handsrest-20261013-v1">
+  <link rel="stylesheet" href="style.css?v=website-rec-20261013-v1">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js?v=handsrest-20261013-v1"></script>
   <link rel="modulepreload" href="hand-rest-detector.mjs?v=handsrest-20261013-v1">
-  <script type="module" src="recorder.js?v=recorder-20261013-v1"></script>
+  <script type="module" src="recorder.js?v=website-rec-20261013-v1"></script>
 </head>
 <body>
 <main class="shell">
@@ -69,22 +69,33 @@
 
         <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
           <div class="row split wrap recorderHeadingRow">
-            <h2 id="recordingHeading">04 · SCREEN RECORDER</h2>
+            <h2 id="recordingHeading">04 · CUBE LAB RECORDER</h2>
             <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">NOT RECORDING</span>
           </div>
-          <p class="recorderIntro">Save a practice session right from Cube Lab. Select this browser tab when asked, and the timer and camera monitor can be part of your video.</p>
+          <p class="recorderIntro">Record <strong>only your Cube Lab session</strong> — timer, scramble, camera, and stats. No browser tabs, desktop, or Opera sharing window.</p>
+          <div class="recorderModeRow">
+            <label for="recordingTarget">What to record</label>
+            <select id="recordingTarget" aria-label="What to record">
+              <option value="website" selected>Cube Lab only · No screen-sharing popup</option>
+              <option value="screen">Browser tab/window · Browser permission</option>
+            </select>
+          </div>
+          <div class="recorderLivePreview">
+            <div class="row split wrap recorderResultHeader"><span>LIVE RECORDING VIEW</span><span class="tiny">1280 × 720 · No browser UI</span></div>
+            <canvas id="studioRecordingCanvas" width="1280" height="720" role="img" aria-label="Preview of the Cube Lab recording layout showing timer, scramble, camera and statistics"></canvas>
+          </div>
           <div class="recorderControls">
-            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Start recording</button>
+            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Record Cube Lab only</button>
             <button type="button" id="stopScreenRecording" disabled><span aria-hidden="true">■</span> Stop recording</button>
             <span class="recorderElapsed" id="recordingElapsed" aria-label="Recording duration">00:00</span>
           </div>
-          <p class="recorderMessage" id="recordingMessage" role="status">Press Start recording, then choose what you want to share. No recording starts without your permission.</p>
+          <p class="recorderMessage" id="recordingMessage" role="status">Click Record Cube Lab only to start — no screen-sharing window. Keep this tab visible while solving.</p>
           <div class="recorderResult hidden" id="recorderResult">
             <div class="row split wrap recorderResultHeader"><span>YOUR LAST RECORDING</span><span class="tiny" id="recordingSize"></span></div>
             <video id="recordingPlayback" controls playsinline preload="metadata" aria-label="Preview your screen recording"></video>
             <a class="recorderDownload" id="recordingDownload" download>↓ Download recording</a>
           </div>
-          <p class="recorderPrivacy">Private &amp; local · No automatic uploads · Video is silent · Download before leaving this page.</p>
+          <p class="recorderPrivacy">Opt-in &amp; local · Only Cube Lab content is captured in website mode · Silent video · Download before leaving this page.</p>
         </section>
       </div>
       <aside class="visualRail">
