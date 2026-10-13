@@ -259,3 +259,15 @@ footer{border-top-color:#243855;color:#718aab}
 #localCameraHolder #detectionMode{font-size:11px;flex:1;max-width:100%;width:100%}
 #localCameraHolder .restDetectorHint{font-size:10px;line-height:1.5}
 @media(max-width:440px){#detectionMode{flex:1 1 100%;width:100%}}
+
+/* Website-only recording: preview of the actual exported Cube Lab composition. */
+.recorderModeRow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:13px 0 15px}
+.recorderModeRow label{color:#9ec2e1;font-weight:750;font-size:12px;white-space:nowrap}
+#recordingTarget{background:#071729;color:#d6f1ff;border:1px solid #335a80;border-radius:9px;min-width:0;flex:1;padding:11px;font-size:12px;font-weight:650;cursor:pointer;max-width:100%}
+#recordingTarget:focus-visible{outline:2px solid #67d3ff;outline-offset:2px}
+#recordingTarget:disabled{opacity:.65;cursor:default}
+.recorderLivePreview{border:1px solid #315478;background:#071426;border-radius:13px;padding:13px;margin:13px 0 18px}
+.recorderLivePreview .recorderResultHeader{margin-bottom:10px}
+#studioRecordingCanvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#070e1a;border-radius:9px;box-shadow:0 6px 20px #0005}
+.recorderIntro strong{color:#bee9ff}
+@media(max-width:580px){.recorderModeRow{align-items:stretch;flex-direction:column;gap:6px}#recordingTarget{flex:none;width:100%}.recorderLivePreview{padding:8px}}
