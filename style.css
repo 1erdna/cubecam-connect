@@ -101,3 +101,20 @@ footer{color:#a4b1a6;text-align:center;font-size:11px;letter-spacing:.045em;marg
 @media(max-width:800px){.layout{grid-template-columns:1fr}.shell{padding:19px 16px 28px}.header{margin-bottom:29px}.choose{padding:34px 0 45px}.choose>h1{font-size:clamp(38px,10vw,60px);letter-spacing:-2.6px}.chooseCards{grid-template-columns:1fr}.chooseCard{min-height:145px}.clock{font-size:clamp(72px,15vw,118px)}}
 @media(max-width:480px){.brand{font-size:20px}.brand small{font-size:8px;letter-spacing:1.2px;margin-left:5px;padding-left:8px}.subtitle{margin-left:30px;font-size:9px}.online{font-size:10px}.panel{padding:16px}.timerPanel{padding:24px 8px}.clock{font-size:clamp(60px,16.5vw,98px);letter-spacing:-4px}.scramble{font-size:18px;word-spacing:3px}.row.split{align-items:flex-start}.pairCode{font-size:29px;letter-spacing:4px}.chooseCard{padding:24px}.padStatus{font-size:10px;padding:9px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;scroll-behavior:auto!important}}
+
+/* Minimal two-option camera picker, aligned to the existing 1ERDNA theme */
+.sourceGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sourceChoice{position:relative;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:7px;min-height:170px;border:1px solid #e2e9e0;border-radius:14px;background:#fbfcfa;padding:19px;color:#233e32;box-shadow:none}
+.sourceChoice:hover:not(:disabled){background:#f3f8f4}
+.sourceChoice.active{background:#eff8f1;border-color:#5da988;box-shadow:inset 0 0 0 1px #79b796}
+.sourceChoice.active:after{content:'✓';position:absolute;right:17px;top:15px;background:#247b56;color:white;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px}
+.sourceChoice .sourceNumber{color:#798e80;font-size:10px;font-weight:750;letter-spacing:1.2px}
+.sourceChoice .sourceSymbol{color:#318063;font-size:26px;line-height:1.2;font-weight:400}
+.sourceChoice strong{font:650 19px/1.2 'Space Grotesk',sans-serif;letter-spacing:-.6px}
+.sourceChoice>span:last-child{color:#728477;font-size:12px;line-height:1.55;max-width:300px}
+.sourceHelp{margin:15px 0 0}
+.cameraPicker{margin-bottom:12px}
+.cameraPicker select{max-width:300px;flex:1;min-width:150px}
+#localCameraHolder .cameraFrame{max-width:680px;margin:0 auto}
+#localCameraHolder .cameraFrame video{max-height:420px}
+@media(max-width:560px){.sourceGrid{grid-template-columns:1fr}.sourceChoice{min-height:125px;padding:15px;gap:5px}.cameraPicker select{max-width:100%;flex:1 1 100%}}
