@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f5f6f2">
-  <title>1ERDNA Cube Lab · Speedcube Timer</title>
+  <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js"></script>
@@ -18,9 +18,9 @@
   <div class="choose" id="choose">
     <div class="eyebrow">CHOOSE THIS DEVICE</div>
     <h1>Every solve, a little better.</h1>
-    <p>A minimal space to practice, improve, and chase your next personal best. One setup, two devices. Choose where you’re starting.</p>
+    <p>A minimal space to practice, improve, and chase your next personal best. One timer, two camera options. Use your laptop webcam or pair your phone.</p>
     <div class="chooseCards">
-      <button id="chooseLaptop" class="chooseCard"><span class="emoji">💻</span><b>Timer dashboard</b><span>Your solves, scrambles, averages and personal best — all in one place.</span></button>
+      <button id="chooseLaptop" class="chooseCard"><span class="emoji">💻</span><b>Timer dashboard</b><span>Choose laptop webcam or paired phone, then start solving.</span></button>
       <button id="choosePhone" class="chooseCard"><span class="emoji">📱</span><b>Hand-tracking camera</b><span>Turn your iPhone into a hands-free start and stop sensor.</span></button>
     </div>
   </div>
@@ -32,8 +32,23 @@
     </div>
     <div class="layout">
       <div class="stack">
-        <div class="panel pairPanel">
-          <div class="row split"><h2>01 · Pair your phone</h2><span class="tiny" id="peerState">Not connected</span></div>
+        <div class="panel sourcePanel">
+          <div class="row split wrap"><h2>01 · Camera connection</h2><span class="tiny">Choose one option</span></div>
+          <div class="sourceGrid" role="group" aria-label="How to detect your hands">
+            <button type="button" class="sourceChoice" id="sourceLaptop" aria-pressed="false">
+              <span class="sourceNumber">OPTION 01 · DIRECT</span><span class="sourceSymbol" aria-hidden="true">◉</span>
+              <strong>Laptop camera</strong><span>Use your built-in webcam or external USB camera. No phone needed.</span>
+            </button>
+            <button type="button" class="sourceChoice active" id="sourcePhone" aria-pressed="true">
+              <span class="sourceNumber">OPTION 02 · WIRELESS</span><span class="sourceSymbol" aria-hidden="true">↗</span>
+              <strong>Pair phone camera</strong><span>Use your iPhone as a wireless hand sensor with a pairing code.</span>
+            </button>
+          </div>
+          <p class="tiny sourceHelp">Both options use the same timer, scrambles and solve statistics.</p>
+        </div>
+        <div class="stack hidden" id="localCameraHolder"></div>
+        <div class="panel pairPanel" id="phonePairPanel">
+          <div class="row split"><h2>02 · Pair your phone</h2><span class="tiny" id="peerState">Not connected</span></div>
           <div class="pairRow"><div><div class="tiny">PAIRING CODE</div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Create code</button></div>
           <div class="row wrap"><button id="copyPhoneLink" disabled>Copy phone link</button><span class="tiny" id="hostHint">Create a code, then type it on your phone.</span></div>
         </div>
@@ -73,7 +88,8 @@
         <div class="message" id="phoneConnection">Open this site on your laptop, create a code, and enter it here.</div>
       </div>
       <div class="panel">
-        <div class="row split wrap"><h2>02 · Show the tabletop</h2><div class="row"><button class="primary" id="cameraButton">Start camera</button><button id="switchCamera">Flip</button><button id="cameraStop" disabled>Stop</button></div></div>
+        <div class="row split wrap"><h2 id="cameraHeading">02 · Show the tabletop</h2><div class="row wrap"><button class="primary" id="cameraButton">Start camera</button><button id="switchCamera">Flip</button><button id="cameraStop" disabled>Stop</button></div></div>
+        <div class="row wrap cameraPicker"><label class="tiny" for="cameraDevice">Camera source</label><select id="cameraDevice" aria-label="Select webcam"><option value="">Default camera</option></select></div>
         <div class="cameraFrame" id="cameraFrame">
           <video id="cameraVideo" playsinline muted autoplay></video><canvas id="cameraOverlay"></canvas>
           <div class="cameraPlaceholder" id="cameraPlaceholder">📷<br>Start camera and point it down at your cube and both hands.</div>
