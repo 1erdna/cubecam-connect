@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070b14">
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
-  <link rel="stylesheet" href="style.css?v=zones28-20261013">
+  <link rel="stylesheet" href="style.css?v=recorder-20261013-v1">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js?v=zones28-20261013"></script>
+  <script type="module" src="recorder.js?v=recorder-20261013-v1"></script>
 </head>
 <body>
 <main class="shell">
@@ -64,6 +65,26 @@
           <div class="row center wrap"><button id="manualStopStart" class="ghost">Manual start / stop (Space)</button><button id="resetTimer" class="ghost">Reset timer</button></div>
           <p class="tiny centered">Spacebar and manual timing work without any camera. For practice, not official competition timing.</p>
         </div>
+
+        <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
+          <div class="row split wrap recorderHeadingRow">
+            <h2 id="recordingHeading">04 · SCREEN RECORDER</h2>
+            <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">NOT RECORDING</span>
+          </div>
+          <p class="recorderIntro">Save a practice session right from Cube Lab. Select this browser tab when asked, and the timer and camera monitor can be part of your video.</p>
+          <div class="recorderControls">
+            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Start recording</button>
+            <button type="button" id="stopScreenRecording" disabled><span aria-hidden="true">■</span> Stop recording</button>
+            <span class="recorderElapsed" id="recordingElapsed" aria-label="Recording duration">00:00</span>
+          </div>
+          <p class="recorderMessage" id="recordingMessage" role="status">Press Start recording, then choose what you want to share. No recording starts without your permission.</p>
+          <div class="recorderResult hidden" id="recorderResult">
+            <div class="row split wrap recorderResultHeader"><span>YOUR LAST RECORDING</span><span class="tiny" id="recordingSize"></span></div>
+            <video id="recordingPlayback" controls playsinline preload="metadata" aria-label="Preview your screen recording"></video>
+            <a class="recorderDownload" id="recordingDownload" download>↓ Download recording</a>
+          </div>
+          <p class="recorderPrivacy">Private &amp; local · No automatic uploads · Video is silent · Download before leaving this page.</p>
+        </section>
       </div>
       <aside class="visualRail">
         <div class="cameraDock" id="cameraDock">
