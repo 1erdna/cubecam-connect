@@ -1,55 +1,67 @@
-# 1ERDNA Cube Lab — Speedcube Timer
+# 🧊 1ERDNA Cube Lab
 
-A minimalist, personal speedcube timer with **two interchangeable camera modes**. The website is published at https://1erdna.github.io/cubecam-connect/ and the source lives at https://github.com/1erdna/cubecam-connect.
+### Just one more solve... probably.
 
-## Option 1 — Laptop webcam / external USB camera
+A little speedcubing timer I made for my practice sessions. Nothing too serious — just a clean space to scramble, solve, track my times, and try to beat my PB.
 
-1. On your laptop, open the website in Chrome or Edge.
-2. Select **Timer dashboard** and then **Laptop camera**.
-3. Choose the desired camera in **Camera source** (built-in or USB webcam) and press **Start camera**.
-4. Allow camera permission. Mount or position the camera so the table, cube, and both hand-resting zones fit in the video.
-5. Adjust **Zone width** and **Zone starts at** to align with your resting hands.
-6. Hold one hand in each zone for 0.6 seconds; the timer turns green. Remove both to start; return both to stop. A new scramble appears.
+It has a **minimal black + neon-blue look**, a camera that can detect my hands, and a timer that starts and stops without me touching the keyboard.
 
-Camera recognition and timer both run on your laptop. **No phone pairing or local server needed.** The site needs HTTPS and an internet connection for its model/CDN on first load.
+**[🔵 Try it here](https://1erdna.github.io/cubecam-connect/)**
 
-## Option 2 — Phone camera, laptop timer
+---
 
-1. On the laptop, open the same site and select **Timer dashboard → Pair phone camera**.
-2. Click **Create code** and leave the laptop page open.
-3. On your phone, open the same HTTPS site, choose **Hand-tracking camera**, enter the pairing code and press **Connect**.
-4. Test both phone touch pads before starting the camera. Both laptop indicators should change.
-5. Tap **Start camera**, grant permission, and mount the phone where both hands fit into the marked zones.
-6. Hold both hands in the marked zones, lift to start, return to stop.
+## What's inside?
 
-The phone sends only left/right detection states to the laptop over a PeerJS/WebRTC data channel. It does not intentionally stream camera frames.
+- ⏱️ **Hands-free timer** — put both hands in the camera zones, lift to start, put them back to stop
+- 📷 **Two camera options** — use a laptop/USB webcam or pair your phone
+- 🔀 **Fresh scrambles** — 3×3 and 2×2, with a new scramble after each solve
+- 📊 **Stats** — PB, Ao5, Ao12, mean, and recent solves
+- 👀 **Camera monitor** — stays on the right while scrolling on desktop, so I can see where my hands should go
+- 💙 **Midnight-blue UI** — minimal, dark, and a little neon
 
-## Shared features
+No Stackmat required. Just a camera, a cube, and the urge to get faster.
 
-- 3×3 and 2×2 random-state scrambles provided by cubing.js when online (random-move fallback if CDN unavailable)
-- Hands-free start/stop, new scramble after every completed solve
-- Solve history, personal best, Ao5, Ao12 and session mean
-- Spacebar or manual start/stop button on the laptop as a fallback
-- Local browser storage on the laptop (clearing storage or changing browsers loses the local history)
-- Two camera modes in one dashboard; changing modes will reset an unfinished solve
+## How to use it
 
-## Notes
+Open the **[Cube Lab website](https://1erdna.github.io/cubecam-connect/)** on your laptop, then hit **Timer dashboard**.
 
-Camera tracking detects **hand positions inside virtual zones**, not actual table contact. Timing may be affected by lighting, hand visibility, camera frame rate and (in phone mode) the network. This is a practice tool, not an official Stackmat-style competition timer.
+### Option 1: Use your laptop camera 💻
 
-Use a well-lit table; keep the camera steady and browser tab active. If the camera is not listed, close other apps that may be using it, check OS and browser permissions, then reload. On iOS, keep the phone screen awake and the browser visible.
+1. Choose **Laptop camera**.
+2. Pick your built-in webcam or USB camera.
+3. Hit **Start camera** and allow camera access.
+4. Point the camera at your cube and both hands. Adjust the blue hand zones if needed.
 
-This project uses MediaPipe Tasks Vision for hand landmarks, PeerJS for phone pairing and cubing.js for scrambles. It is a static website and works with GitHub Pages.
+That's it. No phone pairing needed.
 
+### Option 2: Use your phone as the camera 📱
 
-## Midnight Neon Blue layout & sticky camera monitor
+1. On your laptop, select **Pair phone camera** and hit **Create code**.
+2. Open the same website on your phone and choose **Hand-tracking camera**.
+3. Enter the pairing code and connect.
+4. Start the phone camera and aim it at the table.
+5. Want the actual phone video on your laptop? Turn on **Share live video with laptop** on your phone. It's optional and off by default.
 
-The dashboard uses a midnight-black background with minimalist neon-blue controls, timer highlights, and hand-zone borders.
+The phone can send hand-detection signals even when live video sharing is off.
 
-On desktop, the **Camera Monitor** stays visible in the **right-hand column** while the page scrolls to the timer. The monitor is below the timer on smaller phone screens.
+### Ready, set, solve 🟦
 
-- **Laptop camera:** choose **Timer dashboard → Laptop camera**, select a webcam, then start it. The live laptop camera preview, hand-zone outlines, and positioning sliders appear in the right-hand monitor.
-- **Paired phone camera:** choose **Pair phone camera** on the laptop, then connect the phone by code. Hand detection always sends simple left/right signals. To optionally send actual live video to the right-side monitor, check **Share live video with laptop** on the phone and start its camera. Uncheck to stop video sharing.
-- On the right-side monitor, **blue outlines mark the zones**, and the zones brighten when a hand is detected. For best alignment, keep both hands and cube centered in the live camera frame.
+**Both hands in the zones → hold for 0.6 seconds → lift both hands → solve → put both hands back to stop.**
 
-Video sharing uses a PeerJS/WebRTC connection to the paired laptop only. It is off by default. The application remains an experimental practice timer: hand positions are not physical table-contact measurements.
+Your time gets saved and the next scramble shows up. Repeat until you say *last solve* for the fifth time.
+
+If the camera is being annoying, use the **Spacebar** or the manual start/stop button instead.
+
+## A few things to know
+
+This is a **personal practice timer**, not an official competition timer. The camera sees where your hands are, not whether they're actually touching the table. Good lighting and a steady camera help a lot.
+
+Times are stored **locally in your laptop browser**. Clearing its site data or using a different browser won't bring those times along.
+
+Under the hood: **HTML, CSS, JavaScript, MediaPipe, PeerJS/WebRTC, and cubing.js**. Hosted on **GitHub Pages**.
+
+---
+
+**Made by [1erdna](https://github.com/1erdna)** 💙
+
+*Keep turning. Keep improving.*
