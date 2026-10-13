@@ -251,3 +251,11 @@ footer{border-top-color:#243855;color:#718aab}
 .recorderDownload:focus-visible{outline:2px solid #78d6ff;outline-offset:3px}
 @media(max-width:580px){.recorderPanel{padding:17px}.recorderControls{align-items:stretch}.recorderControls button{flex:1 1 145px}.recorderElapsed{flex:1 1 100%;text-align:right}.recorderBadge{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.recorderDownload{transition:none}}
+
+/* Resting-hands recognition controls (reused in laptop and phone camera modes). */
+.restDetectorHint{margin:0 0 10px;color:#90abc9;font-size:11px;line-height:1.65}
+#detectionMode{flex:2;min-width:0;max-width:100%;padding:8px 10px;border:1px solid #325b7e;border-radius:10px;background:#091e34;color:#c5ecff;font-size:12px;font-weight:650;cursor:pointer}
+#detectionMode:focus-visible{outline:2px solid #3fc3ff;outline-offset:2px}
+#localCameraHolder #detectionMode{font-size:11px;flex:1;max-width:100%;width:100%}
+#localCameraHolder .restDetectorHint{font-size:10px;line-height:1.5}
+@media(max-width:440px){#detectionMode{flex:1 1 100%;width:100%}}
