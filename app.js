@@ -265,7 +265,7 @@ function drawOverlay(result) {
   ctx.font=`bold ${Math.max(15,Math.round(W*.032))}px system-ui`;
   zz.forEach((z,i)=>{
     const detected=i===0?camLeft:camRight;
-    ctx.strokeStyle=detected?'#58f0ab':'#95c6ff';ctx.fillStyle=detected?'rgba(54,212,157,.20)':'rgba(61,146,229,.16)';
+    ctx.strokeStyle=detected?'#8de5ff':'#37afff';ctx.fillStyle=detected?'rgba(20,175,255,.29)':'rgba(30,125,235,.13)';
     ctx.fillRect(z.x0*W,z.y0*H,(z.x1-z.x0)*W,(z.y1-z.y0)*H);
     ctx.strokeRect(z.x0*W,z.y0*H,(z.x1-z.x0)*W,(z.y1-z.y0)*H);
     ctx.fillStyle='white';ctx.fillText(i===0?'LEFT HAND':'RIGHT HAND',z.x0*W+9,z.y0*H+25);
@@ -275,7 +275,7 @@ function drawOverlay(result) {
     for(const id of ids){p.x+=hand[id].x;p.y+=hand[id].y;}
     p.x/=ids.length;p.y/=ids.length;if(front && !$("cameraDevice").value)p.x=1-p.x;
     ctx.beginPath();ctx.arc(p.x*W,p.y*H,Math.max(5,W*.008),0,Math.PI*2);
-    ctx.fillStyle='#ffdc90';ctx.fill();
+    ctx.fillStyle='#6cdbff';ctx.fill();
   }
 }
 function handleHands(result){
