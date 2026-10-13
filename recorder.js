@@ -24,6 +24,7 @@ let startedAt = 0;
 let clockFrame = null;
 let videoFrame = null;
 let streamMode = 'website';
+let lastCanvasDrawAt = 0;
 
 const c = {
   background: '#070e1a', panel: '#0b1a30', edge: '#254767',
@@ -194,9 +195,14 @@ function stopDrawing() {
   if(videoFrame!==null)cancelAnimationFrame(videoFrame);
   videoFrame=null;
 }
-function keepDrawing(){
+function keepDrawing(now){
   if(!mediaRecorder || mediaRecorder.state!=='recording' || streamMode!=='website')return;
-  drawStudio();
+  // Webcam hand tracking and the recording canvas run in the same browser tab.
+  // Limit redrawing to ~24fps to avoid overloading MediaPipe on slower laptops.
+  if(now-lastCanvasDrawAt>=42){
+    drawStudio();
+    lastCanvasDrawAt=now;
+  }
   videoFrame=requestAnimationFrame(keepDrawing);
 }
 function clockTick(){
