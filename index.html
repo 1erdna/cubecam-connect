@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070b14">
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
-  <link rel="stylesheet" href="style.css?v=website-rec-20261013-v1">
+  <link rel="stylesheet" href="style.css?v=precision-20261013-v2">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
-  <script type="module" src="app.js?v=handsrest-20261013-v1"></script>
-  <link rel="modulepreload" href="hand-rest-detector.mjs?v=handsrest-20261013-v1">
+  <script type="module" src="app.js?v=precision-20261013-v2"></script>
+  <link rel="modulepreload" href="hand-rest-detector.mjs?v=precision-20261013-v2">
   <script type="module" src="recorder.js?v=website-rec-20261013-v1"></script>
 </head>
 <body>
@@ -64,7 +64,7 @@
           <div id="help" class="hint">Place both hands flat in the blue zones, then lift to start.</div>
           <div class="row center padIndicators"><div class="padStatus" id="leftStatus">✋ LEFT · OFF</div><div class="padStatus" id="rightStatus">✋ RIGHT · OFF</div></div>
           <div class="row center wrap"><button id="manualStopStart" class="ghost">Manual start / stop (Space)</button><button id="resetTimer" class="ghost">Reset timer</button></div>
-          <p class="tiny centered">Put both hands down to arm · Lift both hands to start · Rest both hands down to stop. Camera timing is for practice, not competition.</p>
+          <p class="tiny centered">Both hands down → READY → lift to start → return both open hands to stop. A confirmed stop uses the first stable placement time. Practice timing only.</p>
         </div>
 
         <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
@@ -157,7 +157,15 @@
             <option value="zone">Zone only (original)</option>
           </select>
         </div>
-        <p class="tiny restDetectorHint">Rest both hands open and keep still for a moment. Brief hand movements won't trigger the timer. Use Zone only if your camera angle makes open hands hard to recognize.</p>
+        <p class="tiny restDetectorHint">Put an open hand into each blue box. To prevent false stops, the detector checks both hands stay steady before saving your time.</p>
+        <div class="rangeRow"><label for="precisionMode">Stop accuracy</label>
+          <select id="precisionMode" aria-label="Stop detection sensitivity">
+            <option value="balanced" selected>Balanced · Recommended</option>
+            <option value="strict">Extra safe · Fewer false stops</option>
+            <option value="responsive">Responsive · Faster reaction</option>
+          </select>
+        </div>
+        <p class="tiny restDetectorHint">Try <b>Extra safe</b> if the timer stops while you're holding the cube. Try <b>Responsive</b> if placing both hands down isn't recognized quickly. Times are estimated from camera frames, not physical table sensors.</p>
         <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="28"><span id="zoneWidthDisplay">28%</span></div>
         <div class="rangeRow"><label for="zoneTop">Zone starts at</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
         <div class="message" id="cameraMessage" role="status">The phone needs HTTPS, internet and permission to use the camera.</div>
