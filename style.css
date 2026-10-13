@@ -224,3 +224,30 @@ footer{border-top-color:#243855;color:#718aab}
 @media(max-width:1120px){.layout{grid-template-columns:minmax(0,1fr) minmax(285px,345px);gap:15px}.shell{padding:19px 19px 33px}.clock{font-size:clamp(74px,9vw,112px)}.cameraDock{padding:12px}}
 @media(max-width:790px){.layout{grid-template-columns:1fr}.visualRail{display:contents}.cameraDock{position:relative;top:auto;grid-row:2;z-index:1}.visualRail>.panel{grid-column:1}.shell{padding:15px 13px 34px}.clock{font-size:clamp(75px,16vw,118px)}}
 @media(max-width:470px){.clock{font-size:clamp(62px,17vw,96px);letter-spacing:-5px}.dockTitle{font-size:18px}.remoteStatus span{font-size:9px}}
+
+
+/* Manual screen recorder — midnight blue, no interference with timer/camera layout */
+.recorderPanel{background:linear-gradient(155deg,#0b192d,#0a1220);border-color:#274365;box-shadow:0 10px 35px rgba(0,0,0,.23)}
+.recorderHeadingRow{margin-bottom:10px}
+.recorderHeadingRow h2{margin-bottom:0}
+.recorderBadge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 10px;border:1px solid #2d4a68;background:#0c2137;color:#99b7d4;font-size:10px;font-weight:800;letter-spacing:.7px;white-space:nowrap}
+.recorderBadge[data-state="recording"]{background:#401928;color:#ffb6be;border-color:#a44860;box-shadow:0 0 18px rgba(238,66,105,.15)}
+.recorderBadge[data-state="ready"]{background:#0d3451;color:#7edaff;border-color:#277fb0}
+.recorderBadge[data-state="processing"]{background:#1b2b42;color:#aedaf5;border-color:#456889}
+.recorderBadge[data-state="error"]{background:#38202c;color:#ffc2b7;border-color:#825367}
+.recorderIntro{color:#98adcb;font-size:13px;line-height:1.75;max-width:680px;margin:0 0 18px}
+.recorderControls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:13px}
+.recorderStart{min-width:168px}
+.recorderStart span{color:#ffb0ba;font-size:14px;line-height:0}
+.recorderElapsed{margin-left:auto;color:#7fcbff;font:600 21px/1.2 'Space Grotesk','DM Sans',sans-serif;font-variant-numeric:tabular-nums;letter-spacing:1.3px}
+.recorderMessage{color:#86a3c1;font-size:12px;line-height:1.6;margin:0 0 13px}
+.recorderPrivacy{font-size:11px;line-height:1.75;color:#6684a5;border-top:1px solid #233a53;padding-top:12px;margin:15px 0 0}
+.recorderResult{border:1px solid #27486b;border-radius:13px;background:#091628;padding:12px;margin-top:19px;min-width:0}
+.recorderResultHeader{margin-bottom:10px;gap:10px}
+.recorderResultHeader>span:first-child{color:#8dd6ff;font-size:10px;font-weight:800;letter-spacing:1.6px}
+#recordingPlayback{display:block;width:100%;height:auto;max-height:400px;aspect-ratio:16/9;object-fit:contain;background:#03060e;border-radius:9px;border:1px solid #27415e}
+.recorderDownload{display:inline-flex;align-items:center;justify-content:center;min-height:39px;margin-top:12px;border:1px solid #299be8;border-radius:10px;padding:9px 16px;background:linear-gradient(135deg,#116ca9,#0e83be);color:#f0faff;font-size:13px;font-weight:750;text-decoration:none;transition:background .2s,box-shadow .2s}
+.recorderDownload:hover{color:white;background:#1297d9;box-shadow:0 0 18px #009dff2b}
+.recorderDownload:focus-visible{outline:2px solid #78d6ff;outline-offset:3px}
+@media(max-width:580px){.recorderPanel{padding:17px}.recorderControls{align-items:stretch}.recorderControls button{flex:1 1 145px}.recorderElapsed{flex:1 1 100%;text-align:right}.recorderBadge{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.recorderDownload{transition:none}}
