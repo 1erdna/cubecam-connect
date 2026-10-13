@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090f1f">
+  <title>CubeCam Connect · Phone Camera + Laptop Timer</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<main class="shell">
+  <header class="header">
+    <div><div class="brand">CUBE<span>CAM</span> <small>CONNECT</small></div><p class="subtitle">The phone is your sensor. The laptop is your timer.</p></div>
+    <div class="online" id="linkStatus" role="status">● Not paired</div>
+  </header>
+  <div class="choose" id="choose">
+    <div class="eyebrow">CHOOSE THIS DEVICE</div>
+    <h1>Your cube. Your camera. Your timer.</h1>
+    <p>Open the same website on both devices. On your laptop select <b>Laptop timer</b>; on your phone select <b>Phone camera</b>.</p>
+    <div class="chooseCards">
+      <button id="chooseLaptop" class="chooseCard"><span class="emoji">💻</span><b>Laptop timer</b><span>Show scramble, pairing code, times and statistics</span></button>
+      <button id="choosePhone" class="chooseCard"><span class="emoji">📱</span><b>Phone camera</b><span>Connect to laptop and detect both hands</span></button>
+    </div>
+  </div>
+
+  <section id="laptop" class="hidden">
+    <div class="row split gap">
+      <div><div class="eyebrow">LAPTOP DISPLAY</div><h1>Practice timer</h1></div>
+      <button id="changeLaptop" class="ghost">Change device</button>
+    </div>
+    <div class="layout">
+      <div class="stack">
+        <div class="panel pairPanel">
+          <div class="row split"><h2>01 · Pair your phone</h2><span class="tiny" id="peerState">Not connected</span></div>
+          <div class="pairRow"><div><div class="tiny">PAIRING CODE</div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Create code</button></div>
+          <div class="row wrap"><button id="copyPhoneLink" disabled>Copy phone link</button><span class="tiny" id="hostHint">Create a code, then type it on your phone.</span></div>
+        </div>
+        <div class="panel">
+          <div class="row split wrap"><h2>02 · Scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble">New scramble ↻</button></div></div>
+          <div id="scramble" class="scramble">Loading scramble…</div>
+          <div id="scrambleHint" class="tiny">Loading scramble engine</div>
+        </div>
+        <div class="timerPanel">
+          <div id="clock" class="clock">0.00</div>
+          <div id="phase" class="phase">WAITING FOR HANDS</div>
+          <div id="help" class="hint">Hold both hands in their camera zones.</div>
+          <div class="row center padIndicators"><div class="padStatus" id="leftStatus">✋ LEFT · OFF</div><div class="padStatus" id="rightStatus">✋ RIGHT · OFF</div></div>
+          <div class="row center wrap"><button id="manualStopStart" class="ghost">Manual start / stop (Space)</button><button id="resetTimer" class="ghost">Reset timer</button></div>
+          <p class="tiny centered">Manual control works even before your phone connects. Camera timing is for practice, not official records.</p>
+        </div>
+      </div>
+      <aside class="stack">
+        <div class="panel"><h2>Session statistics</h2><div class="stats">
+          <div><span>Solves</span><strong id="solveCount">0</strong></div><div><span>Best</span><strong id="pb">—</strong></div>
+          <div><span>Ao5</span><strong id="ao5">—</strong></div><div><span>Ao12</span><strong id="ao12">—</strong></div>
+          <div class="wide"><span>Mean</span><strong id="mean">—</strong></div></div>
+          <button class="danger" id="clearHistory">Clear session</button>
+        </div>
+        <div class="panel"><h2>Recent solves</h2><ol id="history" class="history"><li>No solves yet</li></ol></div>
+        <div class="panel fineprint"><b>How timing works:</b> Hold both hands over their zones for 0.6 s. When green, remove both to start. Return both to stop. Your solve history is stored on this laptop's browser, not your phone.</div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="phone" class="hidden">
+    <div class="row split gap"><div><div class="eyebrow">PHONE SENSOR</div><h1>Camera hand pads</h1></div><button id="changePhone" class="ghost">Change device</button></div>
+    <div class="phoneLayout">
+      <div class="panel">
+        <h2>01 · Connect to laptop</h2>
+        <div class="row wrap connectControls"><label for="inputCode">Enter pairing code</label><input id="inputCode" placeholder="ABCD1234" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Laptop pairing code"><button class="primary" id="joinButton">Connect</button></div>
+        <div class="message" id="phoneConnection">Open this site on your laptop, create a code, and enter it here.</div>
+      </div>
+      <div class="panel">
+        <div class="row split wrap"><h2>02 · Show the tabletop</h2><div class="row"><button class="primary" id="cameraButton">Start camera</button><button id="switchCamera">Flip</button><button id="cameraStop" disabled>Stop</button></div></div>
+        <div class="cameraFrame" id="cameraFrame">
+          <video id="cameraVideo" playsinline muted autoplay></video><canvas id="cameraOverlay"></canvas>
+          <div class="cameraPlaceholder" id="cameraPlaceholder">📷<br>Start camera and point it down at your cube and both hands.</div>
+        </div>
+        <div class="row split sensors"><div class="sensor" id="phoneLeft">LEFT · NO HAND</div><div class="sensor" id="phoneRight">RIGHT · NO HAND</div></div>
+        <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="42"><span id="zoneWidthDisplay">42%</span></div>
+        <div class="rangeRow"><label for="zoneTop">Zone starts at</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
+        <div class="message" id="cameraMessage" role="status">The phone needs HTTPS, internet and permission to use the camera.</div>
+      </div>
+      <div class="panel"><h2>03 · Test the connection (without camera)</h2>
+        <p class="tiny">Use two fingers to hold LEFT and RIGHT at the same time. The laptop indicators should light up. Hold for 0.6 seconds, lift both to start, then touch both again to stop.</p>
+        <div class="testPads"><button class="testPad" id="testLeft">✋ LEFT</button><button class="testPad" id="testRight">✋ RIGHT</button></div>
+        <p class="tiny">Manual pads override the camera while you touch them. Keep this browser tab in front with your phone screen awake during solves.</p>
+      </div>
+    </div>
+  </section>
+  <footer>CubeCam Connect · Experimental home-practice timer · Camera processing on phone, hand-zone signals sent to laptop.</footer>
+</main>
+</body>
+</html>
