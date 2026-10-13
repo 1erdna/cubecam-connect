@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#090f1f">
-  <title>CubeCam Connect · Phone Camera + Laptop Timer</title>
+  <meta name="theme-color" content="#f5f6f2">
+  <title>1ERDNA Cube Lab · Speedcube Timer</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js"></script>
@@ -12,22 +12,22 @@
 <body>
 <main class="shell">
   <header class="header">
-    <div><div class="brand">CUBE<span>CAM</span> <small>CONNECT</small></div><p class="subtitle">The phone is your sensor. The laptop is your timer.</p></div>
+    <div><div class="brand">1ER<span>DNA</span> <small>CUBE LAB</small></div><p class="subtitle">Andrei’s personal speedcubing studio</p></div>
     <div class="online" id="linkStatus" role="status">● Not paired</div>
   </header>
   <div class="choose" id="choose">
     <div class="eyebrow">CHOOSE THIS DEVICE</div>
-    <h1>Your cube. Your camera. Your timer.</h1>
-    <p>Open the same website on both devices. On your laptop select <b>Laptop timer</b>; on your phone select <b>Phone camera</b>.</p>
+    <h1>Every solve, a little better.</h1>
+    <p>A minimal space to practice, improve, and chase your next personal best. One setup, two devices. Choose where you’re starting.</p>
     <div class="chooseCards">
-      <button id="chooseLaptop" class="chooseCard"><span class="emoji">💻</span><b>Laptop timer</b><span>Show scramble, pairing code, times and statistics</span></button>
-      <button id="choosePhone" class="chooseCard"><span class="emoji">📱</span><b>Phone camera</b><span>Connect to laptop and detect both hands</span></button>
+      <button id="chooseLaptop" class="chooseCard"><span class="emoji">💻</span><b>Timer dashboard</b><span>Your solves, scrambles, averages and personal best — all in one place.</span></button>
+      <button id="choosePhone" class="chooseCard"><span class="emoji">📱</span><b>Hand-tracking camera</b><span>Turn your iPhone into a hands-free start and stop sensor.</span></button>
     </div>
   </div>
 
   <section id="laptop" class="hidden">
     <div class="row split gap">
-      <div><div class="eyebrow">LAPTOP DISPLAY</div><h1>Practice timer</h1></div>
+      <div><div class="eyebrow">LAPTOP DISPLAY</div><h1>Focus on the next solve.</h1></div>
       <button id="changeLaptop" class="ghost">Change device</button>
     </div>
     <div class="layout">
@@ -65,7 +65,7 @@
   </section>
 
   <section id="phone" class="hidden">
-    <div class="row split gap"><div><div class="eyebrow">PHONE SENSOR</div><h1>Camera hand pads</h1></div><button id="changePhone" class="ghost">Change device</button></div>
+    <div class="row split gap"><div><div class="eyebrow">PHONE SENSOR</div><h1>Your phone, your sensor.</h1></div><button id="changePhone" class="ghost">Change device</button></div>
     <div class="phoneLayout">
       <div class="panel">
         <h2>01 · Connect to laptop</h2>
@@ -90,7 +90,7 @@
       </div>
     </div>
   </section>
-  <footer>CubeCam Connect · Experimental home-practice timer · Camera processing on phone, hand-zone signals sent to laptop.</footer>
+  <footer>1ERDNA CUBE LAB · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
 </main>
 </body>
 </html>
