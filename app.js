@@ -1,5 +1,5 @@
 import { TimerEngine } from './timer-engine.mjs';
-import { HandRestDetector } from './hand-rest-detector.mjs';
+import { HandRestDetector } from './hand-rest-detector.mjs?v=handsrest-20261013-v1';
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
