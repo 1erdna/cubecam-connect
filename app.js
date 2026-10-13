@@ -22,12 +22,14 @@ for(const id of ['changeLaptop','changePhone']) $(id).addEventListener('click',(
 
 // Laptop: PeerJS data connection. The pairing code is an unlisted peer ID, not a password.
 let sessionCode = '', hostPeer = null, hostConn = null, hostReady = false, lastSignalAt = 0;
+let hostPreviewCall=null, phonePreviewCall=null;
 let cameraSource = 'phone';
 function generateCode() {
   const b = new Uint8Array(8); crypto.getRandomValues(b);
   return Array.from(b,v => codeChars[v % codeChars.length]).join('');
 }
 function connectionClosed() {
+  endHostPreview();
   hostConn=null; lastSignalAt=0;
   if(cameraSource!=='phone') return;
   engine.feed(false,false);
@@ -44,17 +46,20 @@ function attachHostConnection(conn) {
     $('peerState').textContent='Connected';
     $('hostHint').textContent='Now start camera on your phone, or try its test pads.';
     conn.send({type:'hello',version:1});
+    $('dockSubtitle').textContent='Phone paired. Enable Share live video on your phone to see its feed here.';
   });
   conn.on('data',msg=>{
     if (hostConn!==conn || cameraSource!=='phone' || !msg || msg.type!=='pads')return;
     lastSignalAt=performance.now();
     engine.feed(Boolean(msg.left),Boolean(msg.right));
+    updateDockPads(Boolean(msg.left),Boolean(msg.right),msg);
   });
   conn.on('close',()=>{if(hostConn===conn)connectionClosed();});
   conn.on('error',()=>{if(hostConn===conn)connectionClosed();});
 }
 function startHost() {
   if (typeof window.Peer !== 'function') { $('hostHint').textContent='PeerJS did not load. Check internet or reload.'; return; }
+  endHostPreview();
   if (hostConn) hostConn.close();
   if (hostPeer) hostPeer.destroy();
   hostConn=null; hostReady=false;
@@ -74,6 +79,25 @@ function startHost() {
     setStatus('Waiting for phone');
   });
   peer.on('connection',c=>{if(hostPeer===peer)attachHostConnection(c);else c.close();});
+  peer.on('call',call=>{
+    // Only accept live video from the already paired phone.
+    if(hostPeer!==peer || cameraSource!=='phone' || !hostConn?.open || call.peer!==hostConn.peer){
+      call.close();return;
+    }
+    endHostPreview();
+    hostPreviewCall=call;
+    $('dockSubtitle').textContent='Phone camera live · Hand placement preview';
+    call.answer();
+    call.on('stream',incoming=>{
+      if(hostPreviewCall!==call)return;
+      const screen=$('remotePhoneVideo');
+      screen.srcObject=incoming;
+      $('remoteVideoFrame').classList.add('streaming');
+      screen.play().catch(()=>{$('dockSubtitle').textContent='Preview received. Tap the video if playback is blocked.';});
+    });
+    call.on('close',()=>{if(hostPreviewCall===call)endHostPreview();});
+    call.on('error',()=>{if(hostPreviewCall===call)endHostPreview();});
+  });
   peer.on('disconnected',()=>{
     if(hostPeer!==peer)return;
     hostReady=false;
@@ -160,7 +184,7 @@ document.addEventListener('keydown',e=>{
   e.preventDefault();engine.manualToggle(performance.now());
 });
 function laptopLoop(now) {
-  if(cameraSource==='phone' && lastSignalAt && now-lastSignalAt>1700){lastSignalAt=0;engine.feed(false,false);$('peerState').textContent='Phone signal paused';}
+  if(cameraSource==='phone' && lastSignalAt && now-lastSignalAt>1700){lastSignalAt=0;engine.feed(false,false);updateDockPads(false,false);$('peerState').textContent='Phone signal paused';}
   engine.update(now);
   $('leftStatus').classList.toggle('on',engine.left);
   $('rightStatus').classList.toggle('on',engine.right);
@@ -185,7 +209,7 @@ function connectPhone() {
   const code=normalCode($('inputCode').value);
   if(code.length!==8){phoneMessage('Enter the exact 8-character pairing code from the laptop.');return;}
   if(typeof window.Peer!=='function'){phoneMessage('PeerJS failed to load. Check internet and reload.');return;}
-  if(phoneConn)phoneConn.close();if(phonePeer)phonePeer.destroy();
+  stopPhonePreview();if(phoneConn)phoneConn.close();if(phonePeer)phonePeer.destroy();
   phoneConn=null;phoneMessage('Connecting to laptop…');$('joinButton').disabled=true;
   const peer=new Peer();phonePeer=peer;
   peer.on('open',()=>{
@@ -197,10 +221,10 @@ function connectPhone() {
     c.on('open',()=>{
       if(phoneConn!==c)return;
       clearTimeout(connectionTimeout);
-      $('joinButton').disabled=false;phoneMessage('Connected! Start camera or hold both test pads.');setStatus('Connected to laptop ✓',true);sendPads(true);
+      $('joinButton').disabled=false;phoneMessage('Connected! Start camera or hold both test pads.');setStatus('Connected to laptop ✓',true);sendPads(true);startPhonePreview();
     });
     c.on('data',()=>{});
-    c.on('close',()=>{if(phoneConn===c){phoneMessage('Laptop disconnected. Connect again using its code.');setStatus('Not paired');$('joinButton').disabled=false;}});
+    c.on('close',()=>{if(phoneConn===c){stopPhonePreview();phoneMessage('Laptop disconnected. Connect again using its code.');setStatus('Not paired');$('joinButton').disabled=false;}});
     c.on('error',e=>{phoneMessage('Connection issue: '+(e?.message||e));$('joinButton').disabled=false;});
   });
   peer.on('error',e=>{if(phonePeer===peer){phoneMessage('Pairing error: '+(e?.type||e?.message||e));$('joinButton').disabled=false;}});
@@ -226,7 +250,9 @@ function sendPads(force=false) {
   if(cameraSource==='local') {
     if(cameraOn || manualTouches>0) engine.feed(pads.left,pads.right);
   } else if(phoneConn?.open) {
-    phoneConn.send({type:'pads',left:pads.left,right:pads.right});
+    phoneConn.send({type:'pads',left:pads.left,right:pads.right,
+      zoneWidth:Number($('zoneWidth').value),zoneTop:Number($('zoneTop').value),
+      mirror:front && !$('cameraDevice').value});
   }
 }
 setInterval(()=>sendPads(),115);
@@ -275,6 +301,7 @@ async function getDetector() {
 function releaseCamera(){
   cameraOn=false;cameraJob++;
   if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
+  stopPhonePreview();
   video.pause();video.srcObject=null;camLeft=camRight=false;
   $('cameraFrame').classList.remove('active');$('cameraStop').disabled=true;
   ctx.clearRect(0,0,overlay.width,overlay.height);sendPads(true);
@@ -298,8 +325,9 @@ async function startCamera() {
     await getDetector();
     if(job!==cameraJob)return;
     cameraOn=true;videoTime=-1;frameAt=0;
+    startPhonePreview();
     $('cameraFrame').classList.add('active');$('cameraStop').disabled=false;
-    $('cameraMessage').textContent='Ready! Keep two hands clearly visible in separate rectangles. Only left/right detection is sent to the laptop.';
+    if(!$('sharePhonePreview').checked)$('cameraMessage').textContent='Ready. Only hand-zone detection is shared; enable optional live preview to see video on the laptop.';
     requestAnimationFrame(trackCamera);
   } catch(e) {
     releaseCamera();
@@ -384,10 +412,13 @@ function selectCameraSource(mode){
     $('cameraMessage').textContent='Choose your camera and click Start camera. Allow permission if requested.';
     // Existing paired phone must no longer control the timer.
     const conn=hostConn,peer=hostPeer;
+    endHostPreview();
     hostConn=null;hostPeer=null;hostReady=false;lastSignalAt=0;
     if(conn)conn.close();if(peer)peer.destroy();
     $('peerState').textContent='Not connected';
     setStatus('Laptop camera selected');
+    $('dockMode').textContent='LAPTOP · DIRECT';
+    $('dockSubtitle').textContent='Live webcam view and adjustable hand-detection zones.';
     void listCameraDevices();
   } else {
     originalCameraParent.insertBefore(cameraPanel,originalCameraNext);
@@ -395,6 +426,9 @@ function selectCameraSource(mode){
     $('cameraPlaceholder').innerHTML=originalPlaceholder;
     $('cameraMessage').textContent='Pair your phone, then start its camera to detect both hands.';
     setStatus('Phone camera selected');
+    $('dockMode').textContent='PHONE · WIRELESS';
+    $('dockSubtitle').textContent='Pair a phone, then enable optional live video to view hand placement.';
+    updateDockPads(false,false);
   }
 }
 $('sourceLaptop').addEventListener('click',()=>selectCameraSource('local'));
@@ -403,3 +437,60 @@ $('cameraDevice').addEventListener('change',()=>{if(cameraOn)void startCamera();
 if(navigator.mediaDevices?.addEventListener){
   navigator.mediaDevices.addEventListener('devicechange',()=>{void listCameraDevices();});
 }
+
+
+// Opt-in preview sharing: laptop receives video only from the paired phone.
+function endHostPreview(){
+  const call=hostPreviewCall;hostPreviewCall=null;
+  if(call){try{call.close();}catch{}}
+  const display=$('remotePhoneVideo');
+  display.pause();display.srcObject=null;
+  $('remoteVideoFrame').classList.remove('streaming');
+  if(cameraSource==='phone')$('dockSubtitle').textContent='Video preview off. Your phone can still send hand-detection signals.';
+}
+function stopPhonePreview(){
+  const call=phonePreviewCall;phonePreviewCall=null;
+  if(call){try{call.close();}catch{}}
+}
+function startPhonePreview(){
+  stopPhonePreview();
+  if(cameraSource!=='phone'||!$('sharePhonePreview').checked||!cameraOn||!stream||!phoneConn?.open||!phonePeer)return;
+  try{
+    const call=phonePeer.call(phoneConn.peer,stream);
+    if(!call)throw Error('Preview connection could not start');
+    phonePreviewCall=call;
+    call.on('close',()=>{if(phonePreviewCall===call)phonePreviewCall=null;});
+    call.on('error',e=>{
+      if(phonePreviewCall===call)phonePreviewCall=null;
+      $('cameraMessage').textContent='Preview unavailable: '+String(e?.message||e)+'. Hand timing still works.';
+    });
+    $('cameraMessage').textContent='Sharing camera preview only with the paired laptop. Uncheck Share live video to stop.';
+  }catch(e){
+    $('cameraMessage').textContent='Preview unavailable: '+String(e?.message||e)+'. Hand timing still works.';
+  }
+}
+$('sharePhonePreview').addEventListener('change',()=>{
+  if($('sharePhonePreview').checked)startPhonePreview();
+  else{
+    stopPhonePreview();
+    $('cameraMessage').textContent='Live preview is off. Only hand-detection states are shared.';
+  }
+});
+function updateDockPads(left,right,msg){
+  for(const [side,detected] of [['Left',left],['Right',right]]){
+    const label=$('remote'+side+'Status');
+    label.textContent=(detected?'● ':'○ ')+side.toUpperCase()+(detected?' · DETECTED':' · WAITING');
+    label.classList.toggle('active',detected);
+    $('remote'+side+'Zone').classList.toggle('detected',detected);
+  }
+  if(msg){
+    // Limit remote percentages to the slider range to keep guides on-screen.
+    const width=Math.max(22,Math.min(45,Number(msg.zoneWidth)||42));
+    const top=Math.max(10,Math.min(65,Number(msg.zoneTop)||32));
+    $('remoteGuides').style.setProperty('--zone-width',width+'%');
+    $('remoteGuides').style.setProperty('--zone-top',top+'%');
+    $('remotePhoneVideo').classList.toggle('front',Boolean(msg.mirror));
+  }
+}
+$('remotePhoneVideo').addEventListener('click',()=>{$('remotePhoneVideo').play().catch(()=>{});});
+updateDockPads(false,false);
