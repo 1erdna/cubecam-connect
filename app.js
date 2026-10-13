@@ -485,7 +485,7 @@ function updateDockPads(left,right,msg){
   }
   if(msg){
     // Limit remote percentages to the slider range to keep guides on-screen.
-    const width=Math.max(22,Math.min(45,Number(msg.zoneWidth)||42));
+    const width=Math.max(22,Math.min(45,Number(msg.zoneWidth)||28));
     const top=Math.max(10,Math.min(65,Number(msg.zoneTop)||32));
     $('remoteGuides').style.setProperty('--zone-width',width+'%');
     $('remoteGuides').style.setProperty('--zone-top',top+'%');
