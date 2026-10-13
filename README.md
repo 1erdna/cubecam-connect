@@ -40,3 +40,16 @@ Camera tracking detects **hand positions inside virtual zones**, not actual tabl
 Use a well-lit table; keep the camera steady and browser tab active. If the camera is not listed, close other apps that may be using it, check OS and browser permissions, then reload. On iOS, keep the phone screen awake and the browser visible.
 
 This project uses MediaPipe Tasks Vision for hand landmarks, PeerJS for phone pairing and cubing.js for scrambles. It is a static website and works with GitHub Pages.
+
+
+## Midnight Neon Blue layout & sticky camera monitor
+
+The dashboard uses a midnight-black background with minimalist neon-blue controls, timer highlights, and hand-zone borders.
+
+On desktop, the **Camera Monitor** stays visible in the **right-hand column** while the page scrolls to the timer. The monitor is below the timer on smaller phone screens.
+
+- **Laptop camera:** choose **Timer dashboard → Laptop camera**, select a webcam, then start it. The live laptop camera preview, hand-zone outlines, and positioning sliders appear in the right-hand monitor.
+- **Paired phone camera:** choose **Pair phone camera** on the laptop, then connect the phone by code. Hand detection always sends simple left/right signals. To optionally send actual live video to the right-side monitor, check **Share live video with laptop** on the phone and start its camera. Uncheck to stop video sharing.
+- On the right-side monitor, **blue outlines mark the zones**, and the zones brighten when a hand is detected. For best alignment, keep both hands and cube centered in the live camera frame.
+
+Video sharing uses a PeerJS/WebRTC connection to the paired laptop only. It is off by default. The application remains an experimental practice timer: hand positions are not physical table-contact measurements.
