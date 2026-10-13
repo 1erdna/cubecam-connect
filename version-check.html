@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070b14">
+<title>Cube Lab · Deployment Check</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{font:16px/1.6 system-ui,sans-serif;margin:0;background:#070b14;color:#e3f3ff;padding:24px}main{max-width:760px;margin:36px auto;padding:26px;background:#0d182a;border:1px solid #285076;border-radius:18px}h1{margin:0;color:#54cbff;font-size:30px}p{color:#9eb8d2}pre{font:14px/1.7 ui-monospace,monospace;background:#070e1c;border-radius:10px;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere}a{color:#73d3ff}.good{color:#70e4b3}.bad{color:#ffc289}
+</style></head>
+<body><main><h1>1ERDNA Cube Lab · Deployment Check</h1>
+<p>Build verification page — 13 October 2026 · Midnight Blue v2.1</p>
+<pre id="results" aria-live="polite">Checking deployed source files…</pre>
+<p><a href="./?v=latest-neon-20261013" rel="noopener">Open timer dashboard</a> · <a href="https://github.com/1erdna/cubecam-connect/actions" rel="noopener">GitHub Actions</a></p>
+<p>If this page is unavailable or its checks fail, go to GitHub → Settings → Pages and verify that the published source is <b>Deploy from a branch → main → /(root)</b>. Then inspect GitHub Actions for a failed Pages build.</p></main>
+<script>
+(async()=>{
+  const output=document.getElementById('results');
+  const versions=[
+    ['HTML has new camera monitor','index.html','id="cameraDock"'],
+    ['HTML has Midnight Blue v2.1','index.html','MIDNIGHT BLUE v2.1'],
+    ['CSS has neon blue theme','style.css','NEON BLUE / MIDNIGHT UI'],
+    ['JavaScript has phone video preview','app.js','function startPhonePreview']
+  ];
+  const paths=[...new Set(versions.map(v=>v[1]))];
+  const resources={};
+  for(const path of paths){
+    try{
+      const response=await fetch('./'+path+'?check='+Date.now(),{cache:'no-store'});
+      resources[path]=response.ok?await response.text():('HTTP '+response.status);
+    }catch(e){resources[path]='FETCH ERROR: '+e.message;}
+  }
+  const verdicts=versions.map(([description,path,needle])=>(resources[path].includes(needle)?'✓':'✗')+' '+description);
+  const ok=verdicts.every(v=>v.startsWith('✓'));
+  output.textContent=verdicts.join('\n')+'\n\n'+(ok?'All updated files are being served by GitHub Pages.':'Some updated files are NOT being served yet. Check Pages deployment and Action logs.');
+  output.className=ok?'good':'bad';
+})().catch(e=>document.getElementById('results').textContent='Check failed: '+e.message);
+</script></body></html>
