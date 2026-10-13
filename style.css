@@ -118,3 +118,109 @@ footer{color:#a4b1a6;text-align:center;font-size:11px;letter-spacing:.045em;marg
 #localCameraHolder .cameraFrame{max-width:680px;margin:0 auto}
 #localCameraHolder .cameraFrame video{max-height:420px}
 @media(max-width:560px){.sourceGrid{grid-template-columns:1fr}.sourceChoice{min-height:125px;padding:15px;gap:5px}.cameraPicker select{max-width:100%;flex:1 1 100%}}
+
+/* NEON BLUE / MIDNIGHT UI */
+:root{color-scheme:dark;--bg:#060911;--panel:#0c1422;--surface:#101a2c;--border:#223453;--ink:#eaf3ff;--muted:#89a0c0;--mint:#34baff;--cyan:#34baff;--yellow:#ffc279;--red:#ff8190;--shadow:0 15px 35px rgba(0,0,0,.27)}
+body{background:radial-gradient(ellipse at 73% -11%,rgba(13,98,186,.22),transparent 47%),radial-gradient(ellipse at 0% 56%,rgba(6,45,109,.13),transparent 45%),#060911;color:var(--ink)}
+.shell{width:min(1440px,100%);padding:23px 28px 45px}
+.header{border-color:#23354c;margin-bottom:32px}
+.brand,.chooseCard b,h1{color:#f0f7ff}
+.brand:before,.brand span,.eyebrow,h2{color:#4fc6ff}
+.brand small{border-color:#334766;color:#8eacd2}
+.subtitle{color:#788faa}
+.online{background:#0d1c30;color:#94a9c5;border-color:#2b405f}
+.online.good{color:#75d3ff;border-color:#236591;background:#102b46}
+button{background:#101e33;border-color:#30425e;color:#e4f4ff}
+button:hover:not(:disabled){background:#172c48;border-color:#39a8f2;box-shadow:0 0 22px rgba(27,155,247,.1)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #51c4ff;outline-offset:3px}
+button.primary{background:linear-gradient(135deg,#0c76d1,#118fda);border-color:#3eb7ff;color:#f8fdff}
+button.primary:hover:not(:disabled){background:#168fda;border-color:#77d0ff;box-shadow:0 0 23px #008dff44}
+button.ghost{color:#a2b4d0;background:transparent}
+button.danger{color:#ffabb7;background:#301a27;border-color:#653347}
+select,input{background:#080f1c;border-color:#2d4563;color:#e8f4ff}
+input[type=range]{accent-color:#2eb6ff}
+.panel,.timerPanel{background:linear-gradient(150deg,#101c2e,#0a111f);border:1px solid #263c59;box-shadow:0 12px 30px #00000033}
+.tiny,.message{color:#829bbc}
+.choose:before{color:#577598}
+.choose>p,.chooseCard span:last-child{color:#92a8c8}
+.chooseCard{background:linear-gradient(135deg,#11243b,#0c1424);border:1px solid #284260}
+.chooseCard .emoji{background:#172945;border-color:#304f74}
+.chooseCard:after{color:#57b9ef}
+.chooseCard:hover:not(:disabled){border-color:#3ab3ff;background:#142c48}
+.sourceChoice{color:#f0f7ff;background:#0f1b2f;border-color:#29415e}
+.sourceChoice:hover:not(:disabled){background:#142841}
+.sourceChoice.active{background:linear-gradient(160deg,#103156,#0b1b34);border-color:#399feb;box-shadow:inset 0 0 0 1px #1d89d055,0 0 24px #0c8cff1e}
+.sourceChoice.active:after{background:#0a92de}
+.sourceChoice .sourceNumber{color:#81adcd}
+.sourceChoice .sourceSymbol{color:#4abfff}
+.sourceChoice strong{color:#eaf5ff}
+.sourceChoice>span:last-child,.sourceHelp{color:#97acc8}
+.pairCode{color:#d8efff}
+.scramble{color:#e5f5ff}
+.timerPanel{background:radial-gradient(ellipse at 45% 0%,#1533506b,transparent 67%),#08101f;border-color:#2c5074}
+.timerPanel:before{color:#5b91b9}
+.clock{color:#eaf5ff;text-shadow:0 0 25px rgba(38,154,245,.14)}
+.clock.arming{color:#ffc279;text-shadow:0 0 20px #ffbe6538}
+.clock.ready{color:#32c4ff;text-shadow:0 0 28px #1298ff99}
+.clock.running{color:#f5fbff;text-shadow:0 0 27px #1395ff44}
+.phase{color:#4cc6ff}
+.hint{color:#90a6c7}
+.padStatus,.sensor{background:#132238;border-color:#2a4867;color:#94a9c6}
+.padStatus.on,.sensor.on{background:#0b3559;border-color:#47b9ff;color:#a9ecff;box-shadow:0 0 17px #159afa22}
+.stats>div{background:#101f31;border-color:#233a55}
+.stats span{color:#8aa9cc}
+.stats strong{color:#e8f5ff}
+.history li{border-color:#23344e;color:#90a3c0}
+.history li span{color:#d9f1ff}
+.fineprint{background:#0e1b2e;color:#9caec9}
+.fineprint b{color:#e2f6ff}
+.cameraFrame{background:#070f1d;border-color:#304f73}
+.cameraPlaceholder{background:linear-gradient(135deg,#0b2037,#0a1423);color:#9ab6d4}
+.rangeRow label,.rangeRow span,.connectControls label{color:#a0b2cc}
+.testPad{background:#112038}
+.testPad.down{background:#123e64;color:#d4f4ff;border-color:#55bfff}
+.layout{grid-template-columns:minmax(0,1fr) minmax(315px,390px);gap:20px;align-items:start}
+.visualRail{display:flex;flex-direction:column;gap:16px;min-width:0;align-self:stretch}
+.cameraDock{position:sticky;top:16px;z-index:8;padding:15px;border-radius:17px;background:linear-gradient(155deg,#0c1c32,#090f1c);border:1px solid #305579;box-shadow:0 14px 45px #0007,0 0 27px #0064bb16}
+.dockTop{margin-bottom:14px}
+.dockEyebrow{display:inline-flex;align-items:center;gap:8px;color:#91d7ff;font-size:10px;letter-spacing:1.4px;font-weight:800}
+.livePulse{display:inline-block;width:7px;height:7px;border-radius:100%;background:#35bfff;box-shadow:0 0 12px #22aaff}
+.dockMode{color:#69c4ff;border:1px solid #295880;border-radius:20px;padding:4px 7px;font-size:9px;font-weight:800}
+.dockTitle{font:600 21px/1.2 'Space Grotesk',sans-serif;letter-spacing:-.6px;color:#f2f9ff;text-transform:none;margin:13px 0 5px}
+.dockSubtitle{margin:0;color:#8babc8;font-size:11px;line-height:1.5}
+#localCameraHolder .panel{border:0;background:transparent;box-shadow:none;padding:0}
+#localCameraHolder .cameraFrame{max-width:none;width:100%;min-height:175px;border:1px solid #315475;margin:10px 0;border-radius:11px}
+#localCameraHolder .cameraFrame video{max-height:245px}
+#localCameraHolder .cameraPicker{margin:10px 0}
+#localCameraHolder .rangeRow{margin:7px 0}
+#localCameraHolder .rangeRow label{font-size:11px}
+#localCameraHolder .sensor{font-size:10px;padding:8px 7px}
+#localCameraHolder .message{font-size:11px}
+.remoteVideoFrame{position:relative;overflow:hidden;aspect-ratio:4/3;border:1px solid #2d537b;border-radius:11px;background:radial-gradient(ellipse at center,#122d50,#070e19 77%)}
+.remoteVideoFrame video{display:block;width:100%;height:100%;object-fit:contain}
+.remoteVideoFrame video.front{transform:scaleX(-1)}
+.remoteGuides{position:absolute;inset:0;--zone-width:42%;--zone-top:32%;pointer-events:none;display:none}
+.remoteVideoFrame.streaming .remoteGuides{display:block}
+.remoteGuide{position:absolute;top:var(--zone-top);bottom:1%;width:calc(var(--zone-width) - 1%);border:2px solid #49baff;border-radius:5px;background:#0879dc16}
+.remoteGuide.left{left:1%}
+.remoteGuide.right{right:1%}
+.remoteGuide.detected{border-color:#c5f0ff;background:#32b9ff44;box-shadow:inset 0 0 22px #24adff22,0 0 14px #24adff88}
+.remoteGuide span{font-size:9px;margin:5px;display:block;letter-spacing:.5px;font-weight:800;color:#d9f2ff;text-shadow:0 1px 4px #000}
+.remotePlaceholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;padding:24px;background:radial-gradient(ellipse at 50% 15%,#142c4b,#080e1b 78%)}
+.remotePlaceholder strong{font:600 18px 'Space Grotesk',sans-serif;color:#d8ecff}
+.remotePlaceholder span{color:#809ebc;font-size:11px;max-width:240px;line-height:1.6}
+.remoteCameraIcon{font-size:45px;line-height:1.2;color:#40bfff}
+.remoteVideoFrame.streaming .remotePlaceholder{display:none}
+.remoteStatus{padding:12px 0 10px;gap:6px}
+.remoteStatus span{color:#819ebf;font-size:10px;font-weight:800}
+.remoteStatus span.active{color:#66d1ff;text-shadow:0 0 12px #20b4ff66}
+.dockFooter{display:flex;justify-content:space-between;border-top:1px solid #27405e;padding-top:9px;color:#7797b8;font-size:9px;font-weight:750;letter-spacing:.3px}
+.previewPermission{background:#0b2038;border:1px solid #274969;border-radius:11px;padding:12px;margin:12px 0}
+.previewPermission label{display:flex;gap:9px;align-items:center;flex-wrap:wrap;font-size:12px;color:#ceeaff;font-weight:700;cursor:pointer}
+.previewPermission label span{font-size:11px;color:#8cb1ce;font-weight:400}
+.previewPermission input{accent-color:#36b9ff;width:16px;height:16px}
+.previewPermission p{margin:8px 0 0}
+footer{border-top-color:#243855;color:#718aab}
+@media(max-width:1120px){.layout{grid-template-columns:minmax(0,1fr) minmax(285px,345px);gap:15px}.shell{padding:19px 19px 33px}.clock{font-size:clamp(74px,9vw,112px)}.cameraDock{padding:12px}}
+@media(max-width:790px){.layout{grid-template-columns:1fr}.visualRail{display:contents}.cameraDock{position:relative;top:auto;grid-row:2;z-index:1}.visualRail>.panel{grid-column:1}.shell{padding:15px 13px 34px}.clock{font-size:clamp(75px,16vw,118px)}}
+@media(max-width:470px){.clock{font-size:clamp(62px,17vw,96px);letter-spacing:-5px}.dockTitle{font-size:18px}.remoteStatus span{font-size:9px}}
