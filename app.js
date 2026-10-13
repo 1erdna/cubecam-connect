@@ -1,4 +1,5 @@
 import { TimerEngine } from './timer-engine.mjs';
+import { HandRestDetector } from './hand-rest-detector.mjs';
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -188,10 +189,10 @@ function laptopLoop(now) {
   engine.update(now);
   $('leftStatus').classList.toggle('on',engine.left);
   $('rightStatus').classList.toggle('on',engine.right);
-  $('leftStatus').textContent=engine.left?'✋ LEFT · IN ZONE':'✋ LEFT · OFF';
-  $('rightStatus').textContent=engine.right?'✋ RIGHT · IN ZONE':'✋ RIGHT · OFF';
+  $('leftStatus').textContent=engine.left?'✋ LEFT · RESTING':'✋ LEFT · OFF';
+  $('rightStatus').textContent=engine.right?'✋ RIGHT · RESTING':'✋ RIGHT · OFF';
   const phase=engine.phase;
-  const phrases={idle:['WAITING FOR HANDS','Put one hand into each marked camera zone.'],arming:['HOLD BOTH HANDS','Keep your hands in the zones for 0.6 seconds.'],ready:['READY — LIFT HANDS','Move both hands out of the zones to start.'],running:['SOLVING','Return both hands into the zones to stop.'],stopped:['SOLVE SAVED','Remove hands from the zones before the next attempt.']};
+  const phrases={idle:['PLACE BOTH HANDS DOWN','Rest an open hand in each blue zone and hold still.'],arming:['HOLD BOTH HANDS','Keep both hands resting for 0.6 seconds.'],ready:['READY — LIFT HANDS','Lift both hands to start the timer.'],running:['SOLVING','Put both hands down and keep them still to stop.'],stopped:['SOLVE SAVED','Lift your hands before preparing the next solve.']};
   $('phase').textContent=phrases[phase][0];$('help').textContent=phrases[phase][1];
   $('clock').textContent=display(engine.elapsed(now));
   $('clock').className='clock'+(phase==='ready'?' ready':phase==='arming'?' arming':phase==='running'?' running':'');
@@ -234,6 +235,9 @@ $('joinButton').addEventListener('click',connectPhone);
 const video=$('cameraVideo'), overlay=$('cameraOverlay'),ctx=overlay.getContext('2d');
 let stream=null, handDetector=null,cameraOn=false,front=false,cameraJob=0,frameAt=0,videoTime=-1;
 let camLeft=false,camRight=false,manualLeft=false,manualRight=false,manualTouches=0,lastSentAt=0;
+let camSeenLeft=false,camSeenRight=false,camOpenLeft=false,camOpenRight=false;
+const restDetector=new HandRestDetector();
+const isRestMode=()=>$('detectionMode').value==='rest';
 function zones() {
   const width=Number($('zoneWidth').value)/100;
   const top=Number($('zoneTop').value)/100;
@@ -243,8 +247,13 @@ function effectivePads() {return manualTouches>0?{left:manualLeft,right:manualRi
 function sendPads(force=false) {
   const pads=effectivePads(),now=performance.now();
   $('phoneLeft').classList.toggle('on',pads.left);$('phoneRight').classList.toggle('on',pads.right);
-  $('phoneLeft').textContent='LEFT · '+(pads.left?'HAND IN ZONE':'NO HAND');
-  $('phoneRight').textContent='RIGHT · '+(pads.right?'HAND IN ZONE':'NO HAND');
+  const cameraLabel=(detected,seen,open)=>{
+    if(detected)return isRestMode()?'RESTING':'IN ZONE';
+    if(!cameraOn || manualTouches>0 || !seen)return 'NO HAND';
+    return isRestMode()?(open?'HOLD STILL':'OPEN HAND'):'NO HAND';
+  };
+  $('phoneLeft').textContent='LEFT · '+cameraLabel(pads.left,camSeenLeft,camOpenLeft);
+  $('phoneRight').textContent='RIGHT · '+cameraLabel(pads.right,camSeenRight,camOpenRight);
   if(!force && now-lastSentAt<85)return;
   lastSentAt=now;
   if(cameraSource==='local') {
@@ -252,11 +261,10 @@ function sendPads(force=false) {
   } else if(phoneConn?.open) {
     phoneConn.send({type:'pads',left:pads.left,right:pads.right,
       zoneWidth:Number($('zoneWidth').value),zoneTop:Number($('zoneTop').value),
-      mirror:front && !$('cameraDevice').value});
+      mirror:video.classList.contains('front')});
   }
 }
 setInterval(()=>sendPads(),115);
-const inZone=(p,z)=>p.x>=z.x0&&p.x<=z.x1&&p.y>=z.y0&&p.y<=z.y1;
 function drawOverlay(result) {
   const W=video.videoWidth||640,H=video.videoHeight||480;
   if(overlay.width!==W||overlay.height!==H){overlay.width=W;overlay.height=H;}
@@ -265,29 +273,32 @@ function drawOverlay(result) {
   ctx.font=`bold ${Math.max(15,Math.round(W*.032))}px system-ui`;
   zz.forEach((z,i)=>{
     const detected=i===0?camLeft:camRight;
+    const seen=i===0?camSeenLeft:camSeenRight;
+    const open=i===0?camOpenLeft:camOpenRight;
     ctx.strokeStyle=detected?'#8de5ff':'#37afff';ctx.fillStyle=detected?'rgba(20,175,255,.29)':'rgba(30,125,235,.13)';
     ctx.fillRect(z.x0*W,z.y0*H,(z.x1-z.x0)*W,(z.y1-z.y0)*H);
     ctx.strokeRect(z.x0*W,z.y0*H,(z.x1-z.x0)*W,(z.y1-z.y0)*H);
-    ctx.fillStyle='white';ctx.fillText(i===0?'LEFT HAND':'RIGHT HAND',z.x0*W+9,z.y0*H+25);
+    ctx.fillStyle='white';
+    const label=detected?'RESTING':seen?(open?'HOLD STILL':'OPEN HAND'):(i===0?'LEFT HAND':'RIGHT HAND');
+    ctx.fillText(label,z.x0*W+8,z.y0*H+25);
   });
   for(const hand of result?.landmarks||[]){
     const ids=[0,5,9,13,17];const p={x:0,y:0};
     for(const id of ids){p.x+=hand[id].x;p.y+=hand[id].y;}
-    p.x/=ids.length;p.y/=ids.length;if(front && !$("cameraDevice").value)p.x=1-p.x;
+    p.x/=ids.length;p.y/=ids.length;if(video.classList.contains('front'))p.x=1-p.x;
     ctx.beginPath();ctx.arc(p.x*W,p.y*H,Math.max(5,W*.008),0,Math.PI*2);
     ctx.fillStyle='#6cdbff';ctx.fill();
   }
 }
 function handleHands(result){
-  let left=false,right=false;const zz=zones();
-  for(const hand of result.landmarks||[]){
-    const ids=[0,5,9,13,17];const center={x:0,y:0};
-    for(const i of ids){center.x+=hand[i].x;center.y+=hand[i].y;}
-    center.x/=ids.length;center.y/=ids.length;
-    if(front && !$("cameraDevice").value)center.x=1-center.x;
-    if(inZone(center,zz[0]))left=true;if(inZone(center,zz[1]))right=true;
-  }
-  camLeft=left;camRight=right;drawOverlay(result);sendPads(true);
+  const observed=restDetector.update(result.landmarks||[],zones(),performance.now(),{
+    mirror:video.classList.contains('front'),
+    mode:$('detectionMode').value
+  });
+  camLeft=observed.left;camRight=observed.right;
+  camSeenLeft=observed.seenLeft;camSeenRight=observed.seenRight;
+  camOpenLeft=observed.openLeft;camOpenRight=observed.openRight;
+  drawOverlay(result);sendPads(true);
 }
 async function getDetector() {
   if(handDetector)return handDetector;
@@ -302,7 +313,9 @@ function releaseCamera(){
   cameraOn=false;cameraJob++;
   if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;}
   stopPhonePreview();
-  video.pause();video.srcObject=null;camLeft=camRight=false;
+  video.pause();video.srcObject=null;
+  restDetector.reset();
+  camLeft=camRight=camSeenLeft=camSeenRight=camOpenLeft=camOpenRight=false;
   $('cameraFrame').classList.remove('active');$('cameraStop').disabled=true;
   ctx.clearRect(0,0,overlay.width,overlay.height);sendPads(true);
 }
@@ -325,9 +338,10 @@ async function startCamera() {
     await getDetector();
     if(job!==cameraJob)return;
     cameraOn=true;videoTime=-1;frameAt=0;
+    restDetector.reset();
     startPhonePreview();
     $('cameraFrame').classList.add('active');$('cameraStop').disabled=false;
-    if(!$('sharePhonePreview').checked)$('cameraMessage').textContent='Ready. Only hand-zone detection is shared; enable optional live preview to see video on the laptop.';
+    if(!$('sharePhonePreview').checked)$('cameraMessage').textContent='Ready! Rest both hands OPEN and STILL in the blue zones. Lift to start; place them back to stop. Optional video sharing is off.';
     requestAnimationFrame(trackCamera);
   } catch(e) {
     releaseCamera();
@@ -339,7 +353,10 @@ function trackCamera(now){
   if(!document.hidden && video.readyState>=2 && video.currentTime!==videoTime && now-frameAt>=65) {
     frameAt=now;videoTime=video.currentTime;
     try{handleHands(handDetector.detectForVideo(video,now));}
-    catch(e){$('cameraMessage').textContent='Detection error: '+String(e?.message||e);camLeft=camRight=false;sendPads(true);}
+    catch(e){
+      $('cameraMessage').textContent='Detection error: '+String(e?.message||e);
+      restDetector.reset();camLeft=camRight=camSeenLeft=camSeenRight=false;sendPads(true);
+    }
   }
   requestAnimationFrame(trackCamera);
 }
@@ -355,7 +372,24 @@ $('switchCamera').addEventListener('click',()=>{
   $('cameraMessage').textContent='Trying '+(front?'front':'rear')+' camera.';
   if(cameraOn)void startCamera();
 });
-for(const [slider,label] of [['zoneWidth','zoneWidthDisplay'],['zoneTop','zoneTopDisplay']]) $(slider).addEventListener('input',()=>{$(label).textContent=$(slider).value+'%';});
+for(const [slider,label] of [['zoneWidth','zoneWidthDisplay'],['zoneTop','zoneTopDisplay']]) $(slider).addEventListener('input',()=>{
+  $(label).textContent=$(slider).value+'%';
+  restDetector.reset();
+});
+const restModeStorageKey='cubecam-hand-mode-v1';
+try{
+  const savedMode=localStorage.getItem(restModeStorageKey);
+  if(savedMode==='zone'||savedMode==='rest')$('detectionMode').value=savedMode;
+}catch{}
+$('detectionMode').addEventListener('change',()=>{
+  restDetector.reset();
+  camLeft=camRight=camSeenLeft=camSeenRight=camOpenLeft=camOpenRight=false;
+  sendPads(true);
+  try{localStorage.setItem(restModeStorageKey,$('detectionMode').value);}catch{}
+  $('cameraMessage').textContent=isRestMode()
+    ? 'Resting-hands mode: open each hand and hold still in its blue box. Lift both to start; return both to stop.'
+    : 'Zone-only mode: detects hand position only. Use this if the camera cannot recognize an open resting hand.';
+});
 function bindTestPad(id,side){
   const b=$(id);let active=false;
   const apply=value=>{
@@ -368,7 +402,7 @@ function bindTestPad(id,side){
 }
 bindTestPad('testLeft','left');bindTestPad('testRight','right');
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden){camLeft=camRight=false;sendPads(true);if(cameraSource==='local'&&engine.phase!=='running')engine.reset();}
+  if(document.hidden){restDetector.reset();camLeft=camRight=camSeenLeft=camSeenRight=false;sendPads(true);if(cameraSource==='local'&&engine.phase!=='running')engine.reset();}
 });
 if(params.get('code'))$('inputCode').value=normalCode(params.get('code'));
 if(['phone','laptop'].includes(params.get('mode')))showMode(params.get('mode'));
