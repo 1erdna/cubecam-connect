@@ -69,6 +69,13 @@ export class TimerEngine {
     return this.phase;
   }
   elapsed(now){
-    return this.phase==='running'&&this.startedAt!==null?Math.max(0,now-this.startedAt):this.lastMs;
+    if(this.phase==='running'&&this.startedAt!==null){
+      // Freeze on the first credible both-hands placement during confirmation.
+      // If the placement is rejected, resume the live clock automatically.
+      if(this.stopConfirmAt!==null&&this.stopAt!==null)
+        return Math.max(0,this.stopAt-this.startedAt);
+      return Math.max(0,now-this.startedAt);
+    }
+    return this.lastMs;
   }
 }
