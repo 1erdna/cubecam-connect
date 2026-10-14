@@ -1,0 +1,367 @@
+/* 1ERDNA / Studio IV — Original hard-edge blue brand system.
+   Intentional flat surfaces, editorial typography, precise rules, no glass or blur.
+   Zero JavaScript dependencies; all interaction logic remains in existing files. */
+:root{
+  color-scheme:dark;
+  --bg:#05070b;
+  --panel:#0b1018;
+  --surface:#0e1620;
+  --border:#263543;
+  --ink:#eef5fa;
+  --muted:#89a0b2;
+  --mint:#29baff;
+  --cyan:#29baff;
+  --brand:#27b8ff;
+  --brandLight:#93dfff;
+  --brandRule:#2d526c;
+  --yellow:#ffc278;
+  --red:#ff8295;
+  --shadow:none;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  color:var(--ink);
+  background:#05070b;
+  background-image:none;
+  font:14px/1.55 'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  letter-spacing:-.006em;
+  font-synthesis:none
+}
+.shell{width:min(1460px,100%);padding:22px clamp(16px,3.3vw,48px) 52px}
+a{color:var(--brandLight)}
+::selection{background:#2079ae;color:white}
+:focus-visible{outline:2px solid #7bd6ff!important;outline-offset:3px}
+
+/* 01 — Wordmark, masthead and route intro */
+.header{
+  border-bottom:1px solid #2d3d4e;
+  margin-bottom:36px;
+  padding:0 0 19px;
+  align-items:center;
+  gap:16px;
+}
+.header::after{display:none}
+.headerBrand{display:flex;align-items:center;gap:16px;min-width:0}
+.brandEmblem{
+  width:50px;height:50px;flex:0 0 50px;
+  border:2px solid var(--brand);
+  color:var(--brand);
+  display:grid;place-items:center;
+  position:relative;
+  font:700 22px/1 'Space Grotesk',sans-serif;
+  letter-spacing:-1px
+}
+.brandEmblem::before,.brandEmblem::after{
+  content:"";position:absolute;
+  background:#05070b;
+  width:15px;height:5px
+}
+.brandEmblem::before{right:-7px;top:7px}
+.brandEmblem::after{left:-7px;bottom:7px}
+.mastheadLabel,.serialLabel,.sectionLead .eyebrow{
+  display:block;
+  color:#70a7cd;
+  font-size:10px;line-height:1.4;font-weight:800;letter-spacing:2.35px
+}
+.mastheadLabel{margin:0 0 5px}
+.brand{
+  font:700 clamp(22px,2vw,29px)/1.08 'Space Grotesk',sans-serif;
+  letter-spacing:-1.2px;display:flex;gap:4px;align-items:baseline;color:#fff
+}
+.brand::before{display:none}
+.brand span{color:var(--brand)}
+.brand small{font:800 10px 'DM Sans',sans-serif;letter-spacing:2.5px;color:#b9c8d6;border-left:1px solid #3a5265;padding-left:13px;margin-left:10px}
+.subtitle{font-size:10px;letter-spacing:1.15px;font-weight:600;margin:5px 0 0;color:#7e94a9;text-transform:none}
+.headerRight{display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap}
+.editionStamp{color:#62849c;font-size:10px;letter-spacing:1.8px;font-weight:800;white-space:nowrap}
+.online{
+  border:1px solid #334858;border-radius:2px;
+  padding:9px 13px;background:#0d1721;color:#b0c4d5;
+  letter-spacing:1px;text-transform:uppercase;
+  font-size:10px;font-weight:800
+}
+.online.good{border-color:#2985b6;color:#9ae6ff;background:#0b2131}
+.choose{
+  max-width:none;min-height:0;padding:clamp(35px,6vw,75px) 0 78px;
+  margin:0 auto;
+}
+.choose::before{display:none}
+.chooseEditorial{display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,.62fr);gap:30px;align-items:end;border-bottom:1px solid #294259;padding-bottom:40px}
+.introNumber{color:var(--brand);font:700 12px 'Space Grotesk',sans-serif;letter-spacing:2px;margin-bottom:21px}
+.choose h1{
+  font:700 clamp(52px,7.4vw,117px)/.91 'Space Grotesk',sans-serif;
+  letter-spacing:clamp(-6px,-.43vw,-2px);
+  text-transform:uppercase;
+  color:#f3f8ff;margin:0;
+  max-width:860px
+}
+.choose h1 span{display:block;color:var(--brand)}
+.choose p{max-width:460px;font-size:14px;line-height:1.8;color:#9eb1c0;margin:17px 0 0}
+.heroSigil{
+  justify-self:end;
+  display:flex;align-items:center;justify-content:center;
+  width:min(100%,330px);aspect-ratio:1;
+  position:relative;opacity:.95
+}
+.sigilOuter{
+  width:73%;aspect-ratio:1;
+  border:2px solid #2a8fbf;
+  transform:rotate(45deg);
+  display:grid;place-items:center;position:relative
+}
+.sigilOuter::before,.sigilOuter::after{
+  content:"";position:absolute;border:1px solid #296183;inset:16px
+}
+.sigilOuter::after{inset:44px;border-color:#53cbff}
+.sigilCore{color:#51ccff;font:700 clamp(42px,5vw,70px)/1 'Space Grotesk',sans-serif;transform:rotate(-45deg);letter-spacing:-5px}
+.sigilTag{
+  position:absolute;right:0;bottom:7%;
+  font:800 9px 'DM Sans',sans-serif;letter-spacing:2px;color:#789bb7;
+  padding:7px 0 0 10px;border-top:1px solid #346b8b
+}
+.chooseIntroBar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:27px 0 0;color:#7892a7;font-size:10px;letter-spacing:2px;font-weight:800;text-transform:uppercase}
+.chooseCards{margin-top:19px;gap:13px}
+.chooseCard{
+  min-height:205px;padding:24px 26px 26px;gap:12px;
+  border:1px solid #284457;border-radius:2px;
+  background:#0b111a;box-shadow:none;
+  position:relative;overflow:hidden
+}
+.chooseCard::before{content:"";position:absolute;left:0;top:0;width:65px;height:3px;background:#2c9ad6}
+.chooseCard::after{right:21px;top:18px;color:#5bb6e4;font-size:23px}
+.chooseCard:hover:not(:disabled){background:#101b27;border-color:#53bbed;box-shadow:none;transform:none}
+.chooseCard .emoji{
+  width:44px;height:44px;font:600 29px/1 'Space Grotesk',sans-serif;
+  display:grid;place-items:center;background:transparent;border:1px solid #3a6783;border-radius:0;color:#60c7ff;filter:none
+}
+.chooseCard b{font:700 clamp(21px,2.2vw,27px)/1.08 'Space Grotesk',sans-serif;color:#f4f8fd;text-transform:uppercase;letter-spacing:-1px}
+.chooseCard>span:last-child{color:#9cabb8;font-size:12px;max-width:360px;line-height:1.7}
+.chooseCard:focus-visible{outline:2px solid #7bd6ff;outline-offset:3px}
+
+/* 02 — Editorial section labels & structural system */
+.sectionLead{max-width:820px}
+.sectionLead h1{font:700 clamp(35px,4.3vw,63px)/1 'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:-2.7px;margin:0 0 8px}
+.sectionLead h1 span{color:var(--brand)}
+.sectionLead p{color:#839bb0;font-size:12px;margin:0}
+#laptop>.row.split.gap,#phone>.row.split.gap{
+  border-bottom:1px solid #2c4456;padding-bottom:24px;margin-bottom:23px
+}
+.eyebrow{color:#58bbe9;letter-spacing:2px;font-weight:800}
+h2{font:800 11px/1.3 'DM Sans',sans-serif;letter-spacing:1.8px;color:#c6ddef;text-transform:uppercase}
+.tiny,.message,.featureCaption{color:#879fb3}
+.layout{grid-template-columns:minmax(0,1fr) minmax(318px,378px);gap:16px}
+.stack,.visualRail,.phoneLayout{gap:14px}
+.panel,.timerPanel,.cameraDock,.enhancementPanel,.recorderPanel{
+  background:#0b1018;border:1px solid #2a3e50;box-shadow:none;border-radius:2px
+}
+.panel:hover,.timerPanel:hover,.cameraDock:hover{border-color:#3b6078;box-shadow:none}
+.panel{padding:24px}
+.sourcePanel,.pairPanel{background:#0b1119}
+.pairPanel .pairRow{border-bottom:1px solid #2a4052;padding-bottom:17px}
+.pairCode{color:#ecf6fd;font-weight:700;letter-spacing:5px}
+.fineprint{background:#0b1119;border-left:3px solid #245b7e}
+.fineprint b{color:#c2eaff}
+.sourceGrid{gap:10px}
+.sourceChoice{
+  min-height:166px;padding:21px 17px;
+  background:#0d1620;border:1px solid #2c3e51;border-radius:2px;color:#d9ecfa;box-shadow:none
+}
+.sourceChoice:hover:not(:disabled){background:#111f2c;border-color:#3d7294}
+.sourceChoice.active{
+  background:#102535;border-color:#2e9ed8;box-shadow:inset 3px 0 0 #31baff
+}
+.sourceChoice.active::after{border-radius:0;width:20px;height:20px;right:12px;top:12px;background:#1a99d9;color:#061019;font-weight:900}
+.sourceChoice .sourceNumber{color:#81aecb;letter-spacing:1.35px}
+.sourceChoice .sourceSymbol{color:#3fbeff}
+.sourceChoice strong{font:700 19px/1.1 'Space Grotesk',sans-serif;text-transform:uppercase;letter-spacing:-.4px}
+.sourceChoice>span:last-child{color:#94aabd}
+
+/* 03 — Hard-edged controls. Solid fills only. */
+button,select,input,.replayAction,.recorderDownload{
+  border-radius:2px;
+  background:#0e1924;
+  border:1px solid #31516a;
+  color:#e8f6ff;
+  box-shadow:none;
+  transition:background-color .17s ease,border-color .17s ease,color .17s ease
+}
+button{font-size:12px;font-weight:750;letter-spacing:.25px}
+button:hover:not(:disabled),.replayAction:hover,.recorderDownload:hover{
+  background:#15283a;border-color:#59c8ff;color:#fff;box-shadow:none;transform:none
+}
+button:active:not(:disabled){transform:translateY(1px)}
+button.primary,button.recorderStart{
+  background:#24b6f5;border-color:#24b6f5;color:#06131d;font-weight:850
+}
+button.primary:hover:not(:disabled),button.recorderStart:hover:not(:disabled){
+  background:#7cdbff;border-color:#7cdbff;color:#06131d;box-shadow:none
+}
+button.ghost{background:transparent;border:1px solid #334a5c;color:#abc7d8}
+button.danger{background:#24161d;color:#ffa8b6;border-color:#57343e}
+button.danger:hover:not(:disabled){background:#321b25;border-color:#ad6776}
+button:disabled{opacity:.43}
+select,input{border-radius:2px;background:#09121c;border-color:#365068}
+input[type=range]{accent-color:#31baff}
+#recordingTarget,#cameraDevice,#inputCode,.featureHeading select,#scrambleViewMode{
+  background:#09131e;border:1px solid #34516a;color:#e4f5ff;border-radius:2px
+}
+.replayAction,.zoneControlFooter button,.cubeOrbitReset{border-radius:2px}
+.recorderDownload{background:#0c4669;color:#d8f3ff;text-decoration:none}
+
+/* 04 — Cube presentation with clear geometry, not a generic widget */
+.scramblePanel{position:relative}
+.scramble{font:600 clamp(18px,2.15vw,27px)/1.6 'Space Grotesk',sans-serif;word-spacing:4px;letter-spacing:.5px;color:#eef8ff}
+.scramblePreview{border-top:1px solid #2f5167}
+.featureEyebrow{color:#7dbddf}
+.cubeStage{
+  background:#070d15;
+  border:1px solid #29485e;border-radius:1px;
+  min-height:285px;position:relative;overflow:hidden
+}
+.cubeStage::before,.cubeStage::after{
+  content:"";position:absolute;width:28px;height:28px;pointer-events:none;z-index:2
+}
+.cubeStage::before{left:10px;top:10px;border-left:2px solid #3fb7f0;border-top:2px solid #3fb7f0}
+.cubeStage::after{right:10px;bottom:10px;border-right:2px solid #3fb7f0;border-bottom:2px solid #3fb7f0}
+.cubeFace{border-color:#040b13;border-radius:2px;padding:3px;background:#08111a}
+.cubeSticker{border-radius:1px;box-shadow:inset 0 0 0 1px #060a1788}
+.scramble3D .cubeFace{border-radius:3px;box-shadow:0 0 0 1px #0005}
+.cubeOrbitHint{color:#8ab7d1}
+.cube3dStage:focus-visible{border-radius:0}
+.cubeOrbitReset:hover{background:#17364c}
+.cubeViewControls{gap:8px}
+#scrambleVisualHint{font-size:11px;text-transform:uppercase;letter-spacing:.8px}
+
+/* 05 — Hero stopwatch: brand instrument */
+.timerPanel{
+  border-color:#2f6e92;
+  padding:30px 25px 25px;background:#07121d;
+  position:relative;text-align:center;overflow:hidden
+}
+.timerPanel::before{display:none}
+.timerPanel::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:#29baff
+}
+.timerMeta,.timerFootline{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  font:800 9px/1.4 'DM Sans',sans-serif;
+  letter-spacing:1.7px;text-transform:uppercase;color:#739db8
+}
+.timerMeta span:last-child{color:#47bbf5}
+.timerPanel .clock{
+  color:#f5fbff;
+  font:600 clamp(76px,10.1vw,154px)/1 'Space Grotesk',sans-serif;
+  letter-spacing:clamp(-7px,-.7vw,-3px);
+  font-variant-numeric:tabular-nums;
+  margin:27px 0 16px;
+  text-shadow:none;filter:none
+}
+.timerPanel .clock.arming{color:#ffc278;text-shadow:none}
+.timerPanel .clock.ready{color:#35c6ff;text-shadow:none}
+.timerPanel .clock.running{color:#fff;text-shadow:none}
+.phase{font-size:11px;letter-spacing:2.35px;color:#55c7fd}
+.hint{color:#8fa9bf;min-height:24px;margin:7px auto 22px;font-size:12px;max-width:450px}
+.padStatus,.sensor{
+  background:#0b1d2b;color:#90a9bd;
+  border:1px solid #305069;border-radius:2px;
+  letter-spacing:.8px;font-weight:800;font-size:10px
+}
+.padStatus.on,.sensor.on{
+  color:#d8f6ff;background:#11445f;border-color:#45c5ff;box-shadow:none
+}
+.timerFootline{border-top:1px solid #284b65;margin-top:20px;padding-top:16px}
+.timerFootline span:last-child{color:#badff4}
+.timerPanel .centered{color:#7897ab;margin-top:14px;line-height:1.6}
+
+/* 06 — Camera monitor, statistics, replay, media */
+.cameraDock{
+  top:13px;padding:20px 18px;background:#0a111a;border-color:#31566e
+}
+.dockEyebrow{color:#a7dfff;font-size:10px;letter-spacing:1.6px}
+.dockTitle{font:700 24px/1 'Space Grotesk',sans-serif;color:#f3f8ff;text-transform:uppercase;letter-spacing:-.8px;margin:16px 0 9px}
+.dockMode{border-radius:2px;background:#0b2334;border:1px solid #2d6582;color:#85cffa;padding:5px 7px}
+.dockSubtitle{color:#8da6b9;line-height:1.65}
+.livePulse{border-radius:0;box-shadow:none;background:#39c0ff;transform:rotate(45deg)}
+.remoteVideoFrame,.cameraFrame,#localCameraHolder .cameraFrame{
+  background:#060b12;border:1px solid #2b4b61;border-radius:1px
+}
+.remotePlaceholder,.cameraPlaceholder{background:#080f19;color:#91aabd}
+.remoteGuide,.zoneDragHandle{border-radius:1px}
+.remoteGuide.detected{box-shadow:none;background:#1da7ef39}
+.zoneDragHandle{box-shadow:none;background:#0a6ea815}
+.zoneDragHandle:before{border-radius:1px;background:#061422;color:#c1eaff}
+.zoneDragHandle.dragging,.zoneDragHandle:focus-visible{box-shadow:none}
+.remoteStatus span.active{color:#8ce0ff;text-shadow:none}
+.previewPermission,.lockedDetection{background:#091620;border:1px solid #2f475a;border-radius:1px}
+.lockedDetectionItem small{border-radius:1px;background:#0d2c43;border-color:#356d8b;color:#8edcff}
+.stats{gap:1px;background:#263d50;border:1px solid #2e485d}
+.stats>div{border:0;border-radius:0;background:#0d1824;padding:14px}
+.stats span{font-size:10px;letter-spacing:1.2px;color:#90a8bd}
+.stats strong{font:650 32px/1.15 'Space Grotesk',sans-serif;color:#eff9ff}
+.stats>div:first-child strong,.stats>div:nth-child(2) strong{color:#73d5ff}
+.history li{border-color:#263d50;color:#88a0b5}
+.history li span{color:#f2f9ff}
+.recorderPanel,.enhancementPanel{background:#0b111a;border-color:#2d4357;box-shadow:none}
+.recorderLivePreview,.recorderResult,.replayPlayerPanel{
+  border-radius:1px;border-color:#30485f;background:#08131d
+}
+.recorderBadge{border-radius:2px}
+.recorderBadge[data-state="recording"]{background:#32141c;color:#ffd3db;box-shadow:none}
+#studioRecordingCanvas,#recordingPlayback,#replayPlayer{border-radius:0}
+.recorderDownload{border-radius:1px;background:#164667}
+.replayCard{border-radius:1px;background:#0c1722;border-color:#2b4254}
+.replayAction{background:#11283a;border-radius:1px}
+.replayAction:hover{background:#173b58}
+.replayEmpty{border-radius:1px}
+.replayPlayerPanel{border-radius:1px}
+
+/* 07 — Responsive, no visual noise */
+@media(max-width:1120px){
+  .layout{grid-template-columns:minmax(0,1fr) minmax(292px,340px);gap:13px}
+  .shell{padding-inline:20px}
+  .panel{padding:19px}
+  .timerPanel .clock{font-size:clamp(73px,9.5vw,125px)}
+}
+@media(max-width:800px){
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .visualRail{gap:14px}
+  .cameraDock{position:relative;top:auto}
+  .chooseEditorial{grid-template-columns:1fr;gap:22px}
+  .heroSigil{width:188px;justify-self:start;margin:9px 0 4px}
+  .choose{padding-top:28px}
+  .choose h1{font-size:clamp(50px,11vw,86px)}
+  .sectionLead h1{font-size:clamp(33px,7.5vw,60px)}
+  .timerPanel .clock{font-size:clamp(76px,15vw,124px)}
+}
+@media(max-width:560px){
+  .shell{padding:15px 12px 30px}
+  .header{padding-bottom:18px;margin-bottom:23px}
+  .brandEmblem{width:39px;height:39px;flex-basis:39px;font-size:18px}
+  .headerBrand{gap:10px}
+  .brand{font-size:22px}
+  .brand small{font-size:8px;letter-spacing:1.2px;margin-left:5px;padding-left:8px}
+  .mastheadLabel{letter-spacing:1.4px;font-size:8px}
+  .subtitle{font-size:9px}
+  .headerRight{gap:8px}
+  .editionStamp{display:none}
+  .online{padding:7px 9px;font-size:9px}
+  .choose{padding:25px 0 48px}
+  .choose h1{font-size:clamp(45px,12vw,70px);letter-spacing:-3px}
+  .heroSigil{width:142px}
+  .chooseEditorial{padding-bottom:25px}
+  .chooseIntroBar{letter-spacing:1.2px;font-size:9px}
+  .chooseCard{min-height:160px;padding:18px}
+  .panel{padding:17px 14px}
+  .timerPanel{padding:21px 10px}
+  .timerPanel .clock{font-size:clamp(64px,16vw,97px);letter-spacing:-4px;margin:25px 0 17px}
+  .timerMeta,.timerFootline{font-size:8px;letter-spacing:1px}
+  .sectionLead h1{letter-spacing:-1.7px}
+  #laptop>.row.split.gap,#phone>.row.split.gap{gap:14px;align-items:flex-start}
+  .scramble{font-size:18px}
+  .padStatus{padding:9px 7px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
