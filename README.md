@@ -53,6 +53,46 @@ Your time gets saved and the next scramble shows up. Repeat until you say *last 
 
 If the camera is being annoying, use the **Spacebar** or the manual start/stop button instead.
 
+## Studio v3 — the pretty and useful stuff 💙
+
+Everything still runs on the same static GitHub Pages website. No login or backend needed.
+
+**Visual scrambles:** Under the scramble notation, switch between **2D cube net** and
+**3D cube**. The original JavaScript facelet renderer supports 2×2 and 3×3 and
+updates whenever cubing.js (or the offline fallback) generates new moves.
+These show the *scrambled state*, not an animation of the moves.
+
+**Performance graph:** Scroll below the timer to see the last 35 solves for
+your currently selected cube size, including a rolling Ao5 line and a fastest
+solve guide. Graphs follow the solve records already saved in localStorage;
+switching between 2×2 and 3×3 updates the graph. No personal data is uploaded.
+
+**Drag your hand zones:** Start the webcam on your laptop or phone, then drag
+the transparent blue zone areas left or right by the **↔ DRAG** handles.
+The *actual hand detector* follows these positions, not just the rectangles.
+You can use keyboard Left/Right arrows while a handle is focused.
+Use **Reset zone positions** to restore the default placement. The width and
+height sliders still work, and the zone position is saved in this browser.
+For a paired phone with **Share live video** enabled, you can also move the
+visible zones on the laptop, and it sends the settings back to the phone.
+
+**Better midnight-blue design:** Lightweight original CSS updates, smoother
+cards, compact controls, and animated 3D preview. Reduced-motion preferences
+disable optional animation.
+
+**Replay Vault:** When you stop a recording, Cube Lab attempts to save
+the clip **locally in IndexedDB**. Find it under **06 · Replay vault** and use
+**Watch**, **Save**, or **Delete**. This does not upload the video anywhere.
+IndexedDB is limited by your browser's storage quota and can be cleared with
+site data/private browsing, so **download important videos for backup**.
+The recorder's immediate preview and download button still work even if local
+replay storage is unavailable.
+
+There are **no new external JavaScript libraries** in Studio v3. The new
+renderer, graph, replay gallery, drag behavior, and styling were created for
+this repo using standard browser APIs. Existing dependency licenses are listed
+in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ## Wanna record a session? 🎬
 
 Open **Timer dashboard → 04 · Cube Lab Recorder**.
@@ -69,7 +109,7 @@ You can still choose **Browser tab/window** in the dropdown if you specifically 
 
 **Camera tip:** With a laptop webcam, start it normally so its live feed appears in the recording. With a paired phone, enable **Share live video with laptop** on the phone for the camera image to appear in the recording. Without that permission, the timer and stats still record, but the camera section shows a placeholder.
 
-This feature is **opt-in, silent, private, and local**. Nothing is uploaded; browser recording support (Canvas capture + MediaRecorder) is required. Keep the Cube Lab tab visible while recording, and **download before reloading or closing**, because clips aren't saved permanently on the website. The default export is WebM, subject to browser support. The clean recording layout represents your Cube Lab session rather than being a pixel-for-pixel copy of its scrolling page.
+This feature is **opt-in, silent, private, and local**. Nothing is uploaded; browser recording support (Canvas capture + MediaRecorder) is required. Keep the Cube Lab tab visible while recording. The new Replay Vault also tries to keep clips in this browser across reloads, but **download important clips** because local browser storage is not a guaranteed backup. The default export is WebM, subject to browser support. The clean recording layout represents your Cube Lab session rather than being a pixel-for-pixel copy of its scrolling page.
 
 ## Rest your hands, then solve ✋
 
