@@ -7,6 +7,7 @@
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
   <link rel="stylesheet" href="style.css?v=locked-20261014-v1">
   <link rel="stylesheet" href="enhancements.css?v=orbit-20261014-v1">
+  <link rel="stylesheet" href="brand-v4.css?v=brand-20261014-v1">
   <script defer src="zone-drag.js?v=studio-20261014-v1"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js?v=locked-20261014-v1"></script>
@@ -19,23 +20,46 @@
 <body>
 <main class="shell">
   <header class="header">
-    <div><div class="brand">1ER<span>DNA</span> <small>CUBE LAB</small></div><p class="subtitle">Andrei’s personal speedcubing studio</p></div>
-    <div class="online" id="linkStatus" role="status">● Not paired</div>
+    <div class="headerBrand">
+      <div class="brandEmblem" aria-hidden="true">1E</div>
+      <div>
+        <span class="mastheadLabel">INDEPENDENT SPEEDCUBING STUDIO</span>
+        <div class="brand">1ER<span>DNA</span> <small>CUBE LAB</small></div>
+        <p class="subtitle">A purpose-built space for faster solves.</p>
+      </div>
+    </div>
+    <div class="headerRight">
+      <span class="editionStamp">STUDIO / 004</span>
+      <div class="online" id="linkStatus" role="status">● Not paired</div>
+    </div>
   </header>
   <div class="choose" id="choose">
-    <div class="eyebrow">CHOOSE THIS DEVICE</div>
-    <h1>Every solve, a little better.</h1>
-    <p>A minimal space to practice, improve, and chase your next personal best. One timer, two camera options. Use your laptop webcam or pair your phone.</p>
+    <div class="chooseEditorial">
+      <div>
+        <div class="introNumber">01 / PERSONAL TRAINING INSTRUMENT</div>
+        <h1>BUILD SPEED.<span>BEAT TIME.</span></h1>
+        <p>A focused cubing station for real practice. One precise timer, live hand detection, visual scrambles and your personal records — all in one place.</p>
+      </div>
+      <div class="heroSigil" aria-hidden="true">
+        <div class="sigilOuter"><span class="sigilCore">1E</span></div>
+        <span class="sigilTag">MEASURE / IMPROVE / REPEAT</span>
+      </div>
+    </div>
+    <div class="chooseIntroBar"><span>SELECT YOUR WORKSTATION</span><span>01 / 02</span></div>
     <div class="chooseCards">
-      <button id="chooseLaptop" class="chooseCard"><span class="emoji">💻</span><b>Timer dashboard</b><span>Choose laptop webcam or paired phone, then start solving.</span></button>
-      <button id="choosePhone" class="chooseCard"><span class="emoji">📱</span><b>Hand-tracking camera</b><span>Turn your iPhone into a hands-free start and stop sensor.</span></button>
+      <button id="chooseLaptop" class="chooseCard"><span class="emoji" aria-hidden="true">⌘</span><b>Timer dashboard</b><span>Choose laptop webcam or paired phone, then start solving.</span></button>
+      <button id="choosePhone" class="chooseCard"><span class="emoji" aria-hidden="true">◎</span><b>Hand-tracking camera</b><span>Turn your iPhone into a hands-free start and stop sensor.</span></button>
     </div>
   </div>
 
   <section id="laptop" class="hidden">
     <div class="row split gap">
-      <div><div class="eyebrow">LAPTOP DISPLAY</div><h1>Focus on the next solve.</h1></div>
-      <button id="changeLaptop" class="ghost">Change device</button>
+      <div class="sectionLead">
+        <div class="eyebrow">02 / LIVE TRAINING STATION</div>
+        <h1>THE SOLVE <span>STARTS HERE.</span></h1>
+        <p>Focus on your next time. Everything else stays out of the way.</p>
+      </div>
+      <button id="changeLaptop" class="ghost">↗ Change device</button>
     </div>
     <div class="layout">
       <div class="stack">
@@ -58,7 +82,7 @@
           <div class="pairRow"><div><div class="tiny">PAIRING CODE</div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Create code</button></div>
           <div class="row wrap"><button id="copyPhoneLink" disabled>Copy phone link</button><span class="tiny" id="hostHint">Create a code, then type it on your phone.</span></div>
         </div>
-        <div class="panel">
+        <div class="panel scramblePanel">
           <div class="row split wrap"><h2>03 · Scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble">New scramble ↻</button></div></div>
           <div id="scramble" class="scramble">Loading scramble…</div>
           <div id="scrambleHint" class="tiny">Loading scramble engine</div>
@@ -81,12 +105,14 @@
           </div>
         </div>
         <div class="timerPanel">
+          <div class="timerMeta"><span>1ERDNA / PERFORMANCE TIMER</span><span>STATION — 01</span></div>
           <div id="clock" class="clock">0.00</div>
           <div id="phase" class="phase">WAITING FOR HANDS</div>
           <div id="help" class="hint">Place both hands flat in the blue zones, then lift to start.</div>
           <div class="row center padIndicators"><div class="padStatus" id="leftStatus">✋ LEFT · OFF</div><div class="padStatus" id="rightStatus">✋ RIGHT · OFF</div></div>
           <div class="row center wrap"><button id="manualStopStart" class="ghost">Manual start / stop (Space)</button><button id="resetTimer" class="ghost">Reset timer</button></div>
-          <p class="tiny centered">Both hands down → READY → lift to start → return both open hands to stop. A confirmed stop uses the first stable placement time. Practice timing only.</p>
+          <div class="timerFootline"><span>TO ARM / BOTH HANDS DOWN</span><span>TO STOP / BOTH HANDS RESTING</span></div>
+          <p class="tiny centered">Lift both hands to start. Return both hands open and still to stop. Camera timing is for practice.</p>
         </div>
 
         <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
@@ -170,7 +196,7 @@
   </section>
 
   <section id="phone" class="hidden">
-    <div class="row split gap"><div><div class="eyebrow">PHONE SENSOR</div><h1>Your phone, your sensor.</h1></div><button id="changePhone" class="ghost">Change device</button></div>
+    <div class="row split gap"><div class="sectionLead"><div class="eyebrow">03 / WIRELESS SENSOR</div><h1>YOUR PHONE. <span>YOUR SENSOR.</span></h1><p>One camera. Two hands. Every millisecond counts.</p></div><button id="changePhone" class="ghost">↗ Change device</button></div>
     <div class="phoneLayout">
       <div class="panel">
         <h2>01 · Connect to laptop</h2>
@@ -210,7 +236,7 @@
       </div>
     </div>
   </section>
-  <footer>1ERDNA CUBE LAB · MIDNIGHT BLUE · STUDIO v3.1 · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
+  <footer>1ERDNA CUBE LAB · BLACK / NEON BLUE · STUDIO IV · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
 </main>
 </body>
 </html>
