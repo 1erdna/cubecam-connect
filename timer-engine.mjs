@@ -2,9 +2,9 @@
 const STOP_CONFIRMATION_MS={responsive:140,balanced:275,strict:425};
 export class TimerEngine {
   constructor(onSolve=()=>{}){
-    this.onSolve=onSolve;this.stopProfile='balanced';this.reset();
+    this.onSolve=onSolve;this.stopProfile='strict';this.reset();
   }
-  setStopProfile(profile='balanced'){
+  setStopProfile(profile='strict'){
     this.stopProfile=Object.hasOwn(STOP_CONFIRMATION_MS,profile)?profile:'balanced';
   }
   feed(left,right,{now,leftSince,rightSince}={}){
