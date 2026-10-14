@@ -6,10 +6,15 @@
   <meta name="theme-color" content="#070b14">
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
   <link rel="stylesheet" href="style.css?v=precision-20261013-v2">
+  <link rel="stylesheet" href="enhancements.css?v=studio-20261014-v1">
+  <script defer src="zone-drag.js?v=studio-20261014-v1"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js?v=precision-20261013-v2"></script>
   <link rel="modulepreload" href="hand-rest-detector.mjs?v=precision-20261013-v2">
-  <script type="module" src="recorder.js?v=website-rec-20261013-v1"></script>
+  <script type="module" src="recorder.js?v=studio-20261014-v1"></script>
+  <script type="module" src="cube-preview.js?v=studio-20261014-v1"></script>
+  <script type="module" src="performance.js?v=studio-20261014-v1"></script>
+  <script type="module" src="replay-gallery.js?v=studio-20261014-v1"></script>
 </head>
 <body>
 <main class="shell">
@@ -57,6 +62,19 @@
           <div class="row split wrap"><h2>03 · Scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble">New scramble ↻</button></div></div>
           <div id="scramble" class="scramble">Loading scramble…</div>
           <div id="scrambleHint" class="tiny">Loading scramble engine</div>
+          <div class="scramblePreview" id="scramblePreview">
+            <div class="featureHeading">
+              <span class="featureEyebrow">VISUAL SCRAMBLE · 2D / 3D</span>
+              <select id="scrambleViewMode" aria-label="Scramble preview style">
+                <option value="2d" selected>2D cube net</option><option value="3d">3D cube</option>
+              </select>
+            </div>
+            <div class="cubeStage">
+              <div class="scrambleNet" id="scrambleNet" aria-label="Cube faces after scramble"></div>
+              <div class="cube3dStage hidden"><div class="scramble3D" id="scramble3D" aria-label="Three-dimensional scrambled cube"></div></div>
+            </div>
+            <p class="featureCaption" id="scrambleVisualHint">Waiting for a scramble…</p>
+          </div>
         </div>
         <div class="timerPanel">
           <div id="clock" class="clock">0.00</div>
@@ -67,9 +85,19 @@
           <p class="tiny centered">Both hands down → READY → lift to start → return both open hands to stop. A confirmed stop uses the first stable placement time. Practice timing only.</p>
         </div>
 
+        <section class="panel enhancementPanel" id="performancePanel" aria-labelledby="performanceHeading">
+          <div class="featureHeading">
+            <h2 id="performanceHeading">04 · Solve performance</h2>
+            <span class="featureEyebrow" id="performanceSummary">Waiting for solves</span>
+          </div>
+          <div class="performanceWrap"><canvas id="performanceChart" role="img" aria-label="Solve time performance chart with average of 5 and personal best"></canvas></div>
+          <div class="performanceLegend"><span>Individual solves</span><span class="legendAvg">Ao5 trend</span><span class="legendPb">Fastest solve</span></div>
+          <p class="featureCaption" id="performanceEmpty">Your graph appears after the first solve.</p>
+        </section>
+
         <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
           <div class="row split wrap recorderHeadingRow">
-            <h2 id="recordingHeading">04 · CUBE LAB RECORDER</h2>
+            <h2 id="recordingHeading">05 · CUBE LAB RECORDER</h2>
             <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">NOT RECORDING</span>
           </div>
           <p class="recorderIntro">Record <strong>only your Cube Lab session</strong> — timer, scramble, camera, and stats. No browser tabs, desktop, or Opera sharing window.</p>
@@ -97,6 +125,17 @@
           </div>
           <p class="recorderPrivacy">Opt-in &amp; local · Only Cube Lab content is captured in website mode · Silent video · Download before leaving this page.</p>
         </section>
+        <section class="panel enhancementPanel" id="replayGalleryPanel" aria-labelledby="replayHeading">
+          <div class="featureHeading"><h2 id="replayHeading">06 · Replay vault</h2><span class="featureEyebrow" id="replayStorageNote">Local recordings only</span></div>
+          <p class="featureCaption">Your videos stay on this device in browser storage. Watch, download, or delete recordings whenever you want.</p>
+          <p class="featureCaption" id="replayStatus" role="status">Opening your local recordings…</p>
+          <ol id="replayList" class="replayList" aria-label="Saved solve recordings"></ol>
+          <div class="replayPlayerPanel hidden" id="replayPlayerPanel">
+            <strong id="replayPlayerTitle">Replay</strong>
+            <video id="replayPlayer" controls playsinline preload="metadata"></video>
+          </div>
+          <p class="recorderPrivacy">Recordings are saved locally when storage is available, but can be lost if browser data is cleared. Download important clips for backup.</p>
+        </section>
       </div>
       <aside class="visualRail">
         <div class="cameraDock" id="cameraDock">
@@ -113,10 +152,15 @@
                 <div class="remoteGuide left" id="remoteLeftZone"><span>LEFT HAND</span></div>
                 <div class="remoteGuide right" id="remoteRightZone"><span>RIGHT HAND</span></div>
               </div>
+              <div class="remoteDragLayer" id="remoteDragLayer" aria-label="Adjust the paired phone detection zones">
+                <div class="zoneDragHandle" id="remoteDragLeft" role="button" tabindex="0" aria-label="Drag the left phone hand zone"></div>
+                <div class="zoneDragHandle" id="remoteDragRight" role="button" tabindex="0" aria-label="Drag the right phone hand zone"></div>
+              </div>
               <div class="remotePlaceholder" id="remotePlaceholder"><div class="remoteCameraIcon">⌗</div><strong>Camera preview</strong><span>Connect your phone and enable Share live video on the phone.</span></div>
             </div>
             <div class="remoteStatus row split"><span id="remoteLeftStatus">○ LEFT · WAITING</span><span id="remoteRightStatus">○ RIGHT · WAITING</span></div>
             <div class="dockFooter"><span>BLUE = HAND ZONES</span><span>BRIGHT = DETECTED</span></div>
+            <div class="zoneControlFooter"><span class="featureCaption">Drag zone edges to move them</span><button type="button" id="resetRemoteZones">Reset positions</button></div>
           </div>
         </div>
         <div class="panel"><h2>Session statistics</h2><div class="stats">
@@ -144,6 +188,10 @@
         <div class="row wrap cameraPicker"><label class="tiny" for="cameraDevice">Camera source</label><select id="cameraDevice" aria-label="Select webcam"><option value="">Default camera</option></select></div>
         <div class="cameraFrame" id="cameraFrame">
           <video id="cameraVideo" playsinline muted autoplay></video><canvas id="cameraOverlay"></canvas>
+          <div class="zoneDragLayer" id="zoneDragLayer" aria-label="Drag hand zones to adjust position">
+            <div class="zoneDragHandle" id="dragLeftZone" role="button" tabindex="0" aria-label="Drag left hand detection zone"></div>
+            <div class="zoneDragHandle" id="dragRightZone" role="button" tabindex="0" aria-label="Drag right hand detection zone"></div>
+          </div>
           <div class="cameraPlaceholder" id="cameraPlaceholder">📷<br>Start camera and point it down at your cube and both hands.</div>
         </div>
         <div class="previewPermission">
@@ -168,6 +216,7 @@
         <p class="tiny restDetectorHint">Try <b>Extra safe</b> if the timer stops while you're holding the cube. Try <b>Responsive</b> if placing both hands down isn't recognized quickly. Times are estimated from camera frames, not physical table sensors.</p>
         <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="28"><span id="zoneWidthDisplay">28%</span></div>
         <div class="rangeRow"><label for="zoneTop">Zone starts at</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
+        <div class="zoneControlFooter"><span class="featureCaption">Drag the blue boxes left or right in the live camera view.</span><button type="button" id="resetZonePosition">Reset zone positions</button></div>
         <div class="message" id="cameraMessage" role="status">The phone needs HTTPS, internet and permission to use the camera.</div>
       </div>
       <div class="panel"><h2>03 · Test the connection (without camera)</h2>
@@ -177,7 +226,7 @@
       </div>
     </div>
   </section>
-  <footer>1ERDNA CUBE LAB · MIDNIGHT BLUE v2.1 · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
+  <footer>1ERDNA CUBE LAB · MIDNIGHT BLUE · STUDIO v3 · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
 </main>
 </body>
 </html>
