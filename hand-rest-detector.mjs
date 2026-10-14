@@ -29,7 +29,7 @@ function newState(){
   return {anchor:null,previous:null,previousAt:null,steadySince:null,active:false,activeSince:null,interruptedAt:null};
 }
 export class HandRestDetector {
-  constructor({profile='balanced'}={}){
+  constructor({profile='strict'}={}){
     this.setProfile(profile);
   }
   setProfile(profile){
@@ -38,7 +38,7 @@ export class HandRestDetector {
     this.reset();
   }
   reset(){this.states=[newState(),newState()];}
-  update(hands,zones,now,{mirror=false,mode='rest'}={}){
+  update(hands,zones,now,{mirror=false}={}){
     const candidate=[null,null];
     for(const hand of (Array.isArray(hands)?hands:[])){
       if(!Array.isArray(hand)||hand.length<21||
@@ -53,10 +53,6 @@ export class HandRestDetector {
     }
     const active=candidate.map((c,i)=>{
       const state=this.states[i];
-      if(mode==='zone'){
-        this.states[i]=newState();
-        return Boolean(c);
-      }
       const eligible=Boolean(c&&c.fingers>=this.settings.minStraightFingers);
       if(!eligible){
         state.anchor=null;state.previous=null;state.previousAt=null;state.steadySince=null;
@@ -98,8 +94,8 @@ export class HandRestDetector {
     const left=active[0],right=active[1];
     return {
       left,right,
-      leftSince:left&&mode!=='zone'?this.states[0].activeSince:null,
-      rightSince:right&&mode!=='zone'?this.states[1].activeSince:null,
+      leftSince:left?this.states[0].activeSince:null,
+      rightSince:right?this.states[1].activeSince:null,
       seenLeft:Boolean(candidate[0]),seenRight:Boolean(candidate[1]),
       openLeft: Boolean(candidate[0]?.fingers>=this.settings.minStraightFingers),
       openRight:Boolean(candidate[1]?.fingers>=this.settings.minStraightFingers)
