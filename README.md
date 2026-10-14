@@ -62,6 +62,13 @@ Everything still runs on the same static GitHub Pages website. No login or backe
 updates whenever cubing.js (or the offline fallback) generates new moves.
 These show the *scrambled state*, not an animation of the moves.
 
+**Orbit the 3D cube:** Select **3D cube**, then click and drag the cube display
+with a mouse to inspect **all six sides**. It also works with touch drag on phones.
+Double-click the preview or press **↺ Reset view** to return to the starting angle.
+For keyboard use, focus the 3D preview, press arrow keys to rotate it, and press
+**R** or **Home** to reset. Rotation is manual rather than automatically spinning,
+so the view stays where you place it.
+
 **Drag your hand zones:** Start the webcam on your laptop or phone, then drag
 the transparent blue zone areas left or right by the **↔ DRAG** handles.
 The *actual hand detector* follows these positions, not just the rectangles.
