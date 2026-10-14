@@ -254,11 +254,7 @@ footer{border-top-color:#243855;color:#718aab}
 
 /* Resting-hands recognition controls (reused in laptop and phone camera modes). */
 .restDetectorHint{margin:0 0 10px;color:#90abc9;font-size:11px;line-height:1.65}
-#detectionMode{flex:2;min-width:0;max-width:100%;padding:8px 10px;border:1px solid #325b7e;border-radius:10px;background:#091e34;color:#c5ecff;font-size:12px;font-weight:650;cursor:pointer}
-#detectionMode:focus-visible{outline:2px solid #3fc3ff;outline-offset:2px}
-#localCameraHolder #detectionMode{font-size:11px;flex:1;max-width:100%;width:100%}
 #localCameraHolder .restDetectorHint{font-size:10px;line-height:1.5}
-@media(max-width:440px){#detectionMode{flex:1 1 100%;width:100%}}
 
 /* Website-only recording: preview of the actual exported Cube Lab composition. */
 .recorderModeRow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:13px 0 15px}
@@ -273,7 +269,3 @@ footer{border-top-color:#243855;color:#718aab}
 @media(max-width:580px){.recorderModeRow{align-items:stretch;flex-direction:column;gap:6px}#recordingTarget{flex:none;width:100%}.recorderLivePreview{padding:8px}}
 
 /* Accuracy profiles share styling with the hand detection selector. */
-#precisionMode{flex:2;min-width:0;max-width:100%;padding:8px 10px;border:1px solid #325b7e;border-radius:10px;background:#091e34;color:#c5ecff;font-size:12px;font-weight:650;cursor:pointer}
-#precisionMode:focus-visible{outline:2px solid #3fc3ff;outline-offset:2px}
-#localCameraHolder #precisionMode{font-size:11px;flex:1;max-width:100%;width:100%}
-@media(max-width:440px){#precisionMode{flex:1 1 100%;width:100%}}
