@@ -53,7 +53,7 @@ Your time gets saved and the next scramble shows up. Repeat until you say *last 
 
 If the camera is being annoying, use the **Spacebar** or the manual start/stop button instead.
 
-## Studio v3 — the pretty and useful stuff 💙
+## Studio v3.1 — the pretty and useful stuff 💙
 
 Everything still runs on the same static GitHub Pages website. No login or backend needed.
 
@@ -61,11 +61,6 @@ Everything still runs on the same static GitHub Pages website. No login or backe
 **3D cube**. The original JavaScript facelet renderer supports 2×2 and 3×3 and
 updates whenever cubing.js (or the offline fallback) generates new moves.
 These show the *scrambled state*, not an animation of the moves.
-
-**Performance graph:** Scroll below the timer to see the last 35 solves for
-your currently selected cube size, including a rolling Ao5 line and a fastest
-solve guide. Graphs follow the solve records already saved in localStorage;
-switching between 2×2 and 3×3 updates the graph. No personal data is uploaded.
 
 **Drag your hand zones:** Start the webcam on your laptop or phone, then drag
 the transparent blue zone areas left or right by the **↔ DRAG** handles.
@@ -81,7 +76,7 @@ cards, compact controls, and animated 3D preview. Reduced-motion preferences
 disable optional animation.
 
 **Replay Vault:** When you stop a recording, Cube Lab attempts to save
-the clip **locally in IndexedDB**. Find it under **06 · Replay vault** and use
+the clip **locally in IndexedDB**. Find it under **05 · Replay vault** and use
 **Watch**, **Save**, or **Delete**. This does not upload the video anywhere.
 IndexedDB is limited by your browser's storage quota and can be cleared with
 site data/private browsing, so **download important videos for backup**.
@@ -89,13 +84,13 @@ The recorder's immediate preview and download button still work even if local
 replay storage is unavailable.
 
 There are **no new external JavaScript libraries** in Studio v3. The new
-renderer, graph, replay gallery, drag behavior, and styling were created for
+renderer, replay gallery, drag behavior, and styling were created for
 this repo using standard browser APIs. Existing dependency licenses are listed
 in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Wanna record a session? 🎬
 
-Open **Timer dashboard → 05 · Cube Lab Recorder**.
+Open **Timer dashboard → 04 · Cube Lab Recorder**.
 
 **Website-only recording is now the default.** It does *not* open the Opera screen-sharing chooser. Instead, Cube Lab makes a clean 1280×720 video of its own **timer, scramble, hand indicators, session stats, and live camera feed** (when your camera is on). It intentionally leaves out Opera's tabs, menus, other windows, notifications, and the desktop.
 
@@ -113,24 +108,20 @@ This feature is **opt-in, silent, private, and local**. Nothing is uploaded; bro
 
 ## Rest your hands, then solve ✋
 
-The camera timer now has **Resting hands** mode by default. It looks for both hands inside the blue zones, with reasonably open fingers and a short moment of steadiness, before counting them as placed down.
+The camera timer **always uses Resting hands mode with Extra safe stop accuracy**. Both hands must be open and stable inside their blue zones before a placement is recognized. These settings are locked and no longer offer alternate modes.
 
 1. Place **both hands open and still** in the left and right boxes.
 2. Wait for the timer to show **READY** (about 0.6 seconds after both hands are recognized as resting).
 3. Lift both hands to **start**.
 4. Solve, then put **both hands back down** in their boxes to **stop**.
 
-The boxes light up when the detector recognizes a resting hand. If your webcam angle or lighting makes this too picky, change **Hand detection** to **Zone only (original)**. The original option responds to hand position rather than open-hand posture.
+The blue boxes light up when the detector recognizes open, resting hands. The position-only fallback has been removed. If recognition seems too strict, adjust the camera's angle, lighting, or draggable box positions.
 
 **Heads up:** The camera estimates hand posture and steadiness — it cannot physically verify contact with the table. The extra check helps avoid accidental starts/stops but can add a small delay to the recorded time. For official timing, use physical sensors.
 
 ## Making the hand timer more reliable 🔵
 
-There are three **Stop accuracy** settings under the camera preview:
-
-- **Balanced (default):** requires at least three straight fingers and waits to confirm both hands are resting before saving a solve
-- **Extra safe:** requires all four fingers and holds longer to avoid false stops while you're still solving
-- **Responsive:** shorter checks, but more likely to accidentally register a stop
+The camera now permanently uses **Extra safe**. It requires all four fingers to appear open and steady, then confirms both hands have settled before recording a stop. This reduces false stops while solving but may reject poorly framed or curled hands.
 
 The site now rejects stale/frozen webcam detections. When it confirms a valid stop, it uses the estimated time your **second hand first settled** instead of adding the entire confirmation delay to your solve. A little display correction during confirmation is normal.
 
