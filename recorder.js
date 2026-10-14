@@ -112,12 +112,14 @@ function cameraFrame(x,y,w,h) {
       }else {
         // Recreate the paired-phone overlay from received live zone settings.
         const guides=rec('remoteGuides');
-        const zoneWidth=Math.min(.45,Math.max(.22,(parseFloat(guides?.style.getPropertyValue('--zone-width'))||28)/100));
+        const zoneWidth=Math.min(.45,Math.max(.20,(parseFloat(guides?.style.getPropertyValue('--zone-width'))||26.8)/100));
         const zoneTop=Math.min(.65,Math.max(.10,(parseFloat(guides?.style.getPropertyValue('--zone-top'))||32)/100));
+        const leftX=(parseFloat(guides?.style.getPropertyValue('--left-zone-x'))||1.2)/100;
+        const rightX=(parseFloat(guides?.style.getPropertyValue('--right-zone-x'))||72)/100;
         ['remoteLeftZone','remoteRightZone'].forEach((id,i)=>{
-          const xx=dx+dw*(i===0?.012:1-zoneWidth);
+          const xx=dx+dw*(i===0?leftX:rightX);
           const yy=dy+dh*zoneTop;
-          const ww=dw*(zoneWidth-.012),hh=dh*(.988-zoneTop);
+          const ww=dw*zoneWidth,hh=dh*(.988-zoneTop);
           studio.fillStyle=rec(id)?.classList.contains('detected')?'#32b9ff55':'#0879dc25';
           studio.fillRect(xx,yy,ww,hh);
           studio.strokeStyle='#55c6ff';studio.lineWidth=2;
@@ -320,6 +322,10 @@ async function startRecording(){
       downloadLink.download='1erdna-cubelab-'+new Date().toISOString().replace(/[:.]/g,'-')+'.'+ext;
       sizeText.textContent=(blob.size/(1024*1024)).toFixed(1)+' MB · '+ext.toUpperCase();
       result.classList.remove('hidden');
+      // The local replay vault listens for this event. No network upload occurs.
+      window.dispatchEvent(new CustomEvent('cubeLab:recordingReady',{
+        detail:{blob,name:downloadLink.download}
+      }));
       badgeStatus('CLIP READY','ready');
       message.textContent='Done! Watch your Cube Lab video below and click Download recording before leaving.';
     },{once:true});
