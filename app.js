@@ -148,6 +148,7 @@ function renderStats() {
     li.textContent='#'+(list.length-i);
     const span=document.createElement('span');span.textContent=display(r.ms)+' s';li.append(span);ul.append(li);
   }
+  window.dispatchEvent(new Event('cubeLab:stats'));
 }
 function randomIndex(n) {const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n;}
 function randomMoves(event) {
@@ -236,7 +237,12 @@ function connectPhone() {
       clearTimeout(connectionTimeout);
       $('joinButton').disabled=false;phoneMessage('Connected! Start camera or hold both test pads.');setStatus('Connected to laptop ✓',true);sendPads(true);startPhonePreview();
     });
-    c.on('data',()=>{});
+    c.on('data',msg=>{
+      if(phoneConn!==c||msg?.type!=='zoneAdjust')return;
+      if(Number.isFinite(msg.leftX)&&Number.isFinite(msg.rightX)){
+        window.CubeLabZones?.setPositions({leftX:msg.leftX,rightX:msg.rightX},{origin:'paired-laptop'});
+      }
+    });
     c.on('close',()=>{if(phoneConn===c){stopPhonePreview();phoneMessage('Laptop disconnected. Connect again using its code.');setStatus('Not paired');$('joinButton').disabled=false;}});
     c.on('error',e=>{phoneMessage('Connection issue: '+(e?.message||e));$('joinButton').disabled=false;});
   });
@@ -252,7 +258,8 @@ const restDetector=new HandRestDetector();
 let lastObserved=null,lastDetectionAt=0;
 const currentProfile=()=>$('precisionMode').value;
 const isRestMode=()=>$('detectionMode').value==='rest';
-function zones() {
+function zones(){
+  if(window.CubeLabZones)return window.CubeLabZones.zones();
   const width=Number($('zoneWidth').value)/100;
   const top=Number($('zoneTop').value)/100;
   return [{x0:.012,x1:width,y0:top,y1:.988},{x0:1-width,x1:.988,y0:top,y1:.988}];
@@ -285,9 +292,11 @@ function sendPads(force=false) {
       ?lastObserved?.[side+'Since']:null;
     const age=stamp=>Number.isFinite(stamp)&&stamp<=now
       ?Math.max(0,Math.min(800,now-stamp)):null;
+    const positions=window.CubeLabZones?.state()||{leftX:.012,rightX:1-Number($('zoneWidth').value)/100};
     phoneConn.send({type:'pads',left:pads.left,right:pads.right,
       leftAgeMs:age(since('left')),rightAgeMs:age(since('right')),
       profile:currentProfile(),
+      zoneLeft:positions.leftX,zoneRight:positions.rightX,
       zoneWidth:Number($('zoneWidth').value),zoneTop:Number($('zoneTop').value),
       mirror:video.classList.contains('front')});
   }
@@ -574,13 +583,27 @@ function updateDockPads(left,right,msg){
     $('remote'+side+'Zone').classList.toggle('detected',detected);
   }
   if(msg){
-    // Limit remote percentages to the slider range to keep guides on-screen.
+    // The paired laptop follows the actual normalized phone zone geometry.
     const width=Math.max(22,Math.min(45,Number(msg.zoneWidth)||28));
     const top=Math.max(10,Math.min(65,Number(msg.zoneTop)||32));
-    $('remoteGuides').style.setProperty('--zone-width',width+'%');
+    $('remoteGuides').style.setProperty('--zone-width',(width-1.2)+'%');
     $('remoteGuides').style.setProperty('--zone-top',top+'%');
+    if(Number.isFinite(msg.zoneLeft)&&Number.isFinite(msg.zoneRight)){
+      window.CubeLabZones?.remoteGuideUpdate({
+        leftX:msg.zoneLeft,rightX:msg.zoneRight,zoneWidth:width,zoneTop:top
+      });
+    }
     $('remotePhoneVideo').classList.toggle('front',Boolean(msg.mirror));
   }
 }
+window.addEventListener('cubeLab:zoneChanged',event=>{
+  restDetector.reset();lastObserved=null;lastDetectionAt=0;
+  camLeft=camRight=camSeenLeft=camSeenRight=camOpenLeft=camOpenRight=false;
+  sendPads(true);
+  if(event.detail?.remoteControl&&cameraSource==='phone'&&hostConn?.open){
+    hostConn.send({type:'zoneAdjust',
+      leftX:event.detail.leftX,rightX:event.detail.rightX});
+  }
+});
 $('remotePhoneVideo').addEventListener('click',()=>{$('remotePhoneVideo').play().catch(()=>{});});
 updateDockPads(false,false);
