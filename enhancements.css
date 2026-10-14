@@ -37,12 +37,6 @@ button:focus-visible,.replayAction:focus-visible{outline:2px solid #60d0ff;outli
 .scramble3D .cubeFace-R{transform:rotateY(90deg) translateZ(calc(var(--cube-size)/2))}
 .scramble3D .cubeFace-L{transform:rotateY(-90deg) translateZ(calc(var(--cube-size)/2))}
 @keyframes cubeOrbit{to{transform:rotateX(-18deg) rotateY(-45deg)}}
-.performanceWrap{position:relative;border:1px solid #213d5b;border-radius:13px;background:#091629;overflow:hidden;padding:5px}
-#performanceChart{width:100%;height:262px;display:block;cursor:crosshair;touch-action:pan-y}
-.performanceLegend{display:flex;flex-wrap:wrap;align-items:center;gap:16px;color:#91aecb;font-size:11px;margin:10px 0}
-.performanceLegend span:before{content:"";display:inline-block;margin-right:6px;width:15px;height:3px;vertical-align:middle;background:#45baff;border-radius:5px}
-.performanceLegend .legendAvg:before{background:#ac9bff}
-.performanceLegend .legendPb:before{background:#ffcc77}
 .replayList{list-style:none;padding:0;margin:12px 0;display:flex;flex-direction:column;gap:10px}
 .replayCard{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid #28466a;border-radius:11px;background:#091c31}
 .replayInfo{min-width:0;display:flex;flex-direction:column;gap:5px}
@@ -75,3 +69,12 @@ button:focus-visible,.replayAction:focus-visible{outline:2px solid #60d0ff;outli
  .replayAction{flex:1}
 }
 @media(prefers-reduced-motion:reduce){.scramble3D{animation:none}.panel,.timerPanel,.cameraDock,button,.sourceChoice{transition:none!important}}
+
+/* Fixed camera safety configuration — intentionally not interactive */
+.lockedDetection{border:1px solid #294a6b;border-radius:12px;background:linear-gradient(145deg,#0b2239,#091727);padding:12px 13px;margin:12px 0}
+.lockedDetectionItem{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+.lockedDetectionItem+.lockedDetectionItem{border-top:1px solid #233b58}
+.lockedDetectionItem>span{font-size:12px;color:#8eaecb;font-weight:600}
+.lockedDetectionItem strong{font-size:12px;color:#d2efff;display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end;text-align:right}
+.lockedDetectionItem small{font-size:9px;letter-spacing:.5px;border-radius:50px;padding:3px 7px;color:#7ad6ff;background:#0b3655;border:1px solid #286693}
+.lockedDetection .restDetectorHint{margin:7px 0 0;color:#89accb}
