@@ -53,6 +53,14 @@ Your time gets saved and the next scramble shows up. Repeat until you say *last 
 
 If the camera is being annoying, use the **Spacebar** or the manual start/stop button instead.
 
+## Studio IV — premium black + neon blue identity
+
+The current design is an original, editorial-style brand system: **flat midnight black surfaces, solid neon-blue accents, geometric framing, bold typography, and hard-edged controls**. Inspired by the visual discipline of premium brand identity work, it avoids frosted-glass effects, blur, shiny gradients, and generic AI-dashboard styling.
+
+The UI changes are implemented in `brand-v4.css` (loaded **after** the existing styles) with updated masthead, workstation selection, timer, scramble presentation, camera controls, recorder, and replay layout in `index.html`. This is a styling/layout update, not a rewrite of timing or camera logic. Existing functionality, stored PBs and solves, paired-phone sensor, website-only recording, replay vault, 2D/3D scrambles, draggable orbit, and draggable hand detection boxes are retained. Accessible contrast and reduced-motion handling are included.
+
+The page still uses the existing lightweight web stack—**HTML, CSS, and vanilla JavaScript**—with no extra design framework, blur library, image assets, or copied brand artwork.
+
 ## Studio v3.1 — the pretty and useful stuff 💙
 
 Everything still runs on the same static GitHub Pages website. No login or backend needed.
