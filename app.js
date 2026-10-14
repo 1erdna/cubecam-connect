@@ -148,7 +148,6 @@ function renderStats() {
     li.textContent='#'+(list.length-i);
     const span=document.createElement('span');span.textContent=display(r.ms)+' s';li.append(span);ul.append(li);
   }
-  window.dispatchEvent(new Event('cubeLab:stats'));
 }
 function randomIndex(n) {const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n;}
 function randomMoves(event) {
