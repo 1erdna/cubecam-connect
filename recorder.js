@@ -27,9 +27,9 @@ let streamMode = 'website';
 let lastCanvasDrawAt = 0;
 
 const c = {
-  background: '#070e1a', panel: '#0b1a30', edge: '#254767',
-  foreground: '#e6f6ff', muted: '#93b2d0', blue: '#43baff',
-  bright: '#a6eaff', quiet: '#162b44'
+  background: '#05070b', panel: '#0b1018', edge: '#2d4558',
+  foreground: '#f1f8ff', muted: '#8da8bc', blue: '#29baff',
+  bright: '#93dfff', quiet: '#0e1b28'
 };
 
 function badgeStatus(label, state='idle') {
@@ -53,7 +53,7 @@ function rounded(x,y,w,h,r=16) {
   studio.closePath();
 }
 function panel(x,y,w,h) {
-  rounded(x,y,w,h,18);
+  rounded(x,y,w,h,2);
   studio.fillStyle=c.panel;studio.fill();
   studio.strokeStyle=c.edge;studio.lineWidth=1.5;studio.stroke();
 }
@@ -89,7 +89,7 @@ function cameraVideo() {
 
 function cameraFrame(x,y,w,h) {
   studio.save();
-  rounded(x,y,w,h,13);studio.clip();
+  rounded(x,y,w,h,2);studio.clip();
   studio.fillStyle='#050e1c';studio.fillRect(x,y,w,h);
 
   const {video,usingLocal}=cameraVideo();
@@ -134,14 +134,14 @@ function cameraFrame(x,y,w,h) {
     label(usingLocal?'Start your laptop camera to include video':'Pair phone + enable live video sharing',x+w/2,y+h/2+16,{size:12,align:'center'});
   }
   studio.restore();
-  rounded(x,y,w,h,13);studio.strokeStyle='#2a537d';studio.lineWidth=1.5;studio.stroke();
+  rounded(x,y,w,h,2);studio.strokeStyle='#2c546d';studio.lineWidth=1.5;studio.stroke();
 }
 
 function padPill(x,y,w,left) {
   const el=rec(left?'leftStatus':'rightStatus');
   const lit=Boolean(el?.classList.contains('on'));
-  rounded(x,y,w,44,10);
-  studio.fillStyle=lit?'#0d4167':'#10243b';studio.fill();
+  rounded(x,y,w,44,2);
+  studio.fillStyle=lit?'#12415d':'#0d1e2b';studio.fill();
   studio.strokeStyle=lit?'#59ccff':'#2a4765';studio.lineWidth=1;studio.stroke();
   label((left?'LEFT':'RIGHT')+(lit?' · RESTING':' · OFF'),x+w/2,y+29,{
     size:15,bold:true,align:'center',color:lit?'#b8efff':'#8ea7c2'
@@ -152,14 +152,14 @@ function drawStudio() {
   if(!studio)return;
   const w=studioCanvas.width,h=studioCanvas.height;
   studio.fillStyle=c.background;studio.fillRect(0,0,w,h);
-  const glow=studio.createRadialGradient(400,100,40,500,130,680);
-  glow.addColorStop(0,'#103450');glow.addColorStop(1,'#070e1a');
-  studio.fillStyle=glow;studio.fillRect(0,0,w,h);
+  // Flat studio backdrop: intentionally no glassmorphism or background gradients.
+  studio.fillStyle='#05070b';studio.fillRect(0,0,w,h);
+  studio.fillStyle=c.blue;studio.fillRect(48,82,1184,2);
 
-  label('◆  1ERDNA',48,59,{size:29,bold:true,color:c.bright});
+  label('1E  /  1ERDNA',48,59,{size:29,bold:true,color:c.bright});
   label('CUBE LAB  /  PRACTICE RECORDING',251,56,{size:13,bold:true,color:c.muted});
   label('WEBSITE ONLY  •  NO DESKTOP CAPTURE',1231,56,{size:13,color:c.blue,align:'right'});
-  studio.strokeStyle='#24415e';studio.lineWidth=1;studio.beginPath();studio.moveTo(48,83);studio.lineTo(1232,83);studio.stroke();
+  studio.strokeStyle='#2b4860';studio.lineWidth=1;studio.beginPath();studio.moveTo(48,84);studio.lineTo(1232,84);studio.stroke();
 
   panel(48,108,755,161);
   label('01  /  SCRAMBLE',74,145,{size:14,bold:true,color:c.blue});
@@ -189,7 +189,7 @@ function drawStudio() {
     label(rec(id)?.textContent?.trim()||'—',x,604,{size:23,bold:true,color:c.foreground});
   });
 
-  label('1ERDNA CUBE LAB  /  CHASE YOUR NEXT PB',48,685,{size:12,bold:true,color:c.muted});
+  label('1ERDNA / BUILD SPEED. BEAT TIME.',48,685,{size:12,bold:true,color:c.muted});
   label('RECORDED LOCALLY  •  VIDEO ONLY',1230,685,{size:12,color:c.muted,align:'right'});
 }
 
