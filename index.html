@@ -6,14 +6,13 @@
   <meta name="theme-color" content="#070b14">
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
   <link rel="stylesheet" href="style.css?v=precision-20261013-v2">
-  <link rel="stylesheet" href="enhancements.css?v=studio-20261014-v1">
+  <link rel="stylesheet" href="enhancements.css?v=locked-20261014-v1">
   <script defer src="zone-drag.js?v=studio-20261014-v1"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
-  <script type="module" src="app.js?v=studio-20261014-v1"></script>
-  <link rel="modulepreload" href="hand-rest-detector.mjs?v=precision-20261013-v2">
+  <script type="module" src="app.js?v=locked-20261014-v1"></script>
+  <link rel="modulepreload" href="hand-rest-detector.mjs?v=locked-20261014-v1">
   <script type="module" src="recorder.js?v=studio-20261014-v1"></script>
   <script type="module" src="cube-preview.js?v=studio-20261014-v1"></script>
-  <script type="module" src="performance.js?v=studio-20261014-v1"></script>
   <script type="module" src="replay-gallery.js?v=studio-20261014-v1"></script>
 </head>
 <body>
@@ -85,19 +84,9 @@
           <p class="tiny centered">Both hands down → READY → lift to start → return both open hands to stop. A confirmed stop uses the first stable placement time. Practice timing only.</p>
         </div>
 
-        <section class="panel enhancementPanel" id="performancePanel" aria-labelledby="performanceHeading">
-          <div class="featureHeading">
-            <h2 id="performanceHeading">04 · Solve performance</h2>
-            <span class="featureEyebrow" id="performanceSummary">Waiting for solves</span>
-          </div>
-          <div class="performanceWrap"><canvas id="performanceChart" role="img" aria-label="Solve time performance chart with average of 5 and personal best"></canvas></div>
-          <div class="performanceLegend"><span>Individual solves</span><span class="legendAvg">Ao5 trend</span><span class="legendPb">Fastest solve</span></div>
-          <p class="featureCaption" id="performanceEmpty">Your graph appears after the first solve.</p>
-        </section>
-
         <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
           <div class="row split wrap recorderHeadingRow">
-            <h2 id="recordingHeading">05 · CUBE LAB RECORDER</h2>
+            <h2 id="recordingHeading">04 · CUBE LAB RECORDER</h2>
             <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">NOT RECORDING</span>
           </div>
           <p class="recorderIntro">Record <strong>only your Cube Lab session</strong> — timer, scramble, camera, and stats. No browser tabs, desktop, or Opera sharing window.</p>
@@ -126,7 +115,7 @@
           <p class="recorderPrivacy">Opt-in &amp; local · Only Cube Lab content is captured in website mode · Silent video · Download before leaving this page.</p>
         </section>
         <section class="panel enhancementPanel" id="replayGalleryPanel" aria-labelledby="replayHeading">
-          <div class="featureHeading"><h2 id="replayHeading">06 · Replay vault</h2><span class="featureEyebrow" id="replayStorageNote">Local recordings only</span></div>
+          <div class="featureHeading"><h2 id="replayHeading">05 · Replay vault</h2><span class="featureEyebrow" id="replayStorageNote">Local recordings only</span></div>
           <p class="featureCaption">Your videos stay on this device in browser storage. Watch, download, or delete recordings whenever you want.</p>
           <p class="featureCaption" id="replayStatus" role="status">Opening your local recordings…</p>
           <ol id="replayList" class="replayList" aria-label="Saved solve recordings"></ol>
@@ -199,21 +188,11 @@
           <p class="tiny">Off by default. Only your paired laptop receives the live video. You can turn it off at any time; hand-detection signals still work.</p>
         </div>
         <div class="row split sensors"><div class="sensor" id="phoneLeft">LEFT · NO HAND</div><div class="sensor" id="phoneRight">RIGHT · NO HAND</div></div>
-        <div class="rangeRow"><label for="detectionMode">Hand detection</label>
-          <select id="detectionMode" aria-label="Hand detection mode">
-            <option value="rest" selected>Resting hands (recommended)</option>
-            <option value="zone">Zone only (original)</option>
-          </select>
+        <div class="lockedDetection" aria-label="Hand detection and stop accuracy">
+          <div class="lockedDetectionItem"><span>Hand detection</span><strong>Resting hands <small>ALWAYS ON</small></strong></div>
+          <div class="lockedDetectionItem"><span>Stop accuracy</span><strong>Extra safe <small>LOCKED</small></strong></div>
+          <p class="tiny restDetectorHint">Hold both hands open and still in their blue boxes. The timer confirms a stable two-hand placement to prevent accidental stops.</p>
         </div>
-        <p class="tiny restDetectorHint">Put an open hand into each blue box. To prevent false stops, the detector checks both hands stay steady before saving your time.</p>
-        <div class="rangeRow"><label for="precisionMode">Stop accuracy</label>
-          <select id="precisionMode" aria-label="Stop detection sensitivity">
-            <option value="balanced" selected>Balanced · Recommended</option>
-            <option value="strict">Extra safe · Fewer false stops</option>
-            <option value="responsive">Responsive · Faster reaction</option>
-          </select>
-        </div>
-        <p class="tiny restDetectorHint">Try <b>Extra safe</b> if the timer stops while you're holding the cube. Try <b>Responsive</b> if placing both hands down isn't recognized quickly. Times are estimated from camera frames, not physical table sensors.</p>
         <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="28"><span id="zoneWidthDisplay">28%</span></div>
         <div class="rangeRow"><label for="zoneTop">Zone starts at</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
         <div class="zoneControlFooter"><span class="featureCaption">Drag the blue boxes left or right in the live camera view.</span><button type="button" id="resetZonePosition">Reset zone positions</button></div>
@@ -226,7 +205,7 @@
       </div>
     </div>
   </section>
-  <footer>1ERDNA CUBE LAB · MIDNIGHT BLUE · STUDIO v3 · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
+  <footer>1ERDNA CUBE LAB · MIDNIGHT BLUE · STUDIO v3.1 · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
 </main>
 </body>
 </html>
