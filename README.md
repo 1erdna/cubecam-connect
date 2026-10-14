@@ -95,7 +95,7 @@ in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 ## Wanna record a session? 🎬
 
-Open **Timer dashboard → 04 · Cube Lab Recorder**.
+Open **Timer dashboard → 05 · Cube Lab Recorder**.
 
 **Website-only recording is now the default.** It does *not* open the Opera screen-sharing chooser. Instead, Cube Lab makes a clean 1280×720 video of its own **timer, scramble, hand indicators, session stats, and live camera feed** (when your camera is on). It intentionally leaves out Opera's tabs, menus, other windows, notifications, and the desktop.
 
