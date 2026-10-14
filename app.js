@@ -1,5 +1,5 @@
-import { TimerEngine } from './timer-engine.mjs?v=precision-20261013-v2';
-import { HandRestDetector } from './hand-rest-detector.mjs?v=precision-20261013-v2';
+import { TimerEngine } from './timer-engine.mjs?v=locked-20261014-v1';
+import { HandRestDetector } from './hand-rest-detector.mjs?v=locked-20261014-v1';
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
@@ -57,7 +57,7 @@ function attachHostConnection(conn) {
       const n=Number(age);
       return age===null||age===undefined||!Number.isFinite(n)||n<0||n>800?null:received-n;
     };
-    if(['balanced','strict','responsive'].includes(msg.profile))engine.setStopProfile(msg.profile);
+    // The laptop always uses Extra safe, independent of old phone preferences.
     engine.feed(Boolean(msg.left),Boolean(msg.right),{
       now:received,leftSince:since(msg.leftAgeMs),rightSince:since(msg.rightAgeMs)
     });
@@ -256,8 +256,7 @@ let camLeft=false,camRight=false,manualLeft=false,manualRight=false,manualTouche
 let camSeenLeft=false,camSeenRight=false,camOpenLeft=false,camOpenRight=false;
 const restDetector=new HandRestDetector();
 let lastObserved=null,lastDetectionAt=0;
-const currentProfile=()=>$('precisionMode').value;
-const isRestMode=()=>$('detectionMode').value==='rest';
+// Both camera modes are permanently Resting hands + Extra safe.
 function zones(){
   if(window.CubeLabZones)return window.CubeLabZones.zones();
   const width=Number($('zoneWidth').value)/100;
@@ -273,9 +272,9 @@ function sendPads(force=false) {
   const pads=effectivePads(),now=performance.now();
   $('phoneLeft').classList.toggle('on',pads.left);$('phoneRight').classList.toggle('on',pads.right);
   const cameraLabel=(detected,seen,open)=>{
-    if(detected)return isRestMode()?'RESTING':'IN ZONE';
+    if(detected)return 'RESTING';
     if(!cameraOn || manualTouches>0 || !seen)return 'NO HAND';
-    return isRestMode()?(open?'HOLD STILL':'OPEN HAND'):'NO HAND';
+    return open?'HOLD STILL':'OPEN HAND';
   };
   $('phoneLeft').textContent='LEFT · '+cameraLabel(pads.left,camSeenLeft,camOpenLeft);
   $('phoneRight').textContent='RIGHT · '+cameraLabel(pads.right,camSeenRight,camOpenRight);
@@ -284,18 +283,18 @@ function sendPads(force=false) {
   if(cameraSource==='local') {
     if(cameraOn || manualTouches>0)engine.feed(pads.left,pads.right,{
       now,
-      leftSince:!manualTouches&&isRestMode()&&pads.left?lastObserved?.leftSince:null,
-      rightSince:!manualTouches&&isRestMode()&&pads.right?lastObserved?.rightSince:null
+      leftSince:!manualTouches&&pads.left?lastObserved?.leftSince:null,
+      rightSince:!manualTouches&&pads.right?lastObserved?.rightSince:null
     });
   } else if(phoneConn?.open) {
-    const since=side=>!manualTouches&&isRestMode()&&pads[side]
+    const since=side=>!manualTouches&&pads[side]
       ?lastObserved?.[side+'Since']:null;
     const age=stamp=>Number.isFinite(stamp)&&stamp<=now
       ?Math.max(0,Math.min(800,now-stamp)):null;
     const positions=window.CubeLabZones?.state()||{leftX:.012,rightX:1-Number($('zoneWidth').value)/100};
     phoneConn.send({type:'pads',left:pads.left,right:pads.right,
       leftAgeMs:age(since('left')),rightAgeMs:age(since('right')),
-      profile:currentProfile(),
+      profile:'strict',
       zoneLeft:positions.leftX,zoneRight:positions.rightX,
       zoneWidth:Number($('zoneWidth').value),zoneTop:Number($('zoneTop').value),
       mirror:video.classList.contains('front')});
@@ -330,8 +329,7 @@ function drawOverlay(result) {
 function handleHands(result){
   const now=performance.now();
   const observed=restDetector.update(result.landmarks||[],zones(),now,{
-    mirror:video.classList.contains('front'),
-    mode:$('detectionMode').value
+    mirror:video.classList.contains('front')
   });
   lastObserved=observed;lastDetectionAt=now;
   camLeft=observed.left;camRight=observed.right;
@@ -421,40 +419,9 @@ for(const [slider,label] of [['zoneWidth','zoneWidthDisplay'],['zoneTop','zoneTo
   $(label).textContent=$(slider).value+'%';
   restDetector.reset();lastObserved=null;lastDetectionAt=0;
 });
-const restModeStorageKey='cubecam-hand-mode-v1';
-try{
-  const savedMode=localStorage.getItem(restModeStorageKey);
-  if(savedMode==='zone'||savedMode==='rest')$('detectionMode').value=savedMode;
-}catch{}
-$('detectionMode').addEventListener('change',()=>{
-  restDetector.reset();lastObserved=null;lastDetectionAt=0;
-  camLeft=camRight=camSeenLeft=camSeenRight=camOpenLeft=camOpenRight=false;
-  sendPads(true);
-  try{localStorage.setItem(restModeStorageKey,$('detectionMode').value);}catch{}
-  $('cameraMessage').textContent=isRestMode()
-    ? 'Resting-hands mode: open each hand and hold still in its blue box. Lift both to start; return both to stop.'
-    : 'Zone-only mode: detects hand position only. Use this if the camera cannot recognize an open resting hand.';
-});
-const precisionStorageKey='cubecam-stop-profile-v1';
-try{
-  const saved=localStorage.getItem(precisionStorageKey);
-  if(['responsive','balanced','strict'].includes(saved))$('precisionMode').value=saved;
-}catch{}
-restDetector.setProfile(currentProfile());
-engine.setStopProfile(currentProfile());
-$('precisionMode').addEventListener('change',()=>{
-  restDetector.setProfile(currentProfile());
-  engine.setStopProfile(currentProfile());
-  lastObserved=null;lastDetectionAt=0;
-  camLeft=camRight=camSeenLeft=camSeenRight=camOpenLeft=camOpenRight=false;
-  sendPads(true);
-  try{localStorage.setItem(precisionStorageKey,currentProfile());}catch{}
-  $('cameraMessage').textContent=currentProfile()==='strict'
-    ?'Extra safe: all four fingers open and a longer resting confirmation. Avoids accidental stops.'
-    :currentProfile()==='responsive'
-    ?'Responsive: shorter detection delay, but more sensitive to accidental stops.'
-    :'Balanced: detects at least three open fingers and confirms both hands are settled.';
-});
+// Never restore old zone-only / balanced / responsive choices.
+restDetector.setProfile('strict');
+engine.setStopProfile('strict');
 function bindTestPad(id,side){
   const b=$(id);let active=false;
   const apply=value=>{
