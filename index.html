@@ -6,13 +6,14 @@
   <meta name="theme-color" content="#070b14">
   <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
   <link rel="stylesheet" href="style.css?v=locked-20261014-v1">
-  <link rel="stylesheet" href="enhancements.css?v=locked-20261014-v1">
+  <link rel="stylesheet" href="enhancements.css?v=orbit-20261014-v1">
   <script defer src="zone-drag.js?v=studio-20261014-v1"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js?v=locked-20261014-v1"></script>
   <link rel="modulepreload" href="hand-rest-detector.mjs?v=locked-20261014-v1">
   <script type="module" src="recorder.js?v=studio-20261014-v1"></script>
   <script type="module" src="cube-preview.js?v=studio-20261014-v1"></script>
+  <script defer src="cube-orbit.js?v=orbit-20261014-v1"></script>
   <script type="module" src="replay-gallery.js?v=studio-20261014-v1"></script>
 </head>
 <body>
@@ -64,15 +65,19 @@
           <div class="scramblePreview" id="scramblePreview">
             <div class="featureHeading">
               <span class="featureEyebrow">VISUAL SCRAMBLE · 2D / 3D</span>
-              <select id="scrambleViewMode" aria-label="Scramble preview style">
-                <option value="2d" selected>2D cube net</option><option value="3d">3D cube</option>
-              </select>
+              <div class="cubeViewControls">
+                <select id="scrambleViewMode" aria-label="Scramble preview style">
+                  <option value="2d" selected>2D cube net</option><option value="3d">3D cube</option>
+                </select>
+                <button type="button" class="cubeOrbitReset hidden" id="resetCubeOrbit" title="Restore the default 3D cube angle">↺ Reset view</button>
+              </div>
             </div>
             <div class="cubeStage">
               <div class="scrambleNet" id="scrambleNet" aria-label="Cube faces after scramble"></div>
               <div class="cube3dStage hidden"><div class="scramble3D" id="scramble3D" aria-label="Three-dimensional scrambled cube"></div></div>
             </div>
             <p class="featureCaption" id="scrambleVisualHint">Waiting for a scramble…</p>
+            <p class="cubeOrbitHint hidden" id="cubeOrbitHint">↔ Drag to rotate the cube in any direction · Double-click or use Reset view to return to the starting angle.</p>
           </div>
         </div>
         <div class="timerPanel">
