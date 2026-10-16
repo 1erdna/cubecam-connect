@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#05070b">
-  <title>1ERDNA Cube Lab · Speedcube Timer</title>
+  <meta name="theme-color" content="#07090D">
+  <title>1ERDNA Cube Lab — Speedcubing Timer</title>
   <link rel="stylesheet" href="style.css?v=locked-20261014-v1">
   <link rel="stylesheet" href="enhancements.css?v=orbit-20261014-v1">
   <link rel="stylesheet" href="brand-v4.css?v=brand-20261014-v1">
@@ -22,48 +22,40 @@
 <main class="shell">
   <header class="header">
     <div class="headerBrand">
-      <div class="brandEmblem" aria-hidden="true">1E</div>
-      <div>
-        <div class="brand">1ER<span>DNA</span> <small>CUBE LAB</small></div>
-        <p class="subtitle">Speedcubing timer</p>
-      </div>
+      <div class="brand">1ER<span>DNA</span> <small>CUBE LAB</small></div>
     </div>
     <div class="online hidden" id="linkStatus" role="status">Not paired</div>
   </header>
 
   <div class="choose" id="choose">
     <div class="minimalWelcome">
-      <div class="eyebrow">YOUR PRACTICE SPACE</div>
-      <h1>Ready to solve<span>?</span></h1>
-      <p>Choose your camera.</p>
+      <div class="eyebrow">SPEEDCUBING WORKSPACE</div>
+      <h1>Every solve counts<span>.</span></h1>
+      <p>Choose how you want to practice.</p>
     </div>
     <div class="chooseCards">
-      <button type="button" id="chooseLaptop" class="chooseCard"><span class="emoji" aria-hidden="true">⌘</span><b>Use laptop</b><span>Timer and webcam</span></button>
-      <button type="button" id="choosePhone" class="chooseCard"><span class="emoji" aria-hidden="true">◎</span><b>Use phone</b><span>Hand tracking</span></button>
+      <button type="button" id="chooseLaptop" class="chooseCard">
+        <span class="emoji" aria-hidden="true">▣</span>
+        <b>Open timer</b>
+        <span>Use your laptop or a paired phone camera</span>
+      </button>
+      <button type="button" id="choosePhone" class="chooseCard">
+        <span class="emoji" aria-hidden="true">◉</span>
+        <b>Phone camera</b>
+        <span>Connect this phone to your laptop timer</span>
+      </button>
     </div>
   </div>
 
   <section id="laptop" class="hidden">
     <div class="row split gap pageLead">
-      <div class="sectionLead"><h1>Cube timer</h1></div>
-      <button id="changeLaptop" class="ghost">Switch device</button>
+      <div class="sectionLead"><h1>Practice</h1></div>
+      <button id="changeLaptop" class="ghost">Change device</button>
     </div>
     <div class="layout">
       <div class="stack">
-        <div class="panel sourcePanel">
-          <div class="row split wrap"><h2>Camera</h2><span class="tiny">Select source</span></div>
-          <div class="sourceGrid" role="group" aria-label="Choose camera source">
-            <button type="button" class="sourceChoice" id="sourceLaptop" aria-pressed="false"><strong>Laptop</strong></button>
-            <button type="button" class="sourceChoice active" id="sourcePhone" aria-pressed="true"><strong>Phone</strong></button>
-          </div>
-        </div>
-        <div class="panel pairPanel" id="phonePairPanel">
-          <div class="row split"><h2>Connect phone</h2><span class="tiny" id="peerState">Not connected</span></div>
-          <div class="pairRow"><div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Get code</button></div>
-          <div class="row wrap"><button id="copyPhoneLink" disabled>Copy link</button><span class="tiny" id="hostHint">Connect your phone to start.</span></div>
-        </div>
         <div class="panel scramblePanel">
-          <div class="row split wrap"><h2>Scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble" aria-label="Generate a new scramble" title="New scramble">↻ New</button></div></div>
+          <div class="row split wrap"><h2>Current scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble" aria-label="Generate a new scramble" title="New scramble">↻ New</button></div></div>
           <div id="scramble" class="scramble">Loading scramble…</div>
           <div id="scrambleHint" class="tiny">Loading scramble engine</div>
           <details class="previewDisclosure" id="scramblePreview">
@@ -86,13 +78,13 @@
           </details>
         </div>
         <div class="timerPanel">
-          <div class="timerMeta"><span>TIMER</span><span>SPACE TO START / STOP</span></div>
+          <div class="timerMeta"><span>SOLVE TIMER</span><span>SPACEBAR · MANUAL CONTROL</span></div>
           <div id="clock" class="clock">0.00</div>
           <div id="phase" class="phase">WAITING FOR HANDS</div>
           <div id="help" class="hint">Place both hands flat in the blue zones, then lift to start.</div>
           <div class="row center padIndicators"><div class="padStatus" id="leftStatus">✋ LEFT · OFF</div><div class="padStatus" id="rightStatus">✋ RIGHT · OFF</div></div>
           <div class="row center wrap"><button id="manualStopStart" class="ghost">Start / Stop</button><button id="resetTimer" class="ghost">Reset</button></div>
-          <div class="timerFootline"><span>HANDS DOWN → READY</span><span>LIFT → START</span></div>
+          <div class="timerFootline"><span>Rest hands to arm</span><span>Lift to start · Return to stop</span></div>
         </div>
 
         <details class="utilityDisclosure" id="recorderDisclosure">
@@ -121,7 +113,7 @@
             <video id="recordingPlayback" controls playsinline preload="metadata" aria-label="Preview your screen recording"></video>
             <a class="recorderDownload" id="recordingDownload" download>↓ Download</a>
           </div>
-          <p class="recorderPrivacy">Stored on this device. Download to keep a copy.</p>
+          <p class="recorderPrivacy">Recordings stay on your device. Download to keep a copy.</p>
           </section>
         </details>
         <details class="utilityDisclosure" id="replayDisclosure">
@@ -139,10 +131,22 @@
         </details>
       </div>
       <aside class="visualRail">
+        <div class="panel sourcePanel">
+          <div class="row split wrap"><h2>Camera source</h2><span class="tiny">Choose one</span></div>
+          <div class="sourceGrid" role="group" aria-label="Choose camera source">
+            <button type="button" class="sourceChoice" id="sourceLaptop" aria-pressed="false"><strong>Laptop</strong></button>
+            <button type="button" class="sourceChoice active" id="sourcePhone" aria-pressed="true"><strong>Phone</strong></button>
+          </div>
+        </div>
+        <div class="panel pairPanel" id="phonePairPanel">
+          <div class="row split"><h2>Phone pairing</h2><span class="tiny" id="peerState">Not connected</span></div>
+          <div class="pairRow"><div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Get code</button></div>
+          <div class="row wrap"><button id="copyPhoneLink" disabled>Copy link</button><span class="tiny" id="hostHint">Create a code and connect on your phone.</span></div>
+        </div>
         <div class="cameraDock" id="cameraDock">
           <div class="dockTop">
             <div class="row split wrap"><span class="dockEyebrow"><i class="livePulse"></i> CAMERA MONITOR</span><span class="dockMode" id="dockMode">PHONE · WIRELESS</span></div>
-            <h2 class="dockTitle">Camera</h2>
+            <h2 class="dockTitle">Live preview</h2>
             <p class="dockSubtitle" id="dockSubtitle">Waiting for camera</p>
           </div>
           <div class="stack hidden" id="localCameraHolder"></div>
@@ -164,7 +168,7 @@
             <div class="zoneControlFooter"><button type="button" id="resetRemoteZones">Reset positions</button></div>
           </div>
         </div>
-        <div class="panel quickStats"><h2>Session</h2><div class="stats">
+        <div class="panel quickStats"><h2>Session overview</h2><div class="stats">
           <div><span>Solves</span><strong id="solveCount">0</strong></div><div><span>Best</span><strong id="pb">—</strong></div>
           <div><span>Ao5</span><strong id="ao5">—</strong></div>
           </div>
@@ -183,7 +187,7 @@
   </section>
 
   <section id="phone" class="hidden">
-    <div class="row split gap pageLead"><div class="sectionLead"><h1>Phone camera</h1></div><button id="changePhone" class="ghost">Switch device</button></div>
+    <div class="row split gap pageLead"><div class="sectionLead"><h1>Camera setup</h1></div><button id="changePhone" class="ghost">Change device</button></div>
     <div class="phoneLayout">
       <div class="panel">
         <h2>Connect</h2>
@@ -224,7 +228,7 @@
       </details>
     </div>
   </section>
-  <footer>1ERDNA CUBE LAB · PRACTICE TIMER</footer>
+  <footer><span>1ERDNA CUBE LAB</span><span>Built for practice. Times are unofficial.</span></footer>
 </main>
 </body>
 </html>
