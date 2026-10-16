@@ -4,10 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#070b14">
-  <title>1ERDNA Cube Lab · Laptop Webcam or Phone Timer</title>
+  <title>1ERDNA Cube Lab · Speedcube Timer</title>
   <link rel="stylesheet" href="style.css?v=locked-20261014-v1">
   <link rel="stylesheet" href="enhancements.css?v=orbit-20261014-v1">
   <link rel="stylesheet" href="brand-v4.css?v=brand-20261014-v1">
+  <link rel="stylesheet" href="minimal-v5.css?v=minimal-20261016-v1">
   <script defer src="zone-drag.js?v=studio-20261014-v1"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
   <script type="module" src="app.js?v=locked-20261014-v1"></script>
@@ -23,77 +24,57 @@
     <div class="headerBrand">
       <div class="brandEmblem" aria-hidden="true">1E</div>
       <div>
-        <span class="mastheadLabel">INDEPENDENT SPEEDCUBING STUDIO</span>
         <div class="brand">1ER<span>DNA</span> <small>CUBE LAB</small></div>
-        <p class="subtitle">A purpose-built space for faster solves.</p>
+        <p class="subtitle">Speedcubing timer</p>
       </div>
     </div>
-    <div class="headerRight">
-      <span class="editionStamp">STUDIO / 004</span>
-      <div class="online" id="linkStatus" role="status">● Not paired</div>
-    </div>
+    <div class="online" id="linkStatus" role="status">Not paired</div>
   </header>
+
   <div class="choose" id="choose">
-    <div class="chooseEditorial">
-      <div>
-        <div class="introNumber">01 / PERSONAL TRAINING INSTRUMENT</div>
-        <h1>BUILD SPEED.<span>BEAT TIME.</span></h1>
-        <p>A focused cubing station for real practice. One precise timer, live hand detection, visual scrambles and your personal records — all in one place.</p>
-      </div>
-      <div class="heroSigil" aria-hidden="true">
-        <div class="sigilOuter"><span class="sigilCore">1E</span></div>
-        <span class="sigilTag">MEASURE / IMPROVE / REPEAT</span>
-      </div>
+    <div class="minimalWelcome">
+      <div class="eyebrow">YOUR PRACTICE SPACE</div>
+      <h1>Ready to solve<span>?</span></h1>
+      <p>Choose your camera.</p>
     </div>
-    <div class="chooseIntroBar"><span>SELECT YOUR WORKSTATION</span><span>01 / 02</span></div>
     <div class="chooseCards">
-      <button id="chooseLaptop" class="chooseCard"><span class="emoji" aria-hidden="true">⌘</span><b>Timer dashboard</b><span>Choose laptop webcam or paired phone, then start solving.</span></button>
-      <button id="choosePhone" class="chooseCard"><span class="emoji" aria-hidden="true">◎</span><b>Hand-tracking camera</b><span>Turn your iPhone into a hands-free start and stop sensor.</span></button>
+      <button type="button" id="chooseLaptop" class="chooseCard"><span class="emoji" aria-hidden="true">⌘</span><b>Use laptop</b><span>Timer and webcam</span></button>
+      <button type="button" id="choosePhone" class="chooseCard"><span class="emoji" aria-hidden="true">◎</span><b>Use phone</b><span>Hand tracking</span></button>
     </div>
   </div>
 
   <section id="laptop" class="hidden">
-    <div class="row split gap">
-      <div class="sectionLead">
-        <div class="eyebrow">02 / LIVE TRAINING STATION</div>
-        <h1>THE SOLVE <span>STARTS HERE.</span></h1>
-        <p>Focus on your next time. Everything else stays out of the way.</p>
-      </div>
-      <button id="changeLaptop" class="ghost">↗ Change device</button>
+    <div class="row split gap pageLead">
+      <div class="sectionLead"><h1>Cube timer</h1></div>
+      <button id="changeLaptop" class="ghost">Switch device</button>
     </div>
     <div class="layout">
       <div class="stack">
         <div class="panel sourcePanel">
-          <div class="row split wrap"><h2>01 · Camera connection</h2><span class="tiny">Choose one option</span></div>
-          <div class="sourceGrid" role="group" aria-label="How to detect your hands">
-            <button type="button" class="sourceChoice" id="sourceLaptop" aria-pressed="false">
-              <span class="sourceNumber">OPTION 01 · DIRECT</span><span class="sourceSymbol" aria-hidden="true">◉</span>
-              <strong>Laptop camera</strong><span>Use your built-in webcam or external USB camera. No phone needed.</span>
-            </button>
-            <button type="button" class="sourceChoice active" id="sourcePhone" aria-pressed="true">
-              <span class="sourceNumber">OPTION 02 · WIRELESS</span><span class="sourceSymbol" aria-hidden="true">↗</span>
-              <strong>Pair phone camera</strong><span>Use your iPhone as a wireless hand sensor with a pairing code.</span>
-            </button>
+          <div class="row split wrap"><h2>Camera</h2><span class="tiny">Select source</span></div>
+          <div class="sourceGrid" role="group" aria-label="Choose camera source">
+            <button type="button" class="sourceChoice" id="sourceLaptop" aria-pressed="false"><strong>Laptop</strong></button>
+            <button type="button" class="sourceChoice active" id="sourcePhone" aria-pressed="true"><strong>Phone</strong></button>
           </div>
-          <p class="tiny sourceHelp">Both options use the same timer, scrambles and solve statistics.</p>
         </div>
         <div class="panel pairPanel" id="phonePairPanel">
-          <div class="row split"><h2>02 · Pair your phone</h2><span class="tiny" id="peerState">Not connected</span></div>
-          <div class="pairRow"><div><div class="tiny">PAIRING CODE</div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Create code</button></div>
-          <div class="row wrap"><button id="copyPhoneLink" disabled>Copy phone link</button><span class="tiny" id="hostHint">Create a code, then type it on your phone.</span></div>
+          <div class="row split"><h2>Connect phone</h2><span class="tiny" id="peerState">Not connected</span></div>
+          <div class="pairRow"><div><div class="pairCode" id="pairCode">— — — —</div></div><button class="primary" id="hostButton">Get code</button></div>
+          <div class="row wrap"><button id="copyPhoneLink" disabled>Copy link</button><span class="tiny" id="hostHint">Connect your phone to start.</span></div>
         </div>
         <div class="panel scramblePanel">
-          <div class="row split wrap"><h2>03 · Scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble">New scramble ↻</button></div></div>
+          <div class="row split wrap"><h2>Scramble</h2><div class="row"><select id="event" aria-label="Cube size"><option value="333">3×3 cube</option><option value="222">2×2 cube</option></select><button id="nextScramble" aria-label="Generate a new scramble" title="New scramble">↻ New</button></div></div>
           <div id="scramble" class="scramble">Loading scramble…</div>
           <div id="scrambleHint" class="tiny">Loading scramble engine</div>
-          <div class="scramblePreview" id="scramblePreview">
+          <details class="previewDisclosure" id="scramblePreview">
+            <summary>Cube preview</summary>
             <div class="featureHeading">
-              <span class="featureEyebrow">VISUAL SCRAMBLE · 2D / 3D</span>
+              <span class="featureEyebrow">Visual cube</span>
               <div class="cubeViewControls">
                 <select id="scrambleViewMode" aria-label="Scramble preview style">
                   <option value="2d" selected>2D cube net</option><option value="3d">3D cube</option>
                 </select>
-                <button type="button" class="cubeOrbitReset hidden" id="resetCubeOrbit" title="Restore the default 3D cube angle">↺ Reset view</button>
+                <button type="button" class="cubeOrbitReset hidden" id="resetCubeOrbit" title="Restore the default 3D cube angle">↺ Reset</button>
               </div>
             </div>
             <div class="cubeStage">
@@ -101,68 +82,68 @@
               <div class="cube3dStage hidden"><div class="scramble3D" id="scramble3D" aria-label="Three-dimensional scrambled cube"></div></div>
             </div>
             <p class="featureCaption" id="scrambleVisualHint">Waiting for a scramble…</p>
-            <p class="cubeOrbitHint hidden" id="cubeOrbitHint">↔ Drag to rotate the cube in any direction · Double-click or use Reset view to return to the starting angle.</p>
-          </div>
+            <p class="cubeOrbitHint hidden" id="cubeOrbitHint">Drag to rotate · Double-click to reset</p>
+          </details>
         </div>
         <div class="timerPanel">
-          <div class="timerMeta"><span>1ERDNA / PERFORMANCE TIMER</span><span>STATION — 01</span></div>
+          <div class="timerMeta"><span>TIMER</span><span>SPACE TO START / STOP</span></div>
           <div id="clock" class="clock">0.00</div>
           <div id="phase" class="phase">WAITING FOR HANDS</div>
           <div id="help" class="hint">Place both hands flat in the blue zones, then lift to start.</div>
           <div class="row center padIndicators"><div class="padStatus" id="leftStatus">✋ LEFT · OFF</div><div class="padStatus" id="rightStatus">✋ RIGHT · OFF</div></div>
-          <div class="row center wrap"><button id="manualStopStart" class="ghost">Manual start / stop (Space)</button><button id="resetTimer" class="ghost">Reset timer</button></div>
-          <div class="timerFootline"><span>TO ARM / BOTH HANDS DOWN</span><span>TO STOP / BOTH HANDS RESTING</span></div>
-          <p class="tiny centered">Lift both hands to start. Return both hands open and still to stop. Camera timing is for practice.</p>
+          <div class="row center wrap"><button id="manualStopStart" class="ghost">Start / Stop</button><button id="resetTimer" class="ghost">Reset</button></div>
+          <div class="timerFootline"><span>HANDS DOWN → READY</span><span>LIFT → START</span></div>
         </div>
 
-        <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
-          <div class="row split wrap recorderHeadingRow">
-            <h2 id="recordingHeading">04 · CUBE LAB RECORDER</h2>
-            <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">NOT RECORDING</span>
-          </div>
-          <p class="recorderIntro">Record <strong>only your Cube Lab session</strong> — timer, scramble, camera, and stats. No browser tabs, desktop, or Opera sharing window.</p>
+        <details class="utilityDisclosure" id="recorderDisclosure">
+          <summary id="recordingHeading">Record <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">OFF</span></summary>
+          <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
+          <p class="recorderIntro">Save a video of your solve.</p>
           <div class="recorderModeRow">
-            <label for="recordingTarget">What to record</label>
+            <label for="recordingTarget">Source</label>
             <select id="recordingTarget" aria-label="What to record">
-              <option value="website" selected>Cube Lab only · No screen-sharing popup</option>
-              <option value="screen">Browser tab/window · Browser permission</option>
+              <option value="website" selected>Cube Lab</option>
+              <option value="screen">Browser tab / window</option>
             </select>
           </div>
           <div class="recorderLivePreview">
-            <div class="row split wrap recorderResultHeader"><span>LIVE RECORDING VIEW</span><span class="tiny">1280 × 720 · No browser UI</span></div>
+            <div class="row split wrap recorderResultHeader"><span>Preview</span></div>
             <canvas id="studioRecordingCanvas" width="1280" height="720" role="img" aria-label="Preview of the Cube Lab recording layout showing timer, scramble, camera and statistics"></canvas>
           </div>
           <div class="recorderControls">
-            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Record Cube Lab only</button>
-            <button type="button" id="stopScreenRecording" disabled><span aria-hidden="true">■</span> Stop recording</button>
+            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Record</button>
+            <button type="button" id="stopScreenRecording" disabled><span aria-hidden="true">■</span> Stop</button>
             <span class="recorderElapsed" id="recordingElapsed" aria-label="Recording duration">00:00</span>
           </div>
-          <p class="recorderMessage" id="recordingMessage" role="status">Click Record Cube Lab only to start — no screen-sharing window. Keep this tab visible while solving.</p>
+          <p class="recorderMessage" id="recordingMessage" role="status">Ready to record.</p>
           <div class="recorderResult hidden" id="recorderResult">
-            <div class="row split wrap recorderResultHeader"><span>YOUR LAST RECORDING</span><span class="tiny" id="recordingSize"></span></div>
+            <div class="row split wrap recorderResultHeader"><span>Latest video</span><span class="tiny" id="recordingSize"></span></div>
             <video id="recordingPlayback" controls playsinline preload="metadata" aria-label="Preview your screen recording"></video>
-            <a class="recorderDownload" id="recordingDownload" download>↓ Download recording</a>
+            <a class="recorderDownload" id="recordingDownload" download>↓ Download</a>
           </div>
-          <p class="recorderPrivacy">Opt-in &amp; local · Only Cube Lab content is captured in website mode · Silent video · Download before leaving this page.</p>
-        </section>
-        <section class="panel enhancementPanel" id="replayGalleryPanel" aria-labelledby="replayHeading">
-          <div class="featureHeading"><h2 id="replayHeading">05 · Replay vault</h2><span class="featureEyebrow" id="replayStorageNote">Local recordings only</span></div>
-          <p class="featureCaption">Your videos stay on this device in browser storage. Watch, download, or delete recordings whenever you want.</p>
+          <p class="recorderPrivacy">Stored on this device. Download to keep a copy.</p>
+          </section>
+        </details>
+        <details class="utilityDisclosure" id="replayDisclosure">
+          <summary id="replayHeading">Replays <span class="tiny" id="replayStorageNote">Saved locally</span></summary>
+          <section class="panel enhancementPanel" id="replayGalleryPanel" aria-labelledby="replayHeading">
+          
           <p class="featureCaption" id="replayStatus" role="status">Opening your local recordings…</p>
           <ol id="replayList" class="replayList" aria-label="Saved solve recordings"></ol>
           <div class="replayPlayerPanel hidden" id="replayPlayerPanel">
             <strong id="replayPlayerTitle">Replay</strong>
             <video id="replayPlayer" controls playsinline preload="metadata"></video>
           </div>
-          <p class="recorderPrivacy">Recordings are saved locally when storage is available, but can be lost if browser data is cleared. Download important clips for backup.</p>
-        </section>
+          <p class="recorderPrivacy">Download clips to keep them if browser data is cleared.</p>
+          </section>
+        </details>
       </div>
       <aside class="visualRail">
         <div class="cameraDock" id="cameraDock">
           <div class="dockTop">
             <div class="row split wrap"><span class="dockEyebrow"><i class="livePulse"></i> CAMERA MONITOR</span><span class="dockMode" id="dockMode">PHONE · WIRELESS</span></div>
-            <h2 class="dockTitle">Your hand placement.</h2>
-            <p class="dockSubtitle" id="dockSubtitle">Pair your phone to see the hand detection. Enable live preview on the phone to show its video here.</p>
+            <h2 class="dockTitle">Camera</h2>
+            <p class="dockSubtitle" id="dockSubtitle">Waiting for camera</p>
           </div>
           <div class="stack hidden" id="localCameraHolder"></div>
           <div class="remoteScreen" id="remoteScreen">
@@ -176,67 +157,74 @@
                 <div class="zoneDragHandle" id="remoteDragLeft" role="button" tabindex="0" aria-label="Drag the left phone hand zone"></div>
                 <div class="zoneDragHandle" id="remoteDragRight" role="button" tabindex="0" aria-label="Drag the right phone hand zone"></div>
               </div>
-              <div class="remotePlaceholder" id="remotePlaceholder"><div class="remoteCameraIcon">⌗</div><strong>Camera preview</strong><span>Connect your phone and enable Share live video on the phone.</span></div>
+              <div class="remotePlaceholder" id="remotePlaceholder"><div class="remoteCameraIcon">⌗</div><strong>Live view</strong><span>Connect to preview</span></div>
             </div>
             <div class="remoteStatus row split"><span id="remoteLeftStatus">○ LEFT · WAITING</span><span id="remoteRightStatus">○ RIGHT · WAITING</span></div>
-            <div class="dockFooter"><span>BLUE = HAND ZONES</span><span>BRIGHT = DETECTED</span></div>
-            <div class="zoneControlFooter"><span class="featureCaption">Drag zone edges to move them</span><button type="button" id="resetRemoteZones">Reset positions</button></div>
+            
+            <div class="zoneControlFooter"><button type="button" id="resetRemoteZones">Reset positions</button></div>
           </div>
         </div>
-        <div class="panel"><h2>Session statistics</h2><div class="stats">
+        <div class="panel quickStats"><h2>Session</h2><div class="stats">
           <div><span>Solves</span><strong id="solveCount">0</strong></div><div><span>Best</span><strong id="pb">—</strong></div>
-          <div><span>Ao5</span><strong id="ao5">—</strong></div><div><span>Ao12</span><strong id="ao12">—</strong></div>
-          <div class="wide"><span>Mean</span><strong id="mean">—</strong></div></div>
-          <button class="danger" id="clearHistory">Clear session</button>
+          <div><span>Ao5</span><strong id="ao5">—</strong></div>
+          </div>
+          <details class="statsMore"><summary>More stats</summary>
+            <div class="stats statsSecondary"><div><span>Ao12</span><strong id="ao12">—</strong></div>
+            <div><span>Mean</span><strong id="mean">—</strong></div></div>
+          </details>
         </div>
-        <div class="panel"><h2>Recent solves</h2><ol id="history" class="history"><li>No solves yet</li></ol></div>
-        <div class="panel fineprint"><b>How timing works:</b> Hold both hands over their zones for 0.6 s. When green, remove both to start. Return both to stop. Your solve history is stored on this laptop's browser, not your phone.</div>
+        <details class="utilityDisclosure" id="historyDisclosure">
+          <summary>History</summary>
+          <div class="panel historyPanel"><ol id="history" class="history"><li>No solves yet</li></ol>
+          <button class="danger" id="clearHistory">Clear session</button></div>
+        </details>
       </aside>
     </div>
   </section>
 
   <section id="phone" class="hidden">
-    <div class="row split gap"><div class="sectionLead"><div class="eyebrow">03 / WIRELESS SENSOR</div><h1>YOUR PHONE. <span>YOUR SENSOR.</span></h1><p>One camera. Two hands. Every millisecond counts.</p></div><button id="changePhone" class="ghost">↗ Change device</button></div>
+    <div class="row split gap pageLead"><div class="sectionLead"><h1>Phone camera</h1></div><button id="changePhone" class="ghost">Switch device</button></div>
     <div class="phoneLayout">
       <div class="panel">
-        <h2>01 · Connect to laptop</h2>
-        <div class="row wrap connectControls"><label for="inputCode">Enter pairing code</label><input id="inputCode" placeholder="ABCD1234" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Laptop pairing code"><button class="primary" id="joinButton">Connect</button></div>
-        <div class="message" id="phoneConnection">Open this site on your laptop, create a code, and enter it here.</div>
+        <h2>Connect</h2>
+        <div class="row wrap connectControls"><label for="inputCode">Code</label><input id="inputCode" placeholder="ABCD1234" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Laptop pairing code"><button class="primary" id="joinButton">Connect</button></div>
+        <div class="message" id="phoneConnection">Enter the code shown on your laptop.</div>
       </div>
       <div class="panel">
-        <div class="row split wrap"><h2 id="cameraHeading">02 · Show the tabletop</h2><div class="row wrap"><button class="primary" id="cameraButton">Start camera</button><button id="switchCamera">Flip</button><button id="cameraStop" disabled>Stop</button></div></div>
-        <div class="row wrap cameraPicker"><label class="tiny" for="cameraDevice">Camera source</label><select id="cameraDevice" aria-label="Select webcam"><option value="">Default camera</option></select></div>
+        <div class="row split wrap"><h2 id="cameraHeading">Camera</h2><div class="row wrap"><button class="primary" id="cameraButton">Start</button><button id="cameraStop" disabled>Stop</button></div></div>
+        
         <div class="cameraFrame" id="cameraFrame">
           <video id="cameraVideo" playsinline muted autoplay></video><canvas id="cameraOverlay"></canvas>
           <div class="zoneDragLayer" id="zoneDragLayer" aria-label="Drag hand zones to adjust position">
             <div class="zoneDragHandle" id="dragLeftZone" role="button" tabindex="0" aria-label="Drag left hand detection zone"></div>
             <div class="zoneDragHandle" id="dragRightZone" role="button" tabindex="0" aria-label="Drag right hand detection zone"></div>
           </div>
-          <div class="cameraPlaceholder" id="cameraPlaceholder">📷<br>Start camera and point it down at your cube and both hands.</div>
+          <div class="cameraPlaceholder" id="cameraPlaceholder">Start camera</div>
         </div>
         <div class="previewPermission">
           <label><input id="sharePhonePreview" type="checkbox"> Share live video with laptop <span>(optional)</span></label>
-          <p class="tiny">Off by default. Only your paired laptop receives the live video. You can turn it off at any time; hand-detection signals still work.</p>
+          
         </div>
         <div class="row split sensors"><div class="sensor" id="phoneLeft">LEFT · NO HAND</div><div class="sensor" id="phoneRight">RIGHT · NO HAND</div></div>
-        <div class="lockedDetection" aria-label="Hand detection and stop accuracy">
-          <div class="lockedDetectionItem"><span>Hand detection</span><strong>Resting hands <small>ALWAYS ON</small></strong></div>
-          <div class="lockedDetectionItem"><span>Stop accuracy</span><strong>Extra safe <small>LOCKED</small></strong></div>
-          <p class="tiny restDetectorHint">Hold both hands open and still in their blue boxes. The timer confirms a stable two-hand placement to prevent accidental stops.</p>
-        </div>
-        <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="28"><span id="zoneWidthDisplay">28%</span></div>
-        <div class="rangeRow"><label for="zoneTop">Zone starts at</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
-        <div class="zoneControlFooter"><span class="featureCaption">Drag the blue boxes left or right in the live camera view.</span><button type="button" id="resetZonePosition">Reset zone positions</button></div>
+        <details class="settingsDisclosure">
+          <summary>Camera settings</summary>
+          <div class="settingsBody">
+            <div class="row wrap cameraPicker"><label class="tiny" for="cameraDevice">Camera source</label><select id="cameraDevice" aria-label="Select webcam"><option value="">Default camera</option></select><button type="button" id="switchCamera">Flip</button></div>
+            <p class="tiny">Resting hands · Extra safe</p>
+            <div class="rangeRow"><label for="zoneWidth">Zone width</label><input type="range" id="zoneWidth" min="22" max="45" value="28"><span id="zoneWidthDisplay">28%</span></div>
+            <div class="rangeRow"><label for="zoneTop">Zone height</label><input type="range" id="zoneTop" min="10" max="65" value="32"><span id="zoneTopDisplay">32%</span></div>
+            <div class="zoneControlFooter"><button type="button" id="resetZonePosition">Reset zones</button></div>
+          </div>
+        </details>
         <div class="message" id="cameraMessage" role="status">The phone needs HTTPS, internet and permission to use the camera.</div>
       </div>
-      <div class="panel"><h2>03 · Test the connection (without camera)</h2>
-        <p class="tiny">Use two fingers to hold LEFT and RIGHT at the same time. The laptop indicators should light up. Hold for 0.6 seconds, lift both to start, then touch both again to stop.</p>
-        <div class="testPads"><button class="testPad" id="testLeft">✋ LEFT</button><button class="testPad" id="testRight">✋ RIGHT</button></div>
-        <p class="tiny">Manual pads override the camera while you touch them. Keep this browser tab in front with your phone screen awake during solves.</p>
-      </div>
+      <details class="utilityDisclosure"><summary>Test without camera</summary>
+        <div class="panel"><div class="testPads"><button class="testPad" id="testLeft">✋ LEFT</button><button class="testPad" id="testRight">✋ RIGHT</button></div>
+        <p class="tiny">Hold both, then release to start. Hold both again to stop.</p></div>
+      </details>
     </div>
   </section>
-  <footer>1ERDNA CUBE LAB · BLACK / NEON BLUE · STUDIO IV · MADE FOR THE NEXT PERSONAL BEST · Camera tracking is for practice, not official timing.</footer>
+  <footer>1ERDNA CUBE LAB · PRACTICE TIMER</footer>
 </main>
 </body>
 </html>
