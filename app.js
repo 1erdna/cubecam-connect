@@ -13,6 +13,7 @@ const urlForPhone = () => {
 function setStatus(label, good=false) { $('linkStatus').textContent='● '+label; $('linkStatus').classList.toggle('good',good); }
 function showMode(mode) {
   for (const id of ['choose','laptop','phone']) $(id).classList.toggle('hidden',id!==mode);
+  $('linkStatus').classList.remove('hidden');
   setStatus('Not paired');
   if (mode==='phone' && cameraSource==='local') selectCameraSource('phone');
   if (mode==='laptop') {
