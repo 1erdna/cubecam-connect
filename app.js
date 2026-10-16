@@ -15,7 +15,11 @@ function showMode(mode) {
   for (const id of ['choose','laptop','phone']) $(id).classList.toggle('hidden',id!==mode);
   setStatus('Not paired');
   if (mode==='phone' && cameraSource==='local') selectCameraSource('phone');
-  if (mode==='laptop') { renderStats(); void newScramble(); }
+  if (mode==='laptop') {
+    // Use the built-in webcam setup first; phone pairing remains one click away.
+    if(cameraSource!=='local')selectCameraSource('local');
+    renderStats();void newScramble();
+  }
   history.replaceState(null,'',new URL(location.href).pathname+'?mode='+mode+(mode==='phone'&&params.get('code')?'&code='+encodeURIComponent(params.get('code')):''));
 }
 for(const [id,mode] of [['chooseLaptop','laptop'],['choosePhone','phone']]) $(id).addEventListener('click',()=>showMode(mode));
@@ -436,7 +440,7 @@ document.addEventListener('visibilitychange',()=>{
   if(document.hidden){restDetector.reset();lastObserved=null;lastDetectionAt=0;camLeft=camRight=camSeenLeft=camSeenRight=false;sendPads(true);if(cameraSource==='local'&&engine.phase!=='running')engine.reset();}
 });
 if(params.get('code'))$('inputCode').value=normalCode(params.get('code'));
-if(['phone','laptop'].includes(params.get('mode')))showMode(params.get('mode'));
+
 
 
 // Dual camera mode: reuse the phone camera preview/MediaPipe tracker in the laptop dashboard.
@@ -573,3 +577,4 @@ window.addEventListener('cubeLab:zoneChanged',event=>{
 });
 $('remotePhoneVideo').addEventListener('click',()=>{$('remotePhoneVideo').play().catch(()=>{});});
 updateDockPads(false,false);
+if(['phone','laptop'].includes(params.get('mode')))showMode(params.get('mode'));
