@@ -1,0 +1,218 @@
+/* 1ERDNA Cube Lab — Minimal v5. No extra frameworks, glow layers or glass UI.
+   Progressive disclosure keeps all advanced features available. */
+:root{--bg:#05070b;--panel:#0b1018;--surface:#0e1620;--ink:#eef7ff;--border:#253746;--muted:#8196a9;--brand:#27b8ff}
+body{background:#05070b;color:#eef7ff}
+.shell{max-width:1250px;padding:19px clamp(12px,2.6vw,34px) 32px}
+.header{padding-bottom:15px;margin-bottom:24px;border-color:#223748}
+.headerBrand{gap:11px}
+.brandEmblem{width:36px;height:36px;flex-basis:36px;font-size:16px;border-width:1.5px}
+.brandEmblem:before,.brandEmblem:after{display:none}
+.brand{font-size:clamp(20px,2.2vw,25px);letter-spacing:-.85px}
+.brand small{font-size:9px;letter-spacing:1.5px;padding-left:9px;margin-left:8px}
+.subtitle{font-size:10px;margin:3px 0 0;letter-spacing:.45px;color:#8295a6}
+.online{font-size:10px;padding:6px 8px;font-weight:650;letter-spacing:.2px;text-transform:none;border-color:#304458;background:#0a1520}
+h1,h2,.sourceChoice strong,.chooseCard b,.dockTitle{font-family:'Space Grotesk','DM Sans',sans-serif}
+h2{color:#c7dce9;font-size:11px;letter-spacing:.6px;margin-bottom:10px}
+.tiny,.featureCaption,.recorderPrivacy{font-size:11px;color:#859caf;line-height:1.6}
+button{min-height:36px;padding:7px 11px;font-size:12px;letter-spacing:0}
+button.ghost{color:#b4cbdc}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #7cdbff;outline-offset:3px}
+.panel,.timerPanel,.cameraDock,.enhancementPanel{border:1px solid #293c4c;padding:17px 18px}
+.panel:hover,.timerPanel:hover,.cameraDock:hover{border-color:#385a70}
+.stack,.visualRail{gap:11px}
+.layout{grid-template-columns:minmax(0,1fr) minmax(290px,340px);gap:12px}
+.row{gap:9px}
+.row.split.gap{margin-bottom:15px;padding-bottom:13px;border-color:#1d3040}
+.pageLead h1{font:700 clamp(21px,3vw,32px)/1.2 'Space Grotesk',sans-serif;margin:0;letter-spacing:-.8px;text-transform:none}
+.pageLead{align-items:center!important}
+.sectionLead p,.sectionLead .eyebrow{display:none}
+#laptop>.row.split.gap,#phone>.row.split.gap{margin-bottom:14px;padding-bottom:13px}
+#laptop>.row.split.gap .ghost,#phone>.row.split.gap .ghost{font-size:11px}
+
+/* Compact start screen, no giant brand artwork. */
+.choose{max-width:760px;min-height:0;padding:50px 0 50px}
+.minimalWelcome{text-align:left}
+.minimalWelcome .eyebrow{font-size:10px;color:#6097b6;letter-spacing:1.5px;margin:0 0 14px}
+.choose .minimalWelcome h1{
+  text-transform:none;font:700 clamp(40px,7vw,72px)/1 'Space Grotesk',sans-serif;
+  letter-spacing:-2.7px;margin:0
+}
+.minimalWelcome h1 span{color:#27b8ff}
+.choose .minimalWelcome p{font-size:14px;color:#97abbb;margin:12px 0 0;line-height:1.55}
+.chooseCards{margin-top:25px;gap:12px}
+.chooseCard{min-height:143px;padding:20px;gap:10px;justify-content:space-between;border-color:#2c4152}
+.chooseCard:before{width:36px;height:2px}
+.chooseCard:after{font-size:18px;right:18px;top:14px}
+.chooseCard .emoji{height:32px;width:32px;font-size:19px;border:0;background:transparent;display:flex;justify-content:flex-start}
+.chooseCard b{font-size:20px;text-transform:none;letter-spacing:-.45px}
+.chooseCard span:last-child{font-size:12px;line-height:1.3;color:#889eae}
+
+/* One small switch instead of camera choice cards. */
+.sourcePanel{padding:12px 16px}
+.sourcePanel>.row{margin-bottom:9px}
+.sourcePanel h2{margin:0}
+.sourcePanel .tiny{font-size:10px}
+.sourceGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sourceChoice{min-height:41px;flex-direction:row;align-items:center;justify-content:center;padding:9px;border-radius:1px;gap:0}
+.sourceChoice strong{font-size:13px;letter-spacing:0;text-transform:none;font-weight:600}
+.sourceChoice.active{background:#113047;border-color:#42b7ed;box-shadow:inset 0 -2px #27b8ff}
+.sourceChoice.active:after{display:none}
+.pairPanel{padding:13px 16px}
+.pairPanel>.row.split{gap:12px}
+.pairPanel h2{margin:0}
+.pairPanel .pairRow{padding:8px 0 12px;margin:3px 0 10px}
+.pairPanel .pairCode{font-size:27px;letter-spacing:2px}
+.pairPanel button.primary{min-width:90px}
+#hostHint{font-size:10px}
+#copyPhoneLink{font-size:11px}
+
+/* Scramble is immediately useful; preview is optional. */
+.scramblePanel{padding:14px 17px 16px}
+.scramblePanel>.row:first-child{margin-bottom:8px;align-items:center}
+.scramblePanel h2{margin:0}
+.scramblePanel>.row:first-child .row{flex-wrap:wrap}
+#event,#scrambleViewMode{padding:7px 10px;font-size:11px;min-height:35px}
+#nextScramble{padding:7px 12px}
+.scramble{font:600 clamp(17px,2.2vw,23px)/1.65 'Space Grotesk',sans-serif;
+ letter-spacing:0;word-spacing:2px;margin:3px 0 0;min-height:0}
+#scrambleHint{font-size:9px;opacity:.62;margin-bottom:4px}
+.previewDisclosure{border-top:1px solid #263c4d;margin-top:10px;padding-top:0}
+.previewDisclosure>summary{padding:11px 1px;color:#a1b8c9;font-size:12px;font-weight:650;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.previewDisclosure>summary::-webkit-details-marker{display:none}
+.previewDisclosure>summary:after{content:"+";color:#5bc6ff;font-size:18px;font-weight:400}
+.previewDisclosure[open]>summary:after{content:"−"}
+.previewDisclosure .featureHeading{margin:2px 0 11px}
+.previewDisclosure .featureEyebrow{font-size:10px;letter-spacing:.8px}
+.cubeStage{min-height:220px}
+.cube3dStage{min-height:230px}
+.previewDisclosure .scrambleNet{transform:scale(.86);margin:0 auto}
+#scrambleVisualHint{color:#7e98aa;font-size:10px;text-transform:none;letter-spacing:0;margin:10px 0 2px}
+.cubeOrbitHint{font-size:10px;margin:0 0 2px}
+
+/* Primary object: timer. All instructions collapse to one line. */
+.timerPanel{padding:23px 14px 18px;border-color:#286182}
+.timerPanel:after{height:2px}
+.timerMeta{font-size:9px;letter-spacing:1px}
+.timerPanel .clock{font-size:clamp(77px,11vw,146px);margin:17px 0 6px;line-height:1.06}
+.phase{font-size:10px;letter-spacing:1.6px}
+.hint{margin:7px auto 16px;font-size:11px;min-height:0;line-height:1.5}
+.padIndicators{margin-bottom:13px}
+.padStatus{padding:8px 10px;font-size:10px;letter-spacing:.35px}
+.timerPanel .row.center.wrap button{min-width:92px}
+.timerFootline{margin-top:18px;padding-top:10px;font-size:9px;letter-spacing:.6px}
+
+/* Compact monitor and glanceable statistics. */
+.cameraDock{padding:14px;top:10px}
+.dockTop{margin-bottom:10px}
+.dockTop .row{gap:6px}
+.dockEyebrow{font-size:10px;letter-spacing:.7px}
+.dockMode{font-size:9px;letter-spacing:0;padding:3px 6px}
+.dockTitle{font-size:17px;text-transform:none;letter-spacing:-.3px;margin:9px 0 4px}
+.dockSubtitle{margin:0;font-size:10px;line-height:1.45;color:#7c98af;max-width:100%}
+.remoteVideoFrame{aspect-ratio:4/3}
+.remotePlaceholder strong{font-size:13px}
+.remotePlaceholder span{font-size:10px}
+.remoteStatus{font-size:10px}
+.zoneControlFooter{margin:6px 0 0;justify-content:flex-end}
+.zoneControlFooter button{font-size:10px;min-height:30px;padding:5px 8px}
+.quickStats{padding:15px}
+.quickStats h2{margin-bottom:11px}
+.quickStats>.stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:1px}
+.quickStats>.stats>div{padding:12px 7px;min-width:0}
+.quickStats>.stats span{font-size:10px}
+.quickStats>.stats strong{font-size:clamp(17px,2.4vw,25px);white-space:nowrap;letter-spacing:-1px}
+.quickStats .statsMore{border-top:1px solid #2a3e51;margin-top:10px}
+.statsMore>summary{font-size:11px;color:#8ba6bc;cursor:pointer;padding:11px 1px 3px}
+.quickStats .statsSecondary{grid-template-columns:1fr 1fr;margin-top:9px}
+.quickStats .statsSecondary strong{font-size:21px}
+
+/* Tools are still accessible, but don't crowd the core practice flow. */
+.utilityDisclosure{border:1px solid #2a4051;background:#0a1018;border-radius:2px;min-width:0}
+.utilityDisclosure>summary{
+ display:flex;align-items:center;justify-content:space-between;gap:10px;
+ padding:14px 17px;cursor:pointer;list-style:none;
+ font-size:12px;font-weight:750;color:#d8ecfa
+}
+.utilityDisclosure>summary::-webkit-details-marker{display:none}
+.utilityDisclosure>summary:after{content:"+";order:3;margin-left:auto;color:#5abef0;font-weight:500;font-size:19px}
+.utilityDisclosure[open]>summary:after{content:"−"}
+.utilityDisclosure>summary>.recorderBadge,.utilityDisclosure>summary>.tiny{order:2;margin-left:4px;flex-shrink:0}
+.utilityDisclosure>summary>.recorderBadge{font-size:9px;border-radius:1px;padding:4px 7px}
+.utilityDisclosure>summary>.tiny{font-size:10px}
+.utilityDisclosure[open]>summary{border-bottom:1px solid #263c4e}
+.utilityDisclosure>.panel{border:0;border-radius:0;background:transparent;box-shadow:none;padding:17px}
+.utilityDisclosure .recorderIntro,.utilityDisclosure .recorderPrivacy{font-size:11px}
+.utilityDisclosure .recorderModeRow{margin-bottom:13px}
+.utilityDisclosure .recorderLivePreview{margin-top:10px}
+.utilityDisclosure .recorderControls{gap:7px;flex-wrap:wrap}
+.utilityDisclosure .recorderMessage{font-size:11px;line-height:1.5}
+.utilityDisclosure .history{max-height:270px}
+.utilityDisclosure .danger{margin-top:12px}
+.recorderPanel h2{margin:0}
+.replayList{gap:7px}
+.replayCard{padding:9px 11px}
+
+/* Phone has one primary action; calibration under Settings. */
+.phoneLayout{max-width:740px}
+#phone .panel{padding:15px 17px}
+#phone .panel h2{margin:0 0 12px}
+#phone .cameraFrame{margin-top:10px}
+#phone .previewPermission{margin:10px 0;padding:8px 11px;border:1px solid #20394c}
+#phone .previewPermission label{font-size:11px}
+#phone .sensors{gap:8px;margin:10px 0}
+.settingsDisclosure{border-top:1px solid #263c4f;margin:10px 0 0}
+.settingsDisclosure>summary{padding:11px 0;color:#9fc0d4;font-size:12px;font-weight:600;cursor:pointer}
+.settingsBody{padding:8px 0 5px}
+.settingsBody .cameraPicker{align-items:center}
+.settingsBody .cameraPicker select{max-width:290px}
+.settingsBody .tiny{margin:6px 0}
+.settingsBody .zoneControlFooter{justify-content:flex-start}
+#phoneConnection,#cameraMessage{font-size:11px;line-height:1.5;margin-top:10px}
+#cameraMessage{overflow-wrap:anywhere}
+#phone .testPads button{min-height:95px;padding:15px 0}
+#phone .utilityDisclosure .panel{border:0;background:transparent}
+#phone .utilityDisclosure .tiny{margin:12px 0 0}
+
+/* Minimal footer, adaptable to smaller laptop and mobile layouts. */
+footer{border-color:#203544;color:#536f84;font-size:10px;letter-spacing:.9px;margin-top:28px;padding-top:14px}
+@media(max-width:1090px){
+ .layout{grid-template-columns:minmax(0,1fr) minmax(270px,315px);gap:11px}
+ .shell{padding-inline:16px}
+ .panel{padding:15px}
+}
+@media(max-width:800px){
+ .layout{grid-template-columns:1fr}
+ .cameraDock{position:relative;top:auto}
+ .choose{padding:40px 0}
+ .pageLead h1{font-size:25px}
+ .timerPanel .clock{font-size:clamp(84px,15vw,133px)}
+}
+@media(max-width:560px){
+ .shell{padding:13px 12px 26px}
+ .header{margin-bottom:21px}
+ .brandEmblem{width:31px;height:31px;flex-basis:31px}
+ .headerBrand{gap:8px}
+ .brand{font-size:20px}
+ .brand small{font-size:8px}
+ .subtitle{font-size:9px}
+ .choose{padding:23px 0 36px}
+ .choose .minimalWelcome h1{font-size:clamp(42px,11vw,61px)}
+ .chooseCards{grid-template-columns:1fr;gap:9px;margin-top:23px}
+ .chooseCard{min-height:105px;display:grid;grid-template-columns:35px 1fr;column-gap:10px;align-content:center;justify-content:start;padding:12px 15px}
+ .chooseCard:after{right:12px;top:12px}
+ .chooseCard .emoji{grid-row:span 2;align-self:center}
+ .chooseCard b{font-size:18px}
+ .chooseCard span:last-child{font-size:11px}
+ .pageLead h1{font-size:23px}
+ .pageLead button{font-size:10px;padding:7px 9px}
+ .panel,.quickStats{padding:14px}
+ .scramblePanel>.row:first-child{gap:8px}
+ .timerPanel .clock{font-size:clamp(68px,16vw,93px);margin-top:20px}
+ .timerFootline{font-size:8px}
+ .quickStats>.stats strong{font-size:clamp(19px,5.7vw,25px)}
+ .utilityDisclosure>summary{padding:13px}
+ .utilityDisclosure>.panel{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
