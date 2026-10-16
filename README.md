@@ -22,13 +22,34 @@ It has a **minimal black + neon-blue look**, a camera that can detect my hands, 
 
 No Stackmat required. Just a camera, a cube, and the urge to get faster.
 
+## Minimal practice interface — October 2026
+
+The website now starts with just two choices: **Use laptop** or **Use phone**.
+Choose **Use laptop** to open the timer with the laptop camera selected by
+default; camera access only starts when you click **Start**.
+
+The main practice view prioritizes the **camera, scramble, timer, and three quick
+stats (solves, best time, Ao5)**. Other features are still there, behind small
+expandable sections:
+
+- **Cube preview:** the 2D/3D scramble viewer (drag the 3D cube to rotate)
+- **Record:** website-only recording or the optional browser tab source
+- **Replays:** local video gallery
+- **History / More stats:** recent solves, Ao12 and mean
+- **Camera settings:** webcam choice, flip camera, and hand-zone calibration
+- **Test without camera:** paired-phone test pads
+
+The detector remains fixed to **Resting hands + Extra safe**. Existing
+records, camera pairing, replay storage, cube preview and recording code were
+not removed. This is progressive disclosure, not a loss of features.
+
 ## How to use it
 
-Open the **[Cube Lab website](https://1erdna.github.io/cubecam-connect/)** on your laptop, then hit **Timer dashboard**.
+Open the **[Cube Lab website](https://1erdna.github.io/cubecam-connect/)** on your laptop, then choose **Use laptop**.
 
 ### Option 1: Use your laptop camera 💻
 
-1. Choose **Laptop camera**.
+1. The laptop camera is selected automatically.
 2. Pick your built-in webcam or USB camera.
 3. Hit **Start camera** and allow camera access.
 4. Point the camera at your cube and both hands. Adjust the blue hand zones if needed.
@@ -37,8 +58,8 @@ That's it. No phone pairing needed.
 
 ### Option 2: Use your phone as the camera 📱
 
-1. On your laptop, select **Pair phone camera** and hit **Create code**.
-2. Open the same website on your phone and choose **Hand-tracking camera**.
+1. On your laptop, choose **Phone** as the camera source and press **Get code**.
+2. Open the same website on your phone and choose **Use phone**.
 3. Enter the pairing code and connect.
 4. Start the phone camera and aim it at the table.
 5. Want the actual phone video on your laptop? Turn on **Share live video with laptop** on your phone. It's optional and off by default.
