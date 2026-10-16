@@ -22,19 +22,20 @@ It has a **minimal black + neon-blue look**, a camera that can detect my hands, 
 
 No Stackmat required. Just a camera, a cube, and the urge to get faster.
 
-## Minimal practice interface — October 2026
+## Refined professional interface — October 2026
 
-The website now starts with just two choices: **Use laptop** or **Use phone**.
-Choose **Use laptop** to open the timer with the laptop camera selected by
+The website now starts with just two choices: **Open timer** or **Phone camera**.
+Choose **Open timer** to launch the practice workspace with the laptop camera selected by
 default; camera access only starts when you click **Start**.
 
-The main practice view prioritizes the **camera, scramble, timer, and three quick
-stats (solves, best time, Ao5)**. Other features are still there, behind small
+The main practice view puts **the scramble and large timer first**, with camera setup,
+preview and the three quick stats (solves, best time, Ao5) to the right on desktop or
+below the timer on mobile. Other features are still there, behind small
 expandable sections:
 
 - **Cube preview:** the 2D/3D scramble viewer (drag the 3D cube to rotate)
-- **Record:** website-only recording or the optional browser tab source
-- **Replays:** local video gallery
+- **Record:** website-only recording or the optional browser tab source (in Tools below the workspace)
+- **Replays:** local video gallery (in Tools below the workspace)
 - **History / More stats:** recent solves, Ao12 and mean
 - **Camera settings:** webcam choice, flip camera, and hand-zone calibration
 - **Test without camera:** paired-phone test pads
@@ -45,7 +46,7 @@ not removed. This is progressive disclosure, not a loss of features.
 
 ## How to use it
 
-Open the **[Cube Lab website](https://1erdna.github.io/cubecam-connect/)** on your laptop, then choose **Use laptop**.
+Open the **[Cube Lab website](https://1erdna.github.io/cubecam-connect/)** on your laptop, then choose **Open timer**.
 
 ### Option 1: Use your laptop camera 💻
 
@@ -59,7 +60,7 @@ That's it. No phone pairing needed.
 ### Option 2: Use your phone as the camera 📱
 
 1. On your laptop, choose **Phone** as the camera source and press **Get code**.
-2. Open the same website on your phone and choose **Use phone**.
+2. Open the same website on your phone and choose **Phone camera**.
 3. Enter the pairing code and connect.
 4. Start the phone camera and aim it at the table.
 5. Want the actual phone video on your laptop? Turn on **Share live video with laptop** on your phone. It's optional and off by default.
