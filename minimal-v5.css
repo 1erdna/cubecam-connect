@@ -407,3 +407,30 @@ footer span:first-child{font-weight:750;letter-spacing:1px}
  .workspaceToolsHeading span{font-size:10px}
  footer{align-items:flex-start}
 }
+
+
+/* Layout correction: keep Tools immediately below the timer, rather than
+   waiting for the taller camera sidebar to end. */
+#laptop .stack > .workspaceTools {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 12px;
+  align-items: start;
+}
+#laptop .stack > .workspaceTools .workspaceToolsHeading {
+  grid-column: 1 / -1;
+  margin: 0 0 1px;
+}
+#laptop .stack > .workspaceTools > .utilityDisclosure {
+  align-self: start;
+  min-width: 0;
+}
+@media (max-width: 1120px) {
+  #laptop .stack > .workspaceTools {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
