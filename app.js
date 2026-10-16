@@ -47,7 +47,7 @@ function attachHostConnection(conn) {
     $('peerState').textContent='Connected';
     $('hostHint').textContent='Now start camera on your phone, or try its test pads.';
     conn.send({type:'hello',version:1});
-    $('dockSubtitle').textContent='Phone paired. Enable Share live video on your phone to see its feed here.';
+    $('dockSubtitle').textContent='Phone connected';
   });
   conn.on('data',msg=>{
     if (hostConn!==conn || cameraSource!=='phone' || !msg || msg.type!=='pads')return;
@@ -95,7 +95,7 @@ function startHost() {
     }
     endHostPreview();
     hostPreviewCall=call;
-    $('dockSubtitle').textContent='Phone camera live · Hand placement preview';
+    $('dockSubtitle').textContent='Live camera';
     call.answer();
     call.on('stream',incoming=>{
       if(hostPreviewCall!==call)return;
@@ -200,11 +200,11 @@ function laptopLoop(now) {
   $('leftStatus').textContent=engine.left?'✋ LEFT · RESTING':'✋ LEFT · OFF';
   $('rightStatus').textContent=engine.right?'✋ RIGHT · RESTING':'✋ RIGHT · OFF';
   const phase=engine.phase;
-  const phrases={idle:['PLACE BOTH HANDS DOWN','Rest an open hand in each blue zone and hold still.'],arming:['HOLD BOTH HANDS','Keep both hands resting for 0.6 seconds.'],ready:['READY — LIFT HANDS','Lift both hands to start the timer.'],running:['SOLVING','Put both hands down and keep them still to stop.'],stopped:['SOLVE SAVED','Lift your hands before preparing the next solve.']};
+  const phrases={idle:['HANDS DOWN','Place both hands in the zones.'],arming:['HOLD','Keep both hands still.'],ready:['READY','Lift hands to start.'],running:['SOLVING','Rest both hands to stop.'],stopped:['SAVED','Ready for the next solve.']};
   $('phase').textContent=phase==='running'&&engine.stopConfirmAt!==null
     ?'CONFIRMING HAND PLACEMENT':phrases[phase][0];
   $('help').textContent=phase==='running'&&engine.stopConfirmAt!==null
-    ?'Hold both hands steady. Saved time uses the second hand’s first steady placement.'
+    ?'Hold both hands still.'
     :phrases[phase][1];
   $('clock').textContent=display(engine.elapsed(now));
   $('clock').className='clock'+(phase==='ready'?' ready':phase==='arming'?' arming':phase==='running'?' running':'');
@@ -377,7 +377,7 @@ async function startCamera() {
     restDetector.reset();lastObserved=null;lastDetectionAt=0;
     startPhonePreview();
     $('cameraFrame').classList.add('active');$('cameraStop').disabled=false;
-    if(!$('sharePhonePreview').checked)$('cameraMessage').textContent='Ready! Rest both hands OPEN and STILL in the blue zones. Lift to start; place them back to stop. Optional video sharing is off.';
+    if(!$('sharePhonePreview').checked)$('cameraMessage').textContent='Ready · Rest to arm, lift to start.';
     requestAnimationFrame(trackCamera);
   } catch(e) {
     releaseCamera();
@@ -406,7 +406,7 @@ $('cameraButton').addEventListener('click',()=>{void startCamera();});
 $('cameraStop').addEventListener('click',()=>{
   releaseCamera();
   if(cameraSource==='local')engine.reset();
-  $('cameraMessage').textContent='Camera stopped. You can still test using the manual timer.';
+  $('cameraMessage').textContent='Camera stopped.';
 });
 $('switchCamera').addEventListener('click',()=>{
   front=!front;
@@ -472,9 +472,9 @@ function selectCameraSource(mode){
   }
   if(mode==='local'){
     $('localCameraHolder').appendChild(cameraPanel);
-    $('cameraHeading').textContent='02 · Laptop webcam / USB camera';
-    $('cameraPlaceholder').innerHTML='📷<br>Point your laptop or USB webcam toward both resting hands.';
-    $('cameraMessage').textContent='Choose your camera and click Start camera. Allow permission if requested.';
+    $('cameraHeading').textContent='Laptop camera';
+    $('cameraPlaceholder').innerHTML='Start camera';
+    $('cameraMessage').textContent='Select a camera and press Start.';
     // Existing paired phone must no longer control the timer.
     const conn=hostConn,peer=hostPeer;
     endHostPreview();
@@ -483,16 +483,16 @@ function selectCameraSource(mode){
     $('peerState').textContent='Not connected';
     setStatus('Laptop camera selected');
     $('dockMode').textContent='LAPTOP · DIRECT';
-    $('dockSubtitle').textContent='Live webcam view and adjustable hand-detection zones.';
+    $('dockSubtitle').textContent='Live webcam';
     void listCameraDevices();
   } else {
     originalCameraParent.insertBefore(cameraPanel,originalCameraNext);
-    $('cameraHeading').textContent='02 · Show the tabletop';
+    $('cameraHeading').textContent='Phone camera';
     $('cameraPlaceholder').innerHTML=originalPlaceholder;
-    $('cameraMessage').textContent='Pair your phone, then start its camera to detect both hands.';
+    $('cameraMessage').textContent='Connect, then start camera.';
     setStatus('Phone camera selected');
     $('dockMode').textContent='PHONE · WIRELESS';
-    $('dockSubtitle').textContent='Pair a phone, then enable optional live video to view hand placement.';
+    $('dockSubtitle').textContent='Waiting for phone';
     updateDockPads(false,false);
   }
 }
@@ -511,7 +511,7 @@ function endHostPreview(){
   const display=$('remotePhoneVideo');
   display.pause();display.srcObject=null;
   $('remoteVideoFrame').classList.remove('streaming');
-  if(cameraSource==='phone')$('dockSubtitle').textContent='Video preview off. Your phone can still send hand-detection signals.';
+  if(cameraSource==='phone')$('dockSubtitle').textContent='Preview off';
 }
 function stopPhonePreview(){
   const call=phonePreviewCall;phonePreviewCall=null;
@@ -529,7 +529,7 @@ function startPhonePreview(){
       if(phonePreviewCall===call)phonePreviewCall=null;
       $('cameraMessage').textContent='Preview unavailable: '+String(e?.message||e)+'. Hand timing still works.';
     });
-    $('cameraMessage').textContent='Sharing camera preview only with the paired laptop. Uncheck Share live video to stop.';
+    $('cameraMessage').textContent='Sharing live preview.';
   }catch(e){
     $('cameraMessage').textContent='Preview unavailable: '+String(e?.message||e)+'. Hand timing still works.';
   }
@@ -538,7 +538,7 @@ $('sharePhonePreview').addEventListener('change',()=>{
   if($('sharePhonePreview').checked)startPhonePreview();
   else{
     stopPhonePreview();
-    $('cameraMessage').textContent='Live preview is off. Only hand-detection states are shared.';
+    $('cameraMessage').textContent='Video preview off.';
   }
 });
 function updateDockPads(left,right,msg){
