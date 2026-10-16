@@ -377,8 +377,13 @@ target.addEventListener('change',updateTarget);
 // Lightweight preview while idle; full-rate canvas redraw only while recording.
 if(studio){
   drawStudio();
+  // Don't repaint the video preview in the background while its section is collapsed.
+  const disclosure=rec('recorderDisclosure');
+  disclosure?.addEventListener('toggle',()=>{
+    if(disclosure.open && !document.hidden)drawStudio();
+  });
   setInterval(()=>{
-    if(!pending && (!mediaRecorder || mediaRecorder.state!=='recording') && !document.hidden)drawStudio();
+    if(!pending && (!mediaRecorder || mediaRecorder.state!=='recording') && !document.hidden && (!disclosure || disclosure.open))drawStudio();
   },450);
 }
 if(!window.isSecureContext || typeof MediaRecorder==='undefined'){
