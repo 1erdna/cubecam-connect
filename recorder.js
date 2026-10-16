@@ -158,7 +158,7 @@ function drawStudio() {
 
   label('1E  /  1ERDNA',48,59,{size:29,bold:true,color:c.bright});
   label('CUBE LAB  /  PRACTICE RECORDING',251,56,{size:13,bold:true,color:c.muted});
-  label('WEBSITE ONLY  •  NO DESKTOP CAPTURE',1231,56,{size:13,color:c.blue,align:'right'});
+  label('CUBE LAB  •  VIDEO ONLY',1231,56,{size:13,color:c.blue,align:'right'});
   studio.strokeStyle='#2b4860';studio.lineWidth=1;studio.beginPath();studio.moveTo(48,84);studio.lineTo(1232,84);studio.stroke();
 
   panel(48,108,755,161);
@@ -242,7 +242,7 @@ function stopRecording(){
   if(!mediaRecorder || mediaRecorder.state!=='recording')return;
   stopButton.disabled=true;
   badgeStatus('FINISHING CLIP…','processing');
-  message.textContent='Saving your video to the local preview…';
+  message.textContent='Saving video…';
   try{mediaRecorder.stop();}
   catch(err){
     stopDrawing();releaseCapture();mediaRecorder=null;resetButtons();
@@ -271,7 +271,7 @@ async function startRecording(){
   pending=true;target.disabled=true;startButton.disabled=true;stopButton.disabled=true;
   badgeStatus(streamMode==='website'?'PREPARING CUBE LAB…':'SELECT A TAB…','processing');
   message.textContent=streamMode==='website'
-    ?'Preparing your Cube Lab-only video (no screen-sharing dialog).'
+    ?'Preparing…'
     :'In the browser prompt, choose the Cube Lab tab or window to share.';
 
   try{
@@ -327,7 +327,7 @@ async function startRecording(){
         detail:{blob,name:downloadLink.download}
       }));
       badgeStatus('CLIP READY','ready');
-      message.textContent='Done! Watch your Cube Lab video below and click Download recording before leaving.';
+      message.textContent='Video ready. Download to keep it.';
     },{once:true});
 
     if(streamMode==='screen'){
@@ -343,8 +343,8 @@ async function startRecording(){
     pending=false;startButton.disabled=true;stopButton.disabled=false;
     badgeStatus('● RECORDING','recording');
     message.textContent=streamMode==='website'
-      ?'Recording Cube Lab only. Keep this tab visible, solve normally, then click Stop recording.'
-      :'Recording the selected browser surface. Stop when finished.';
+      ?'Recording · Keep this tab open.'
+      :'Recording tab.';
     if(streamMode==='website')videoFrame=requestAnimationFrame(keepDrawing);
     clockFrame=requestAnimationFrame(clockTick);
   }catch(error){
@@ -363,11 +363,11 @@ function updateTarget(){
   if(mediaRecorder || pending)return;
   const website=target.value!=='screen';
   startButton.innerHTML=website
-    ?'<span aria-hidden="true">●</span> Record Cube Lab only'
-    :'<span aria-hidden="true">●</span> Record selected tab';
+    ?'<span aria-hidden="true">●</span> Record'
+    :'<span aria-hidden="true">●</span> Record tab';
   message.textContent=website
-    ?'Records only the Cube Lab timer, scramble, camera and stats. No Opera sharing popup. Keep this tab visible.'
-    :'Your browser will open its screen-sharing picker. To avoid capturing other apps, choose only a browser tab.';
+    ?'Ready to record.'
+    :'Choose the browser tab to record.';
 }
 
 startButton.addEventListener('click',startRecording);
