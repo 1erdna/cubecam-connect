@@ -87,48 +87,6 @@
           <div class="timerFootline"><span>Rest hands to arm</span><span>Lift to start · Return to stop</span></div>
         </div>
 
-        <details class="utilityDisclosure" id="recorderDisclosure">
-          <summary id="recordingHeading">Record <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">OFF</span></summary>
-          <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
-          <p class="recorderIntro">Save a video of your solve.</p>
-          <div class="recorderModeRow">
-            <label for="recordingTarget">Source</label>
-            <select id="recordingTarget" aria-label="What to record">
-              <option value="website" selected>Cube Lab</option>
-              <option value="screen">Browser tab / window</option>
-            </select>
-          </div>
-          <div class="recorderLivePreview">
-            <div class="row split wrap recorderResultHeader"><span>Preview</span></div>
-            <canvas id="studioRecordingCanvas" width="1280" height="720" role="img" aria-label="Preview of the Cube Lab recording layout showing timer, scramble, camera and statistics"></canvas>
-          </div>
-          <div class="recorderControls">
-            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Record</button>
-            <button type="button" id="stopScreenRecording" disabled><span aria-hidden="true">■</span> Stop</button>
-            <span class="recorderElapsed" id="recordingElapsed" aria-label="Recording duration">00:00</span>
-          </div>
-          <p class="recorderMessage" id="recordingMessage" role="status">Ready to record.</p>
-          <div class="recorderResult hidden" id="recorderResult">
-            <div class="row split wrap recorderResultHeader"><span>Latest video</span><span class="tiny" id="recordingSize"></span></div>
-            <video id="recordingPlayback" controls playsinline preload="metadata" aria-label="Preview your screen recording"></video>
-            <a class="recorderDownload" id="recordingDownload" download>↓ Download</a>
-          </div>
-          <p class="recorderPrivacy">Recordings stay on your device. Download to keep a copy.</p>
-          </section>
-        </details>
-        <details class="utilityDisclosure" id="replayDisclosure">
-          <summary id="replayHeading">Replays <span class="tiny" id="replayStorageNote">Saved locally</span></summary>
-          <section class="panel enhancementPanel" id="replayGalleryPanel" aria-labelledby="replayHeading">
-          
-          <p class="featureCaption" id="replayStatus" role="status">Opening your local recordings…</p>
-          <ol id="replayList" class="replayList" aria-label="Saved solve recordings"></ol>
-          <div class="replayPlayerPanel hidden" id="replayPlayerPanel">
-            <strong id="replayPlayerTitle">Replay</strong>
-            <video id="replayPlayer" controls playsinline preload="metadata"></video>
-          </div>
-          <p class="recorderPrivacy">Download clips to keep them if browser data is cleared.</p>
-          </section>
-        </details>
       </div>
       <aside class="visualRail">
         <div class="panel sourcePanel">
@@ -184,6 +142,52 @@
         </details>
       </aside>
     </div>
+    <section class="workspaceTools" aria-label="Additional session tools">
+      <div class="workspaceToolsHeading"><h2>Tools</h2><span>Recording and replays</span></div>
+        <details class="utilityDisclosure" id="recorderDisclosure">
+          <summary id="recordingHeading">Record <span class="recorderBadge" id="recordingBadge" data-state="idle" aria-live="polite">OFF</span></summary>
+          <section class="panel recorderPanel" id="recordingPanel" aria-labelledby="recordingHeading">
+          <p class="recorderIntro">Save a video of your solve.</p>
+          <div class="recorderModeRow">
+            <label for="recordingTarget">Source</label>
+            <select id="recordingTarget" aria-label="What to record">
+              <option value="website" selected>Cube Lab</option>
+              <option value="screen">Browser tab / window</option>
+            </select>
+          </div>
+          <div class="recorderLivePreview">
+            <div class="row split wrap recorderResultHeader"><span>Preview</span></div>
+            <canvas id="studioRecordingCanvas" width="1280" height="720" role="img" aria-label="Preview of the Cube Lab recording layout showing timer, scramble, camera and statistics"></canvas>
+          </div>
+          <div class="recorderControls">
+            <button type="button" class="primary recorderStart" id="startScreenRecording"><span aria-hidden="true">●</span> Record</button>
+            <button type="button" id="stopScreenRecording" disabled><span aria-hidden="true">■</span> Stop</button>
+            <span class="recorderElapsed" id="recordingElapsed" aria-label="Recording duration">00:00</span>
+          </div>
+          <p class="recorderMessage" id="recordingMessage" role="status">Ready to record.</p>
+          <div class="recorderResult hidden" id="recorderResult">
+            <div class="row split wrap recorderResultHeader"><span>Latest video</span><span class="tiny" id="recordingSize"></span></div>
+            <video id="recordingPlayback" controls playsinline preload="metadata" aria-label="Preview your screen recording"></video>
+            <a class="recorderDownload" id="recordingDownload" download>↓ Download</a>
+          </div>
+          <p class="recorderPrivacy">Recordings stay on your device. Download to keep a copy.</p>
+          </section>
+        </details>
+        <details class="utilityDisclosure" id="replayDisclosure">
+          <summary id="replayHeading">Replays <span class="tiny" id="replayStorageNote">Saved locally</span></summary>
+          <section class="panel enhancementPanel" id="replayGalleryPanel" aria-labelledby="replayHeading">
+          
+          <p class="featureCaption" id="replayStatus" role="status">Opening your local recordings…</p>
+          <ol id="replayList" class="replayList" aria-label="Saved solve recordings"></ol>
+          <div class="replayPlayerPanel hidden" id="replayPlayerPanel">
+            <strong id="replayPlayerTitle">Replay</strong>
+            <video id="replayPlayer" controls playsinline preload="metadata"></video>
+          </div>
+          <p class="recorderPrivacy">Download clips to keep them if browser data is cleared.</p>
+          </section>
+        </details>
+
+    </section>
   </section>
 
   <section id="phone" class="hidden">
